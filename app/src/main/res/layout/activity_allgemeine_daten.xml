@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StandardDataActivity">
+
+    <TextView
+        android:id="@+id/text_allgemeine_Daten"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/allgemeine_daten"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/vorname_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/vorname"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_allgemeine_Daten"
+        app:layout_constraintStart_toStartOf="@+id/text_allgemeine_Daten"
+        app:layout_constraintTop_toBottomOf="@+id/text_allgemeine_Daten"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/nachname_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/nachname"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/vorname_text"
+        app:layout_constraintStart_toStartOf="@+id/vorname_text"
+        app:layout_constraintTop_toBottomOf="@+id/vorname_text"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/geburtsdatum_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/geburtsdatum"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="@+id/nachname_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/nachname_text"
+        app:layout_constraintTop_toBottomOf="@+id/nachname_text"
+        android:autofillHints="" />
+
+    <Spinner
+        android:id="@+id/geschlecht_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="@+id/geburtsdatum_date"
+        app:layout_constraintStart_toEndOf="@+id/text_geschlecht"
+        app:layout_constraintTop_toBottomOf="@+id/geburtsdatum_date" />
+
+    <EditText
+        android:id="@+id/Gewicht_aktuelles_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/aktuelles_gewicht"
+        android:inputType="numberSigned|numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/geschlecht_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_geschlecht"
+        app:layout_constraintTop_toBottomOf="@+id/geschlecht_spinner"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/workouts_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/workouts"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@+id/text_workouts_per_woche"
+        app:layout_constraintStart_toStartOf="@+id/Gewicht_aktuelles_number"
+        app:layout_constraintTop_toBottomOf="@+id/Gewicht_aktuelles_number"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/min_per_workout_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/min"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@+id/text_minuten_per_workout"
+        app:layout_constraintStart_toStartOf="@+id/Gewicht_aktuelles_number"
+        app:layout_constraintTop_toBottomOf="@+id/Gewicht_aktuelles_number"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/text_geschlecht"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/geschlecht"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/geburtsdatum_date"
+        app:layout_constraintTop_toBottomOf="@+id/geburtsdatum_date" />
+
+    <TextView
+        android:id="@+id/text_workouts_per_woche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/woche"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/min_per_workout_number"
+        app:layout_constraintTop_toBottomOf="@+id/Gewicht_aktuelles_number" />
+
+    <TextView
+        android:id="@+id/text_minuten_per_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/workout"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/Gewicht_aktuelles_number"
+        app:layout_constraintTop_toBottomOf="@+id/Gewicht_aktuelles_number" />
+
+    <ProgressBar
+        android:id="@+id/allgemeine_daten_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/continue_button"
+        app:layout_constraintStart_toStartOf="@+id/continue_button" />
+
+    <TextView
+        android:id="@+id/text_profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/profilbild"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/workouts_number"
+        app:layout_constraintTop_toBottomOf="@+id/workouts_number" />
+
+    <ImageView
+        android:id="@+id/profile_picture_image"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="36dp"
+        android:background="#808080"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/text_minuten_per_workout"
+        app:layout_constraintStart_toEndOf="@+id/text_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/workouts_number"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:srcCompat="@android:drawable/ic_menu_camera"
+        tools:visibility="visible"
+        android:contentDescription="TODO" />
+
+    <Button
+        android:id="@+id/continue_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/weiter"
+        app:layout_constraintBottom_toTopOf="@+id/allgemeine_daten_progressBar"
+        app:layout_constraintEnd_toEndOf="@+id/text_allgemeine_Daten"
+        app:layout_constraintStart_toStartOf="@+id/text_allgemeine_Daten" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

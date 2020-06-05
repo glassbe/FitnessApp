@@ -3,4 +3,34 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="registrieren">Registrieren</string>
+    <string name="zur_ck_zum_anmelden">Zurück zum Anmelden</string>
+    <string name="weiter">Weiter</string>
+    <string name="wie_moechtest_du_trainieren">Wie moechtest Du trainieren?</string>
+    <string name="mit_eigenem_koerpergewicht">Mit eigenem Koerpergewicht</string>
+    <string name="mit_laufen">Mit Laufen</string>
+    <string name="mit_gewichten">Mit Gewichten</string>
+
+    <string name="coach_bersicht">Coach Übersicht</string>
+
+    <string name="was_sind_deine_3_top_ziele">Was sind Deine 3 Top Ziele?</string>
+    <string name="_1">1.</string>
+    <string name="_2">2.</string>
+    <string name="_3">3.</string>
+    <string name="auswahl">Auswahl:</string>
+    <string name="allgemeine_daten">Allgemeine Daten</string>
+    <string name="vorname">Vorname</string>
+    <string name="nachname">Nachname</string>
+    <string name="geburtsdatum">Geburtsdatum</string>
+    <string name="aktuelles_gewicht">Aktuelles Gewicht</string>
+    <string name="workouts">Workouts</string>
+    <string name="min">Min</string>
+    <string name="geschlecht">Geschlecht:</string>
+    <string name="woche">/ Woche</string>
+    <string name="workout">/ Workout</string>
+    <string name="profilbild">Profilbild:</string>
+
 </resources>
