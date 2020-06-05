@@ -16,7 +16,7 @@ public class StandardDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_allgemeine_daten);
+        setContentView(R.layout.activit_standard_data);
 
         Button continue_button = findViewById(R.id.continue_button);
         continue_button.setOnClickListener(new View.OnClickListener() {
