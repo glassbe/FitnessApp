@@ -30,8 +30,8 @@ public abstract class FitnessDatabase extends RoomDatabase {
 
 
 
-    //
-    static FitnessDatabase getDatabase(final Context context){
+
+    public static FitnessDatabase getDatabase(final Context context){
         if(INSTANCE == null){
             synchronized (FitnessDatabase.class){
                 if(INSTANCE == null){
