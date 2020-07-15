@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class DefineGoalsActivity extends AppCompatActivity {
 
     @Override
@@ -14,7 +16,7 @@ public class DefineGoalsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_define_goals);
 
-        Button continue_button = findViewById(R.id.continue_button);
+        Button continue_button = findViewById(R.id.continue_button2);
         continue_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
