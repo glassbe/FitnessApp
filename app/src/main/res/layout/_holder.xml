@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="._ActivityStart">
+
+    <ImageView
+        android:id="@+id/iv_login_logo"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="64dp"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+
+    <EditText
+        android:id="@+id/et_e_mail_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/e_mail"
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/iv_login_logo"
+        app:layout_constraintStart_toStartOf="@+id/iv_login_logo"
+        app:layout_constraintTop_toBottomOf="@+id/iv_login_logo" />
+
+    <EditText
+        android:id="@+id/et_password_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/et_e_mail_text"
+        app:layout_constraintStart_toStartOf="@+id/et_e_mail_text"
+        app:layout_constraintTop_toBottomOf="@+id/et_e_mail_text" />
+
+    <EditText
+        android:id="@+id/et_password_repeat_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/repeat_password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/et_password_text"
+        app:layout_constraintStart_toStartOf="@+id/et_password_text"
+        app:layout_constraintTop_toBottomOf="@+id/et_password_text" />
+
+    <Button
+        android:id="@+id/tv_register"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/btn_default"
+        android:text="@string/registrieren"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_login"
+        app:layout_constraintEnd_toEndOf="@+id/et_password_repeat_text"
+        app:layout_constraintStart_toStartOf="@+id/et_password_repeat_text" />
+
+    <Button
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/zur_ck_zum_anmelden"
+        android:textColor="#6C6C6C"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_register"
+        app:layout_constraintStart_toStartOf="@+id/tv_register" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

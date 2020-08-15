@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#222222</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#094963</color>
+
+    <color name="myblack">#000000</color>
+    <color name="mywhite">#FFFFFF</color>
+    <color name="mycolorHint">#FFC8C8C8</color>
+    <color name="myblue">#094963</color>
+
+<!--    // added from open source project-->
+    <color name="toolbar_background">#0CACF4</color>
+    <color name="background_odd">#99D6EA</color>
+    <color name="background_even">#cceaf4</color>
+    <color name="graph_fill">#f2fbff</color>
+    <color name="background">#ffffff</color>
+    <color name="tableheader_background">#FFFFFF</color>
+    <color name="launcher_background">#0dadf4</color>
+
 </resources>

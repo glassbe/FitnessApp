@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="._FragmentStartYourDataGetStarted"
+    android:background="@drawable/img_background_your_data">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_take_picture"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="156dp"
+            android:layout_marginEnd="155dp"
+            android:layout_marginBottom="185dp"
+            android:background="@drawable/icn_feather_camera"
+            tools:ignore="NotSibling" />
+
+        <Button
+            android:id="@+id/btn_set_profile_pic"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="716dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/btn_default"
+            android:text="Set profile picture"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+
+        <ImageView
+            android:id="@+id/img_text_your_profile_pic"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="699dp"
+            android:src="@drawable/txt_dein_profilbild"
+
+            tools:ignore="NotSibling" />
+
+<!--        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--            android:id="@+id/round_profile"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="263dp"-->
+<!--            android:layout_above="@+id/btn_take_picture"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginStart="63dp"-->
+<!--            android:layout_marginEnd="62dp"-->
+<!--            android:layout_marginBottom="102dp"-->
+<!--            android:src="@drawable/icn_profile_pic"-->
+<!--            app:civ_border_color="#FF000000"-->
+<!--            />-->
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/photo_round_profile"
+            android:layout_width="290dp"
+            android:layout_height="290dp"
+            android:layout_above="@+id/btn_take_picture"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="91dp"
+            android:hapticFeedbackEnabled="false"
+            android:isScrollContainer="false"
+            android:maxHeight="200dp"
+            android:minHeight="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icn_profile_pic"
+            android:textAlignment="center"
+            app:civ_background_color="@color/gray"
+            app:civ_border_color="@color/gray"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="@color/gray"
+            app:civ_shadow_radius="10" />
+
+    </RelativeLayout>
+
+</FrameLayout>
