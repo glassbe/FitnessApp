@@ -2,22 +2,25 @@ package com.example.fitnessapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
-public class _ActivityStart extends AppCompatActivity implements View.OnClickListener{
 
-    User mUser = null;
+public class _ActivityStart extends AppCompatActivity {
+
+    private User mUser = null;
+
 
     private static String mStartFrame;
 
@@ -37,44 +40,23 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Set Activity Layout
         setContentView(R.layout._activity_start);
 
-        // make full view
+        //Make Full-View
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
 
 
+        //Find Start Frame in Activity
         if(findViewById(R.id.start_frame) != null){
             if(savedInstanceState != null){
                 return;
             }
             loginOrRegister();
-        }
-    }
-
-    private void loginOrRegister() {
-
-        if(IUser.UserExists()){
-            //LOGIN
-            mUser = IUser.getLastUser();
-
-            mStartFrame = "login";
-            if(mUser.passwordIsSet()){
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getEmail(), mUser.getPassword()), null);
-            } else {
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getEmail()), null);
-            }
-            //mFragmentTransaction.addToBackStack("login");
-            mFragmentTransaction.commit();
-        }
-        else {
-            //REGISTER
-            mStartFrame = "register";
-            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
-            //mFragmentTransaction.addToBackStack("register");
-            mFragmentTransaction.commit();
         }
     }
 
@@ -89,30 +71,40 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    //=====================
+    // private functions
 
+    private void loginOrRegister() {
+
+        if(IUser.UserExists()){
+            //LOGIN
+            mUser = IUser.getLastUser();
+
+            mStartFrame = "login";
+
+            if(mUser.passwordIsSet()){
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser, mUser.getEmail(), mUser.getPassword()), null);
+            } else {
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser, mUser.getEmail()), null);
+            }
+        }
+        else {
+            //REGISTER
+            mStartFrame = "register";
+            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
+        }
+        mFragmentTransaction.commit();
     }
-
 
     //=====================
     // public functions
-    public void replaceFragment (int v, Fragment fragment){
-        String backStateName = fragment.getClass().getName();
-
-        FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
-
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(v, fragment);
-            ft.addToBackStack(backStateName);
-            ft.commit();
-        }
-    }
 
     public static String getStartFrame(){
         return mStartFrame;
+    }
+
+    public User Login(String email, String password){
+        return IUser.Login(email,password);
     }
 
     //=====================
@@ -137,30 +129,30 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
             return "";
     }
 
-    public static boolean passwordReminderIsSet() {
+    public boolean passwordReminderIsSet() {
         // get PasswordReminder
         return _ActivityStart.PasswordReminderSet_BOOL;
     }
 
-    public static void setPasswordReminder(boolean b) {
+    public void setPasswordReminder(boolean b) {
         // set passwordReminder in Database
     }
 
-    public static boolean emailExists(String mail) {
+    public boolean emailExists(String mail) {
         // search mail in database, return true if mail exits, else false
         return _ActivityStart.EmailAndPassword_BOOL;
     }
 
-    public static boolean passwordIsMatched(String email, String password) {
+    public boolean passwordIsMatched(String email, String password) {
         // check if hash of password equals hash in database from email record data
         return _ActivityStart.EmailAndPassword_BOOL;
     }
 
-    public static void loadUser() {
+    public void loadUser() {
         //load specific User Database, to get right data from functions
     }
 
-    public static void createNewUser() {
+    public void createNewUser() {
         // Create new Data-Record in Database
     }
 

@@ -3,8 +3,10 @@ package com.example.fitnessapp.db.Entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class User {
+public class User implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int Id;
@@ -76,5 +78,9 @@ public class User {
     public String getPassword(){
         // Get Password of User, to load into Login | Or just let the User login, if passworIdSet is true
         return null;
+    }
+
+    public void setPasswordReminder(boolean b) {
+        // Set Value in Database, if Password should be Reminded or not
     }
 }

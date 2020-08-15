@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.fitnessapp.db.Entity.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +16,15 @@ import androidx.navigation.ui.NavigationUI;
 
 public class _ActivityCoach extends AppCompatActivity {
 
+    User mUser = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mUser = (User) getIntent().getSerializableExtra("ARG_USER");
+
+
         setContentView(R.layout._activity_coach);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -30,14 +37,12 @@ public class _ActivityCoach extends AppCompatActivity {
 //        NavigationUI.setupWithNavController(navView, navController);
 
 
-
         Button continue_button = findViewById(R.id.button);
-        continue_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(_ActivityCoach.this, _ActivityStart.class));
-            }
-        });
+        continue_button.setOnClickListener(v -> ClickRegister());
+    }
+
+    private void ClickRegister(){
+        startActivity(new Intent(_ActivityCoach.this, _ActivityStart.class));
     }
 
 }

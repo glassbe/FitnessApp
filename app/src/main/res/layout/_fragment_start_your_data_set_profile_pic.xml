@@ -8,92 +8,94 @@
     android:background="@drawable/img_background_your_data">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_take_picture"
-            android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="156dp"
-            android:layout_marginEnd="155dp"
-            android:layout_marginBottom="185dp"
-            android:background="@drawable/icn_feather_camera"
-            tools:ignore="NotSibling" />
-
-        <Button
-            android:id="@+id/btn_set_profile_pic"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="716dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/shape_btn_default"
-            android:text="Set profile picture"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            />
 
         <ImageView
             android:id="@+id/img_text_your_profile_pic"
             android:layout_width="match_parent"
             android:layout_height="100dp"
 
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="699dp"
             android:src="@drawable/txt_dein_profilbild"
 
-            tools:ignore="NotSibling" />
+            tools:ignore="NotSibling"
+            tools:layout_editor_absoluteY="8dp" />
 
-<!--        <de.hdodenhof.circleimageview.CircleImageView-->
-<!--            android:id="@+id/round_profile"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="263dp"-->
-<!--            android:layout_above="@+id/btn_take_picture"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_marginStart="63dp"-->
-<!--            android:layout_marginEnd="62dp"-->
-<!--            android:layout_marginBottom="102dp"-->
-<!--            android:src="@drawable/icn_profile_pic"-->
-<!--            app:civ_border_color="#FF000000"-->
-<!--            />-->
+        <Button
+            android:id="@+id/btn_set_profile_pic"
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/photo_round_profile"
-            android:layout_width="290dp"
-            android:layout_height="290dp"
-            android:layout_above="@+id/btn_take_picture"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="91dp"
-            android:hapticFeedbackEnabled="false"
-            android:isScrollContainer="false"
-            android:maxHeight="200dp"
-            android:minHeight="60dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icn_profile_pic"
-            android:textAlignment="center"
-            app:civ_background_color="@color/gray"
-            app:civ_border_color="@color/gray"
-            app:civ_border_width="1dp"
-            app:civ_shadow="true"
-            app:civ_shadow_color="@color/gray"
-            app:civ_shadow_radius="10" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/shape_btn_default"
+            android:text="Set profile picture"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.87" />
 
-    </RelativeLayout>
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_set_profile_pic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_text_your_profile_pic">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/photo_round_profile"
+                    android:layout_width="290dp"
+                    android:layout_height="290dp"
+
+                    android:hapticFeedbackEnabled="false"
+                    android:isScrollContainer="false"
+                    android:maxHeight="200dp"
+                    android:minHeight="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icn_profile_pic"
+                    android:textAlignment="center"
+                    app:civ_background_color="@color/gray"
+                    app:civ_border_color="@color/gray"
+                    app:civ_border_width="1dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="@color/gray"
+                    app:civ_shadow_radius="10" />
+
+                <Button
+                    android:id="@+id/btn_take_picture"
+                    android:layout_width="82dp"
+                    android:layout_height="82dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/icn_feather_camera"
+                    android:textAlignment="viewStart"
+                    tools:ignore="NotSibling"
+                    />
+
+                <com.camerakit.CameraKitView
+                    android:id="@+id/camera"
+                    android:layout_width="82dp"
+                    android:layout_height="82dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/icn_feather_camera"
+                    />
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
