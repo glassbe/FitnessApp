@@ -67,6 +67,19 @@ public class _FragmentStartLogin extends Fragment implements View.OnClickListene
         return fragment;
     }
 
+    public static _FragmentStartLogin newInstance(String email) {
+        _FragmentStartLogin fragment = new _FragmentStartLogin();
+        Bundle args = new Bundle();
+        args.putString(ARG_EMAIL, email);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    public static _FragmentStartLogin newInstance() {
+        return new _FragmentStartLogin();
+    }
+
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

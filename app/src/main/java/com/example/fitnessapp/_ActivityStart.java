@@ -11,13 +11,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.fitnessapp.DAO.Profile;
+import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.db.Entity.User;
+
 
 public class _ActivityStart extends AppCompatActivity implements View.OnClickListener{
 
+    User mUser = null;
+
     private static String mStartFrame;
-    private _FragmentStartLogin mFragmentStartLogin = new _FragmentStartLogin();
-    private _FragmentStartRegister mFragmentStartRegister = new _FragmentStartRegister();
 
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -30,8 +32,6 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        int x = resultCode;
-        int i = 1;
     }
 
     @Override
@@ -56,17 +56,23 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
 
     private void loginOrRegister() {
 
-        if(userExists()){
+        if(IUser.UserExists()){
             //LOGIN
+            mUser = IUser.getLastUser();
+
             mStartFrame = "login";
-            mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(getEmail(), passwordIsSet()), null);
+            if(mUser.passwordIsSet()){
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getEmail(), mUser.getPassword()), null);
+            } else {
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getEmail()), null);
+            }
             //mFragmentTransaction.addToBackStack("login");
             mFragmentTransaction.commit();
         }
         else {
             //REGISTER
             mStartFrame = "register";
-            mFragmentTransaction.replace(R.id.start_frame, mFragmentStartRegister, null);
+            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
             //mFragmentTransaction.addToBackStack("register");
             mFragmentTransaction.commit();
         }
@@ -107,10 +113,6 @@ public class _ActivityStart extends AppCompatActivity implements View.OnClickLis
 
     public static String getStartFrame(){
         return mStartFrame;
-    }
-
-    private Profile getCurrentProfil(){
-        return MainActivity.getCurrentProfil();
     }
 
     //=====================

@@ -33,131 +33,283 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="40dp" />
 
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_setData"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_text_your_profile_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:src="@drawable/txt_deine_daten"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_firstname"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:paddingLeft="15dp"
+                        android:text="Vorname"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_input_firstname"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="@string/vorname"
+                        android:paddingLeft="30dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_surname"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:paddingLeft="15dp"
+                        android:text="Nachname"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_input_surname"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="@string/nachname"
+                        android:paddingLeft="30dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_birthdate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:paddingLeft="15dp"
+                        android:text="@string/geburtsdatum"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_input_birthdate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="XX.XX.XXXX"
+                        android:inputType="date"
+                        android:paddingLeft="30dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_gender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:paddingLeft="15dp"
+                        android:text="@string/geschlecht"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="XX.XX.XXXX"
+                        android:inputType="date"
+                        android:paddingLeft="30dp" />
+
+                    <Spinner
+                        android:id="@+id/s_input_gender"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:paddingLeft="15dp"
+                        android:text="@string/aktuelles_gewicht"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_input_weight"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="XX.XX"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:paddingLeft="10dp"
+                        android:text="kg"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
+                    android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:background="@drawable/shape_btn_setdata_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_height"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:paddingLeft="15dp"
+                        android:text="@string/groesse"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_input_height"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:background="@drawable/shape_btn_setdata_bright"
+                        android:hint="XXX"
+                        android:inputType="numberDecimal"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:paddingLeft="10dp"
+                        android:text="cm"
+                        android:textColor="@color/mywhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_energyLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="15dp"
+                        android:text="@string/energyLevel"
+                        android:textColor="@color/mywhite"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/sb_energyLevel"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_btn_setdata_dark"
+                        android:paddingLeft="15dp"
+                        android:text="@string/energyLevel"
+                        android:textColor="@color/mywhite"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:max="10"
+                        android:progress="3" />
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
         <Button
-            android:id="@+id/btn_set-profile-picture"
+            android:id="@+id/btn_setData"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/btn_default"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/shape_btn_default"
             android:text="Set data"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.87" />
-
-        <ImageView
-            android:id="@+id/img_text_your_profile_pic"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:src="@drawable/txt_deine_daten"
-
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
-
-        <EditText
-            android:id="@+id/Et_inputName"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/btn_vorname"
-            android:hint="@string/vorname"
-            android:paddingLeft="130dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/img_text_your_profile_pic" />
-
-        <EditText
-            android:id="@+id/Et_inputSurname"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_nachname"
-            android:hint="@string/nachname"
-            android:paddingLeft="130dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/Et_inputName" />
-
-        <EditText
-            android:id="@+id/Et_inputBirthdate"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_geburtstag"
-            android:hint="XX.XX.XXXX"
-            android:paddingLeft="130dp"
-            android:ems="10"
-            android:inputType="date"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/Et_inputSurname" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_geschlecht"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/Et_inputBirthdate" />
-
-        <EditText
-        android:id="@+id/Et_inputWeigth"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/btn_akt_gewicht"
-        android:ems="10"
-        android:hint="XX.XX"
-        android:inputType="numberDecimal"
-        android:paddingLeft="190dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-        <EditText
-            android:id="@+id/Et_input_workoutWeek"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_workouts_woche"
-            android:ems="10"
-            android:hint="XX"
-            android:inputType="numberDecimal"
-            android:paddingLeft="190dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/Et_inputWeigth" />
-
-        <EditText
-            android:id="@+id/Et_input_minWorkout"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_min_workout"
-            android:ems="10"
-            android:hint="XX"
-            android:inputType="numberDecimal"
-            android:paddingLeft="190dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/Et_input_workoutWeek" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

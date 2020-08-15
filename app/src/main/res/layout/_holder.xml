@@ -67,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/btn_default"
+        android:background="@drawable/shape_btn_default"
         android:text="@string/registrieren"
         android:textColor="@android:color/white"
         android:textSize="18sp"

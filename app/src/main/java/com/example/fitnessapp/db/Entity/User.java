@@ -28,6 +28,7 @@ public class User {
         this.Id = 0;
     }
 
+
     public int getId(){return this.Id;}
 
     public void setId(int Id){
@@ -65,7 +66,15 @@ public class User {
         this.pwHash = pwHash;
     }
 
+    //Functions to implement
 
+    public Boolean passwordIsSet() {
+        // Is Checkbox "Remind Password" set?
+        return false;
+    }
 
-
+    public String getPassword(){
+        // Get Password of User, to load into Login | Or just let the User login, if passworIdSet is true
+        return null;
+    }
 }

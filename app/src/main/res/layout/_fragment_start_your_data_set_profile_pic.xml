@@ -34,7 +34,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="716dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/btn_default"
+            android:background="@drawable/shape_btn_default"
             android:text="Set profile picture"
             android:textColor="@android:color/white"
             android:textSize="18sp"
