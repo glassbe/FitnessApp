@@ -2,7 +2,6 @@ package com.example.fitnessapp.utils;
 
 import android.content.Context;
 
-import com.example.fitnessapp.DAO.DAOUtils;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;

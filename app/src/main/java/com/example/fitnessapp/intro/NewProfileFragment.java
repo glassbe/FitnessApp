@@ -38,10 +38,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import com.example.fitnessapp.DAO.DAOProfil;
-import com.example.fitnessapp.DAO.Profile;
+
 import com.example.fitnessapp.DatePickerDialogFragment;
+import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.R;
+import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 import com.example.fitnessapp.utils.DateConverter;
 import com.example.fitnessapp.utils.Gender;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
@@ -50,6 +52,11 @@ import com.onurkaganaldemir.ktoastlib.KToast;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class NewProfileFragment extends SlideFragment {
+
+    //Use Services
+    private IUser _user = new UserRepo(getActivity().getApplication());
+
+    private User mUser = null;
 
     private EditText mName;
     private EditText mSize;
@@ -63,7 +70,7 @@ public class NewProfileFragment extends SlideFragment {
     private final View.OnClickListener clickCreateButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            clickCreateButton(v);
+//            clickCreateButton(v);
         }
     };
 
@@ -72,7 +79,7 @@ public class NewProfileFragment extends SlideFragment {
     private OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            dateSet(view, year, month, day);
+//            dateSet(view, year, month, day);
         }
     };
 
@@ -84,115 +91,116 @@ public class NewProfileFragment extends SlideFragment {
     public static NewProfileFragment newInstance() {
         return new NewProfileFragment();
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
-
-        mName = view.findViewById(R.id.profileName);
-        mSize = view.findViewById(R.id.profileSize);
-        mBirthday = view.findViewById(R.id.profileBirthday);
-        mBtCreate = view.findViewById(R.id.create_newprofil);
-        mRbMale = view.findViewById(R.id.radioButtonMale);
-        mRbFemale = view.findViewById(R.id.radioButtonFemale);
-        mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
-
-        mBirthday.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-                showDatePickerFragment();
-            }
-        });
-
-        /* Initialisation des boutons */
-        mBtCreate.setOnClickListener(clickCreateButton);
-
-        getIntroActivity().addOnNavigationBlockedListener((position, direction) -> {
-            //Slide slide = getIntroActivity().getSlide(position);
-
-            if (position == 4) {
-                mBtCreate.callOnClick();
-            }
-        });
-
-        // Inflate the layout for this fragment
-        return view;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean canGoForward() {
-        return mProfileCreated;
-    }
-
-
-    private void showDatePickerFragment() {
-        if (mDateFrag == null) {
-            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
-        }
-
-        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-        mDateFrag.show(ft, "dialog");
-    }
-
-    public MainIntroActivity getIntroActivity() {
-        if (getActivity() instanceof MainIntroActivity) {
-            return (MainIntroActivity) getActivity();
-        } else {
-            throw new IllegalStateException("SlideFragments must be attached to MainIntroActivity.");
-        }
-    }
-
-    private void clickCreateButton(View v) {
-        // Initialisation des objets DB
-        DAOProfil mDbProfils = new DAOProfil(v.getContext());
-
-        if (mName.getText().toString().isEmpty()) {
-            //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
-            KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
-        } else {
-            int size = 0;
-            try {
-                if (!mSize.getText().toString().isEmpty()) {
-                    size = Double.valueOf(mSize.getText().toString()).intValue();
-                }
-            } catch (NumberFormatException e) {
-                size = 0;
-            }
-
-            int lGender = Gender.UNKNOWN;
-            if (mRbMale.isChecked()) {
-                lGender = Gender.MALE;
-            } else if (mRbFemale.isChecked()) {
-                lGender = Gender.FEMALE;
-            } else if (mRbOtherGender.isChecked()) {
-                lGender = Gender.OTHER;
-            }
-
-            Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()), lGender);
-            // Create the new profil
-            mDbProfils.addProfil(p);
-            //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
-
-            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(p.getName())
-                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
-                    .setConfirmClickListener(sDialog -> nextSlide())
-                    .show();
-            mProfileCreated = true;
-        }
-    }
-
-    private void dateSet(DatePicker view, int year, int month, int day) {
-        mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
-    }
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.introfragment_newprofile, container, false);
+//
+//        mName = view.findViewById(R.id.profileName);
+//        mSize = view.findViewById(R.id.profileSize);
+//        mBirthday = view.findViewById(R.id.profileBirthday);
+//        mBtCreate = view.findViewById(R.id.create_newprofil);
+//        mRbMale = view.findViewById(R.id.radioButtonMale);
+//        mRbFemale = view.findViewById(R.id.radioButtonFemale);
+//        mRbOtherGender = view.findViewById(R.id.radioButtonOtherGender);
+//
+//        mBirthday.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+//                showDatePickerFragment();
+//            }
+//        });
+//
+//        /* Initialisation des boutons */
+//        mBtCreate.setOnClickListener(clickCreateButton);
+//
+//        getIntroActivity().addOnNavigationBlockedListener((position, direction) -> {
+//            //Slide slide = getIntroActivity().getSlide(position);
+//
+//            if (position == 4) {
+//                mBtCreate.callOnClick();
+//            }
+//        });
+//
+//        // Inflate the layout for this fragment
+//        return view;
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//    }
+//
+//    @Override
+//    public boolean canGoForward() {
+//        return mProfileCreated;
+//    }
+//
+//
+//    private void showDatePickerFragment() {
+//        if (mDateFrag == null) {
+//            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+//        }
+//
+//        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+//        mDateFrag.show(ft, "dialog");
+//    }
+//
+//    public MainIntroActivity getIntroActivity() {
+//        if (getActivity() instanceof MainIntroActivity) {
+//            return (MainIntroActivity) getActivity();
+//        } else {
+//            throw new IllegalStateException("SlideFragments must be attached to MainIntroActivity.");
+//        }
+//    }
+//
+//    private void clickCreateButton(View v) {
+//        // Initialisation des objets DB
+////        DAOProfil mDbProfils = new DAOProfil(v.getContext());
+//        mUser = _user.CreateUser();
+//
+//        if (mName.getText().toString().isEmpty()) {
+//            //Toast.makeText(getActivity().getBaseContext(), R.string.fillAllFields, Toast.LENGTH_SHORT).show();
+//            KToast.warningToast(getActivity(), getResources().getText(R.string.fillNameField).toString(), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+//        } else {
+//            int size = 0;
+//            try {
+//                if (!mSize.getText().toString().isEmpty()) {
+//                    size = Double.valueOf(mSize.getText().toString()).intValue();
+//                }
+//            } catch (NumberFormatException e) {
+//                size = 0;
+//            }
+//
+//            int lGender = Gender.UNKNOWN;
+//            if (mRbMale.isChecked()) {
+//                lGender = Gender.MALE;
+//            } else if (mRbFemale.isChecked()) {
+//                lGender = Gender.FEMALE;
+//            } else if (mRbOtherGender.isChecked()) {
+//                lGender = Gender.OTHER;
+//            }
+//
+//            Profile p = new Profile(mName.getText().toString(), size, DateConverter.editToDate(mBirthday.getText().toString()), lGender);
+//            // Create the new profil
+//            mDbProfils.addProfil(p);
+//            //Toast.makeText(getActivity().getBaseContext(), R.string.profileCreated, Toast.LENGTH_SHORT).show();
+//
+//            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                    .setTitleText(p.getName())
+//                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+//                    .setConfirmClickListener(sDialog -> nextSlide())
+//                    .show();
+//            mProfileCreated = true;
+//        }
+//    }
+//
+//    private void dateSet(DatePicker view, int year, int month, int day) {
+//        mBirthday.setText(DateConverter.dateToString(year, month + 1, day));
+//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(mBirthday.getWindowToken(), 0);
+//    }
 
 }

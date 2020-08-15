@@ -71,7 +71,11 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         mBtn_take_picture = view.findViewById(R.id.btn_take_picture);
-        mBtn_take_picture.setOnClickListener(this);
+        mBtn_take_picture.setOnClickListener(v -> takePicture());
+
+    }
+
+    private void takePicture() {
 
     }
 

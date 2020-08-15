@@ -6,6 +6,6 @@
     //Layout SetData
     <dimen name="Layout_SetData_MarginTop">8dp</dimen>
     <dimen name="Layout_SetData_LinearLayout_Height">50dp</dimen>
-    <dimen name="Layout_SetData_LinearLayout_Width">match_parent</dimen>
+    <dimen name="Layout_SetData_LinearLayout_Width">-1</dimen>
 
 </resources>

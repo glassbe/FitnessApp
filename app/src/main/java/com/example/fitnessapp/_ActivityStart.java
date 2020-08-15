@@ -13,9 +13,6 @@ import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.repo.UserRepo;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class _ActivityStart extends AppCompatActivity {
@@ -30,13 +27,6 @@ public class _ActivityStart extends AppCompatActivity {
 
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-
-
-
-
-    public static Boolean EmailAndPassword_BOOL = true;     //lets user loin
-    public static Boolean PasswordReminderSet_BOOL = true;  //sets password reminder
-    public static Boolean UserExists_BOOL = false;           //starts with login
 
 
     @Override
@@ -116,58 +106,13 @@ public class _ActivityStart extends AppCompatActivity {
         return mStartFrame;
     }
 
-    public User Login(String email, String password){
-        return _user.Login(email,password);
-    }
 
     //=====================
     //Database Functions
 
-    public boolean userExists() {
-        return _ActivityStart.UserExists_BOOL;
-    }
 
-    public String getPassword() {
-        return "";
-    }
 
-    public String getEmail() {
-        return "";
-    }
 
-    public String passwordIsSet() {
-        if(passwordReminderIsSet())
-            return getPassword();
-        else
-            return "";
-    }
-
-    public boolean passwordReminderIsSet() {
-        // get PasswordReminder
-        return _ActivityStart.PasswordReminderSet_BOOL;
-    }
-
-    public void setPasswordReminder(boolean b) {
-        // set passwordReminder in Database
-    }
-
-    public boolean emailExists(String mail) {
-        // search mail in database, return true if mail exits, else false
-        return _ActivityStart.EmailAndPassword_BOOL;
-    }
-
-    public boolean passwordIsMatched(String email, String password) {
-        // check if hash of password equals hash in database from email record data
-        return _ActivityStart.EmailAndPassword_BOOL;
-    }
-
-    public void loadUser() {
-        //load specific User Database, to get right data from functions
-    }
-
-    public void createNewUser() {
-        // Create new Data-Record in Database
-    }
 
 
 }

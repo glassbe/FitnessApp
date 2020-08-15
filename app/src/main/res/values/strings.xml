@@ -12,7 +12,7 @@
     <string name="failedtocreatefolder">Ordner erstellen fehlgeschlagen</string>
 
 
-    <string name="app_name">Fast N Fitness</string>
+    <string name="app_name">TrueFitness</string>
     <string name="action_settings">Einstellungen</string>
     <string name="DateLabel">Datum</string>
 
@@ -295,7 +295,6 @@
     <string name="FFMI_dialog_title">Fat-free mass index (FFMI)</string>
     <string name="no_fat_available">Fett nicht verfügbar</string>
     <string name="indexLabel">Index</string>
-
 
 
     <!-- Strings from TrueFitness-->

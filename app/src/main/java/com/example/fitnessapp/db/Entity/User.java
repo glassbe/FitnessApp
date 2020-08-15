@@ -79,5 +79,7 @@ public class User implements Serializable {
     }
 
     public boolean getRememberMe() {
+        //Dummy return
+        return false;
     }
 }
