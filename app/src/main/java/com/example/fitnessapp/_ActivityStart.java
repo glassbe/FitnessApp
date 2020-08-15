@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class _ActivityStart extends AppCompatActivity {
 
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+    //Use Services
+    private IUser _user = new UserRepo(this.getApplication());
+
 
     public static Boolean EmailAndPassword_BOOL = true;     //lets user loin
     public static Boolean PasswordReminderSet_BOOL = true;  //sets password reminder
@@ -76,9 +81,9 @@ public class _ActivityStart extends AppCompatActivity {
 
     private void loginOrRegister() {
 
-        if(IUser.UserExists()){
+        if(_user.UserExists()){
             //LOGIN
-            mUser = IUser.getLastUser();
+            mUser = _user.getLastUser();
 
             mStartFrame = "login";
 
