@@ -6,8 +6,10 @@ public interface IUser {
 
     //Functions to Implement
 
+    // check if more than one User exits in Database
     boolean UserExists();
 
+    // Last edited user
     User getLastUser();
 
     // Functions Implemented

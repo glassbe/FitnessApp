@@ -109,10 +109,10 @@ public class _FragmentStartLogin extends Fragment
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mUser.setPasswordReminder(true);
+                    mUser.setRememberMe(true);
                 }
                 else{
-                    mUser.setPasswordReminder(false);
+                    mUser.setRememberMe(false);
                 }
             }
         });
@@ -152,7 +152,7 @@ public class _FragmentStartLogin extends Fragment
 
     private void btnLoginClicked() {
 
-        mUser = IUser.Login(getEmail(), getPassword());
+        mUser = _user.Login(getEmail(), getPassword());
 
         // e-mail und passwort abfrage
 //        if(IUser.emailExists(getEmail()) && IUser.passwordIsMatched(getEmail(), getPassword())){
@@ -160,7 +160,7 @@ public class _FragmentStartLogin extends Fragment
 //            loadUser();                                                                             // Load Data from the User
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                intent.putExtra("ARG_USER", mUser);
+                intent.putExtra("ARG_USER_ID", mUser.getId());
                 startActivity(intent);
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);

@@ -70,17 +70,11 @@ public class User implements Serializable {
 
     //Functions to implement
 
-    public Boolean passwordIsSet() {
-        // Is Checkbox "Remind Password" set?
-        return false;
+
+    public void setRememberMe(boolean b) {
+        // Set Value in Database, to remember at login
     }
 
-    public String getPassword(){
-        // Get Password of User, to load into Login | Or just let the User login, if passworIdSet is true
-        return null;
-    }
-
-    public void setPasswordReminder(boolean b) {
-        // Set Value in Database, if Password should be Reminded or not
+    public boolean getRememberMe() {
     }
 }

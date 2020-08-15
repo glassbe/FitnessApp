@@ -22,7 +22,7 @@ public class _ActivityCoach extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUser = (User) getIntent().getSerializableExtra("ARG_USER");
+        mUser = (User) getIntent().getSerializableExtra("ARG_USER_ID");
 
 
         setContentView(R.layout._activity_coach);

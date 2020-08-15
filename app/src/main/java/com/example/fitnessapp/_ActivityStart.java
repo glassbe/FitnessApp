@@ -87,8 +87,12 @@ public class _ActivityStart extends AppCompatActivity {
 
             mStartFrame = "login";
 
-            if(mUser.passwordIsSet()){
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser, mUser.getEmail(), mUser.getPassword()), null);
+            if(mUser.getRememberMe()){
+                //Login
+
+                //Call Intent to Coach Activity
+
+
             } else {
                 mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser, mUser.getEmail()), null);
             }
@@ -109,7 +113,7 @@ public class _ActivityStart extends AppCompatActivity {
     }
 
     public User Login(String email, String password){
-        return IUser.Login(email,password);
+        return _user.Login(email,password);
     }
 
     //=====================
