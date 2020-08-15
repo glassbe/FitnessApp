@@ -20,6 +20,9 @@ import java.util.List;
 
 public class _ActivityStart extends AppCompatActivity {
 
+    //Use Services
+    private IUser _user = new UserRepo(this.getApplication());
+
     private User mUser = null;
 
 
@@ -28,8 +31,7 @@ public class _ActivityStart extends AppCompatActivity {
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-    //Use Services
-    private IUser _user = new UserRepo(this.getApplication());
+
 
 
     public static Boolean EmailAndPassword_BOOL = true;     //lets user loin
@@ -91,10 +93,12 @@ public class _ActivityStart extends AppCompatActivity {
                 //Login
 
                 //Call Intent to Coach Activity
-
+                Intent intent = new Intent(this, _ActivityCoach.class);
+                intent.putExtra("ARG_USER_ID", mUser.getId());
+                startActivity(intent);
 
             } else {
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser, mUser.getEmail()), null);
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getId(), mUser.getEmail()), null);
             }
         }
         else {

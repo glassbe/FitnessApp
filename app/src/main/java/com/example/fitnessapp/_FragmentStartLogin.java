@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -29,15 +30,19 @@ import com.google.android.material.textfield.TextInputEditText;
  */
 public class _FragmentStartLogin extends Fragment
 {
+    //Use Services
+    private IUser _user = new UserRepo(getActivity().getApplication());
+
+    private User mUser = null;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_EMAIL = "param1";
-    private static final String ARG_PWD = "param2";
-    private static final String ARG_OBJECT = "param3";
+    private static final String ARG_USER_ID = "param2";
 
     // TODO: Rename and change types of parameters
-    private String pwd = null;
     private String email = null;
+    private int mUserById = Integer.parseInt(null);
 
     private ImageView mIv_loginLogo;
     private TextInputEditText mEt_eMail;
@@ -46,7 +51,6 @@ public class _FragmentStartLogin extends Fragment
     private Button mBtn_login;
     private TextView mTv_register;
 
-    private User mUser;
 
 
     public _FragmentStartLogin() {
@@ -58,20 +62,10 @@ public class _FragmentStartLogin extends Fragment
      * @param email Parameter 1.
      * @return A new instance of fragment FragmentCoachOverview.
      */
-    public static _FragmentStartLogin newInstance(User user, String email, String password) {
+    public static _FragmentStartLogin newInstance(int user_id, String email) {
         _FragmentStartLogin fragment = new _FragmentStartLogin();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_OBJECT, user);
-        args.putString(ARG_EMAIL, email);
-        args.putString(ARG_PWD, password);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static _FragmentStartLogin newInstance(User user, String email) {
-        _FragmentStartLogin fragment = new _FragmentStartLogin();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_OBJECT, user);
+        args.putSerializable(ARG_USER_ID, user_id);
         args.putString(ARG_EMAIL, email);
         fragment.setArguments(args);
         return fragment;
@@ -86,7 +80,7 @@ public class _FragmentStartLogin extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mUser = (User) getArguments().getSerializable(ARG_OBJECT);
+        mUser = _user.getUserById(mUserById);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
@@ -96,15 +90,9 @@ public class _FragmentStartLogin extends Fragment
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
         if((email = getArguments().getString(ARG_EMAIL, "")) != null)
             mEt_eMail.setText(email);                     // Set received email
-        //mEt_eMail.setOnFocusChangeListener(this);
 
-        mEt_password = view.findViewById(R.id.et_password_text);
-        if((pwd = getArguments().getString(ARG_PWD, "")) != null)
-            mEt_password.setText(pwd);                                                              // Set received password
-        //mEt_password.setOnFocusChangeListener(this);
 
         mCb_passwordReminder = view.findViewById(R.id.cb_password_reminder);
-        mCb_passwordReminder.setChecked(mUser.passwordIsSet());
         mCb_passwordReminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
