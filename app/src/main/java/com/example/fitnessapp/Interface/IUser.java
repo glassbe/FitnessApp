@@ -6,15 +6,9 @@ public interface IUser {
 
     //Functions to Implement
 
-    static boolean UserExists() {
-        // Is at least one User in the database
-        return false;
-    }
+    boolean UserExists();
 
-    static User getLastUser() {
-        // Give the Last User, that has been changed in the Database
-        return null;
-    }
+    User getLastUser();
 
     // Functions Implemented
 
