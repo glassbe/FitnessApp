@@ -1,15 +1,22 @@
 package com.example.fitnessapp.repo;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.db.LiveDatabase;
 
 public class UserRepoDummy implements IUser {
 
+    private static LiveDatabase user_dummy_live;
+    User user_dummy = new User("test@mail.com", "pwd#123");
+
+
+
     @Override
     public LiveData<User> getUser(String email) {
-        return null;
+        return user_dummy;
     }
 
     @Override

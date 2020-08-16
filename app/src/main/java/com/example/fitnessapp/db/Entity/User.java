@@ -30,6 +30,7 @@ public class User implements Serializable {
 
     private Date lastLogIn;
 
+
     public User(String email, String pwHash){
         this.email = email;
         this.pwHash = pwHash;

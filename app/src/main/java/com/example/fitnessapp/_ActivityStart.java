@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +14,14 @@ import android.view.WindowManager;
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.repo.UserRepo;
-
+import com.example.fitnessapp.repo.UserRepoDummy;
 
 
 public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
     private IUser _user = null;
-    private User mUser = null;
+    private LiveData<User> mUser = null;
 
 
 
@@ -40,7 +41,10 @@ public class _ActivityStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Start Service
-        _user = new UserRepo(getApplication());
+//        _user = new UserRepo(getApplication());
+        _user = new UserRepoDummy();
+
+
 
         //Set Activity Layout
         setContentView(R.layout._activity_start);
