@@ -76,6 +76,7 @@ public class User implements Serializable {
 
     public void setRememberMe(boolean b) {
         // Set Value in Database, to remember at login
+        int i = 4;
     }
 
     public boolean getRememberMe() {

@@ -16,6 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.fitnessapp.Interface.IUser;
@@ -34,7 +37,7 @@ import java.util.regex.Pattern;
 public class _FragmentStartRegister extends Fragment {
 
     //Use Services
-    private IUser _user = new UserRepo(getActivity().getApplication());
+    private IUser _user = null;
 
     private User mUser = null;
 
@@ -66,6 +69,7 @@ public class _FragmentStartRegister extends Fragment {
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
     private boolean my_bool = true;
+    private SharedViewModel mViewModel;
 
     public _FragmentStartRegister() {
         // Required empty public constructor
@@ -87,6 +91,11 @@ public class _FragmentStartRegister extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        _user = new UserRepo(getActivity().getApplication());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,9 +109,11 @@ public class _FragmentStartRegister extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        mEt_eMail.setText(getArguments().getString(ARG_EMAIL, ""));
+        if(getArguments() != null)
+            mEt_eMail.setText(getArguments().getString(ARG_EMAIL, " "));
 
         mEt_password = view.findViewById(R.id.et_password_text);
+        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged(v, hasFocus));
 
         mEt_password_repeat = view.findViewById(R.id.et_password_repeat_text);
 
@@ -112,7 +123,21 @@ public class _FragmentStartRegister extends Fragment {
         mBtn_register = view.findViewById(R.id.tv_register);
         mBtn_register.setOnClickListener(v -> btnRegisterClicked());
 
+
+
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        mViewModel.getText().observe(getActivity(), v ->  mEt_password.setText(v));
+    }
+
+    private void passwordChanged(View v, boolean hasFocus) {
+        mViewModel.setText(mEt_password.getText().toString());
+    }
+
 
     // =================
     // Private Functions

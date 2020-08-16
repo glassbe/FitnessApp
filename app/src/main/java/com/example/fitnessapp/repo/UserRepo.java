@@ -1,12 +1,15 @@
 package com.example.fitnessapp.repo;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.FitnessDatabase;
 import com.example.fitnessapp.helper.Security;
+
+import java.util.List;
 
 public class UserRepo implements IUser {
 
@@ -24,7 +27,14 @@ public class UserRepo implements IUser {
 
     @Override
     public User Login(String email, String password) {
-        User requestedUser = mUserDAO.getUserByMail(email);
+        User requestedUser = null;
+        try {
+            requestedUser = mUserDAO.getUserByMail(email);
+        }catch(Exception e){
+            Log.getStackTraceString(e);
+            Login(email,password);
+        }
+
 
         if(requestedUser == null){
             //Email not found

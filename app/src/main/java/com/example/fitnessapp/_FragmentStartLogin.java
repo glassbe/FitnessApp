@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class _FragmentStartLogin extends Fragment
 {
     //Use Services
-    private IUser _user = new UserRepo(getActivity().getApplication());
-
+    private IUser _user = null;
     private User mUser = null;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -42,7 +43,7 @@ public class _FragmentStartLogin extends Fragment
 
     // TODO: Rename and change types of parameters
     private String mEmail = null;
-    private int mUser_Id = Integer.parseInt(null);
+    private int mUser_Id = -1;
 
     private ImageView mIv_loginLogo;
     private TextInputEditText mEt_eMail;
@@ -50,7 +51,7 @@ public class _FragmentStartLogin extends Fragment
     private CheckBox mCb_passwordReminder;
     private Button mBtn_login;
     private TextView mTv_register;
-
+    private SharedViewModel mViewModel;
 
 
     public _FragmentStartLogin() {
@@ -71,13 +72,21 @@ public class _FragmentStartLogin extends Fragment
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        _user = new UserRepo(getActivity().getApplication());
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get User
-        if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
-            mUser = _user.getUserById(mUser_Id);
+        if(getArguments() != null)
+            if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
+                mUser = _user.getUserById(mUser_Id);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
@@ -89,16 +98,21 @@ public class _FragmentStartLogin extends Fragment
         if((mEmail = getArguments().getString(ARG_EMAIL, "")) != null)
             mEt_eMail.setText(mEmail);
 
+        // Set password Adapter
+        mEt_password = view.findViewById(R.id.et_password_text);
+        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged(v, hasFocus));
+
 
         mCb_passwordReminder = view.findViewById(R.id.cb_password_reminder);
         mCb_passwordReminder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mUser.setRememberMe(true);
-                }
-                else{
-                    mUser.setRememberMe(false);
+                if(mUser != null) {
+                    if (isChecked) {
+                        mUser.setRememberMe(true);
+                    } else {
+                        mUser.setRememberMe(false);
+                    }
                 }
             }
         });
@@ -112,6 +126,32 @@ public class _FragmentStartLogin extends Fragment
         return view;
     }
 
+    private void passwordChanged(View v, boolean hasFocus) {
+        mViewModel.setText(mEt_password.getText().toString());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
+        mViewModel.getText().observe(getActivity(), new Observer<CharSequence>() {
+            @Override
+            public void onChanged(CharSequence charSequence) {
+                mEt_password.setText(charSequence);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        mViewModel.getText().observe(getActivity(), v ->  mEt_password.setText(v));
+    }
+
+
 //    @Override
 //    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);
@@ -122,6 +162,7 @@ public class _FragmentStartLogin extends Fragment
     //private Functions
 
     private void btnRegisterClicked() {
+
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
