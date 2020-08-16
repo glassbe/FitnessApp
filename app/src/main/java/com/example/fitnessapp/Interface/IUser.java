@@ -29,5 +29,4 @@ public interface IUser {
 
     // Create Empty User
     User CreateUser();
-
 }
