@@ -1,6 +1,7 @@
 package com.example.fitnessapp.repo;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -13,7 +14,6 @@ import com.example.fitnessapp.helper.Security;
 public class UserRepo implements IUser {
 
     private UserDAO mUserDAO;
-
     public UserRepo(Application application){
         FitnessDatabase db = FitnessDatabase.getDatabase(application);
         mUserDAO = db.userDAO();
@@ -53,10 +53,10 @@ public class UserRepo implements IUser {
             //Password is correct
 
             //Set New Timestamp
-            requestedUser.getValue().setLastLogIn();
+            User updateUser = requestedUser.getValue();
+            updateUser.setLastLogIn();
 
-            mUserDAO.updateUser(requestedUser.getValue());
-
+            new updateAsyncTask(mUserDAO).execute(updateUser);
             return requestedUser;
         }
         //Password is false
@@ -75,7 +75,7 @@ public class UserRepo implements IUser {
             //Set the Remember Me
             updateUser.setRememberMe(rememberMe);
 
-            mUserDAO.updateUser(updateUser);
+            new updateAsyncTask(mUserDAO).execute(updateUser);
 
             mUser  = mUserDAO.getUserById(updateUser.getId());
         }
@@ -99,8 +99,8 @@ public class UserRepo implements IUser {
         User newUser = new User(email, pwHash);
         newUser.setRememberMe(rememberMe);
 
-        //Insert User in DB
-        mUserDAO.insertUser(newUser);
+        //Insert User in DB async
+        new insertAsyncTask(mUserDAO).execute(newUser);
 
         //Get new User from DB
         return getUser(email);
@@ -115,35 +115,64 @@ public class UserRepo implements IUser {
 
 
         //Get User from DB
-        LiveData<User> userFromDB = mUserDAO.getUserById(user.getId());
+        User userFromDB = mUserDAO.getUserById(user.getId()).getValue();
 
         //Set firstName if input is valid
         if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
-            userFromDB.getValue().setFirstName(user.getFirstName());
+            userFromDB.setFirstName(user.getFirstName());
         }
 
         //Set lastName if input is valid
         if(user.getLastName() != null && !(user.getLastName().equals(""))){
-            userFromDB.getValue().setLastName(user.getLastName());
+            userFromDB.setLastName(user.getLastName());
         }
 
         //Set height if input is between 50 und 300 cm
         if(user.getHeight() > 50 && user.getHeight() < 300){
-            userFromDB.getValue().setHeight(user.getHeight());
+            userFromDB.setHeight(user.getHeight());
         }
 
         //Set gender
-        userFromDB.getValue().setGender(user.getGender());
+        userFromDB.setGender(user.getGender());
 
         //Update User on DB
-        mUserDAO.updateUser(userFromDB.getValue());
+        new updateAsyncTask(mUserDAO).execute(userFromDB);
+
 
         //Get current user with changes from DB
-        return mUserDAO.getUserById(userFromDB.getValue().getId());
+        return mUserDAO.getUserById(userFromDB.getId());
 
     }
 
+    private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
 
+        private UserDAO mAsyncTaskDao;
+
+        insertAsyncTask(UserDAO dao){
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final User... users) {
+            mAsyncTaskDao.insertUser(users[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<User, Void, Void>{
+
+        private UserDAO mAsyncTaskDAO;
+
+        updateAsyncTask(UserDAO dao){
+            mAsyncTaskDAO = dao;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            mAsyncTaskDAO.updateUser(users[0]);
+            return null;
+        }
+    }
 
 
 }
