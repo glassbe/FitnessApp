@@ -31,6 +31,4 @@ public interface IUser {
     // Get User by Id, not by E-Mail
     LiveData<User> getUserById(int userById);
 
-    // Create Empty User
-    User CreateUser();
 }
