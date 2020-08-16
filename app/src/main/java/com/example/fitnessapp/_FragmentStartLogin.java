@@ -41,8 +41,8 @@ public class _FragmentStartLogin extends Fragment
     private static final String ARG_USER_ID = "param2";
 
     // TODO: Rename and change types of parameters
-    private String email = null;
-    private int mUserById = Integer.parseInt(null);
+    private String mEmail = null;
+    private int mUser_Id = Integer.parseInt(null);
 
     private ImageView mIv_loginLogo;
     private TextInputEditText mEt_eMail;
@@ -72,24 +72,22 @@ public class _FragmentStartLogin extends Fragment
     }
 
 
-//    public static _FragmentStartLogin newInstance() {
-//    return new _FragmentStartLogin();
-//}
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mUser = _user.getUserById(mUserById);
+        // Get User
+        if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
+            mUser = _user.getUserById(mUser_Id);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
 
-        mIv_loginLogo = view.findViewById(R.id.iv_login_logo);
+//        mIv_loginLogo = view.findViewById(R.id.iv_login_logo);
 
+        // Set received email
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        if((email = getArguments().getString(ARG_EMAIL, "")) != null)
-            mEt_eMail.setText(email);                     // Set received email
+        if((mEmail = getArguments().getString(ARG_EMAIL, "")) != null)
+            mEt_eMail.setText(mEmail);
 
 
         mCb_passwordReminder = view.findViewById(R.id.cb_password_reminder);
@@ -114,11 +112,11 @@ public class _FragmentStartLogin extends Fragment
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//    }
 
     //==================
     //private Functions
@@ -127,11 +125,15 @@ public class _FragmentStartLogin extends Fragment
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-        mFragmentManager.popBackStack();                                                            // delete last Step from Back Stack
-        mFragmentTransaction.replace
-                (R.id.start_frame, _FragmentStartRegister.newInstance(getEmail()), "register"); // Create new Frame
+        // delete last Step from Back Stack
+        mFragmentManager.popBackStack();
 
-        if(_ActivityStart.getStartFrame() != "register")                                             // Don't add to StackBack, when it is start Frame
+        // Create new Frame
+        mFragmentTransaction.replace
+                (R.id.start_frame, _FragmentStartRegister.newInstance(getEmail()), "register");
+
+        // Don't add to StackBack, when it is start Frame
+        if(_ActivityStart.getStartFrame() != "register")
             mFragmentTransaction.addToBackStack("register");
 
         mFragmentTransaction.commit();
@@ -140,12 +142,10 @@ public class _FragmentStartLogin extends Fragment
 
     private void btnLoginClicked() {
 
+        // Load User, if fails mUser = null
         mUser = _user.Login(getEmail(), getPassword());
 
-        // e-mail und passwort abfrage
-//        if(IUser.emailExists(getEmail()) && IUser.passwordIsMatched(getEmail(), getPassword())){
         if( mUser != null){
-//            loadUser();                                                                             // Load Data from the User
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
                 intent.putExtra("ARG_USER_ID", mUser.getId());
@@ -169,9 +169,6 @@ public class _FragmentStartLogin extends Fragment
     private String getEmail() {
         return mEt_eMail.getText().toString();
     }
-
-    //==================
-    //Database Functions
 
 
 }

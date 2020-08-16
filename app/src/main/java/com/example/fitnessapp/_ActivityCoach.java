@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +18,17 @@ import androidx.navigation.ui.NavigationUI;
 
 public class _ActivityCoach extends AppCompatActivity {
 
-    User mUser = null;
+    //Use Services
+    private IUser _user = new UserRepo(this.getApplication());
+
+    private User mUser = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUser = (User) getIntent().getSerializableExtra("ARG_USER_ID");
+        //get User by Id, from other Activity
+        mUser = _user.getUserById(getIntent().getIntExtra("ARG_USER_ID", -1));
 
 
         setContentView(R.layout._activity_coach);

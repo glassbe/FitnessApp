@@ -4,8 +4,6 @@ import com.example.fitnessapp.db.Entity.User;
 
 public interface IUser {
 
-
-
     // Functions Implemented
 
     User getUser(String email);
@@ -15,6 +13,8 @@ public interface IUser {
     User Register(String email, String password);
 
     User UpdateInfo(User user);
+
+
 
     //Functions to Implement
 
@@ -26,4 +26,7 @@ public interface IUser {
 
     // Get User by Id, not by E-Mail
     User getUserById(int userById);
+
+    // Create Empty User
+    User CreateUser();
 }

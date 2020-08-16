@@ -135,6 +135,25 @@ public class UserRepo implements IUser {
 
     }
 
+    @Override
+    public boolean UserExists() {
+        return false;
+    }
+
+    @Override
+    public User getLastUser() {
+        return null;
+    }
+
+    @Override
+    public User getUserById(int userById) {
+        return null;
+    }
+
+    @Override
+    public User CreateUser() {
+        return null;
+    }
 
 
 }

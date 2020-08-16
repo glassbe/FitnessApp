@@ -4,14 +4,21 @@ package com.example.fitnessapp.intro;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.fitnessapp.DAO.DAOProfil;
+import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.R;
+import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.heinrichreimersoftware.materialintro.slide.Slide;
 
 public class MainIntroActivity extends IntroActivity {
+    //Use Services
+    private IUser _user = new UserRepo(this.getApplication());
+
+    private User mUser = null;
+
 
     public static final String EXTRA_FULLSCREEN = "com.heinrichreimersoftware.materialintro.demo.EXTRA_FULLSCREEN";
     public static final String EXTRA_SCROLLABLE = "com.heinrichreimersoftware.materialintro.demo.EXTRA_SCROLLABLE";
@@ -102,10 +109,10 @@ public class MainIntroActivity extends IntroActivity {
 */
 
         // Initialisation des objets DB
-        DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());
+//        DAOProfil mDbProfils = new DAOProfil(this.getApplicationContext());
 
         // Pour la base de donnee profil, il faut toujours qu'il y ai au moins un profil
-        if (mDbProfils.getCount() == 0) {
+        if (!_user.UserExists()) {
             final Slide profileSlide;
             // Ouvre la fenetre de creation de profil
             profileSlide = new FragmentSlide.Builder()
