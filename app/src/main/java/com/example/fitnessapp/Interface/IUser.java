@@ -18,17 +18,20 @@ public interface IUser {
 
     LiveData<User> UpdateInfo(User user);
 
-
-
-    //Functions to Implement
-
-    // check if more than one User exits in Database
-    boolean UserExists();
-
     // Last edited user
     LiveData<User> getLastUser();
 
     // Get User by Id, not by E-Mail
     LiveData<User> getUserById(int userById);
+
+    void Logout(User user);
+
+    //Functions to Implement
+
+    // check if more than one User exits in Database
+    //Nocht nötig, da mit getLastUser der letzte aktive user zurück gegeben wird wennn dieser null ist ist kein User vorhanden
+    //boolean UserExists();
+
+
 
 }

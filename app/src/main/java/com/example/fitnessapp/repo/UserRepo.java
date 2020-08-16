@@ -19,10 +19,6 @@ public class UserRepo implements IUser {
         mUserDAO = db.userDAO();
     }
 
-    @Override
-    public boolean UserExists() {
-        return false;
-    }
 
     @Override
     public LiveData<User> getLastUser() {
@@ -83,6 +79,16 @@ public class UserRepo implements IUser {
         return mUser;
     }
 
+    @Override
+    public void Logout(User user) {
+
+        if(user != null){
+            //Set rememberMe to false so autologin is disabled
+            user.setRememberMe(false);
+
+            new updateAsyncTask(mUserDAO).execute(user);
+        }
+    }
 
     @Override
     public LiveData<User> Register(String email, String password, Boolean rememberMe) {
