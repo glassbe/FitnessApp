@@ -30,5 +30,7 @@ public interface UserDAO {
     @Query("SELECT * FROM User WHERE Id = :id LIMIT 1")
     public User getUserById(int id);
 
+    @Query("SELECT * FROM User WHERE MAX(lastLogIn) LIMIT 1")
+    public User getLatestLogin();
 
 }

@@ -18,6 +18,21 @@ public class UserRepo implements IUser {
     }
 
     @Override
+    public boolean UserExists() {
+        return false;
+    }
+
+    @Override
+    public User getLastUser() {
+        return null;
+    }
+
+    @Override
+    public User getUserById(int userById) {
+        return mUserDAO.getUserById(userById);
+    }
+
+    @Override
     public User getUser(String email) {
         return mUserDAO.getUserByMail(email);
     }
@@ -41,7 +56,28 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public User Register(String email, String password) {
+    public User Login(String email, String password, Boolean rememberMe) {
+
+        User mUser = Login(email, password);
+
+        if(mUser != null){
+            //Set the Remember Me
+            mUser.setRememberMe(rememberMe);
+
+            //Set Timestamp to now
+            mUser.setLastLogIn();
+
+            mUserDAO.updateUser(mUser);
+
+            mUser  = mUserDAO.getUserById(mUser.getId());
+        }
+
+        return mUser;
+    }
+
+
+    @Override
+    public User Register(String email, String password, Boolean rememberMe) {
 
         //Check if User exists
         if(getUser(email) != null){
@@ -53,6 +89,7 @@ public class UserRepo implements IUser {
 
         //Create User
         User newUser = new User(email, pwHash);
+        newUser.setRememberMe(rememberMe);
 
         //Insert User in DB
         mUserDAO.insertUser(newUser);
