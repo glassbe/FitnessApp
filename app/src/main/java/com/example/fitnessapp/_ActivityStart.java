@@ -76,10 +76,9 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-
-        if(_user.UserExists()){
+        mUser = _user.getLastUser().getValue();
+        if(mUser != null){
             //LOGIN
-            mUser = _user.getLastUser();
 
             mStartFrame = "login";
 

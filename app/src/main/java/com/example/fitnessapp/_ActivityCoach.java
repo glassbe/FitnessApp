@@ -37,7 +37,7 @@ public class _ActivityCoach extends AppCompatActivity {
         _user = new UserRepo(getApplication());
 
         //get User by Id, from other Activity
-        mUser = _user.getUserById(getIntent().getIntExtra("ARG_USER_ID", -1));
+        mUser = _user.getUserById(getIntent().getIntExtra("ARG_USER_ID", -1)).getValue();
 
 
         setContentView(R.layout._activity_coach);

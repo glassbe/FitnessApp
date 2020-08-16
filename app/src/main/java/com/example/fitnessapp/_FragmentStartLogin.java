@@ -86,7 +86,7 @@ public class _FragmentStartLogin extends Fragment
         // Get User
         if(getArguments() != null)
             if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
-                mUser = _user.getUserById(mUser_Id);
+                mUser = _user.getUserById(mUser_Id).getValue();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
@@ -184,7 +184,7 @@ public class _FragmentStartLogin extends Fragment
     private void btnLoginClicked() {
 
         // Load User, if fails mUser = null
-        mUser = _user.Login(getEmail(), getPassword());
+        mUser = _user.Login(getEmail(), getPassword()).getValue();
 
         if( mUser != null){
             try{

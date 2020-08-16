@@ -29,8 +29,7 @@ public interface IUser {
     //Functions to Implement
 
     // check if more than one User exits in Database
-    //Nocht nötig, da mit getLastUser der letzte aktive user zurück gegeben wird wennn dieser null ist ist kein User vorhanden
-    //boolean UserExists();
+    boolean UserExists();
 
 
 

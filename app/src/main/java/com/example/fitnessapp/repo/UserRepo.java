@@ -11,6 +11,8 @@ import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.FitnessDatabase;
 import com.example.fitnessapp.helper.Security;
 
+import java.util.List;
+
 public class UserRepo implements IUser {
 
     private UserDAO mUserDAO;
@@ -19,6 +21,12 @@ public class UserRepo implements IUser {
         mUserDAO = db.userDAO();
     }
 
+    @Override
+    public boolean UserExists() {
+        List<User> users = mUserDAO.getAllUser().getValue();
+
+        return !users.isEmpty();
+    }
 
     @Override
     public LiveData<User> getLastUser() {
@@ -104,7 +112,6 @@ public class UserRepo implements IUser {
         //Create User
         User newUser = new User(email, pwHash);
         newUser.setRememberMe(rememberMe);
-
         //Insert User in DB async
         new insertAsyncTask(mUserDAO).execute(newUser);
 

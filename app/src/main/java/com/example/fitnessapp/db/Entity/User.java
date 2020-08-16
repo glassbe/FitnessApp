@@ -6,8 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class User implements Serializable {
@@ -29,7 +28,7 @@ public class User implements Serializable {
 
     private boolean rememberMe;
 
-    private Timestamp lastLogIn;
+    private Date lastLogIn;
 
     public User(String email, String pwHash){
         this.email = email;
@@ -37,6 +36,7 @@ public class User implements Serializable {
         this.rememberMe = false;
         this.Id = 0;
     }
+
 
 
     public int getId(){return this.Id;}
@@ -83,11 +83,15 @@ public class User implements Serializable {
     }
 
     public void setLastLogIn(){
-        Calendar calendar = Calendar.getInstance();
-        this.lastLogIn = new java.sql.Timestamp(calendar.getTime().getTime());
+        this.lastLogIn.setTime(System.currentTimeMillis());
     }
 
-    public Timestamp getLastLogIn(){
+    public void setLastLogIn(Date t){
+        //No direkt access to LastLogIn
+        this.lastLogIn.setTime(System.currentTimeMillis());
+    }
+
+    public Date getLastLogIn(){
         return  lastLogIn;
     }
 }

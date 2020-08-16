@@ -47,4 +47,9 @@ public class UserRepoDummy implements IUser {
         return null;
     }
 
+    @Override
+    public void Logout(User user) {
+
+    }
+
 }

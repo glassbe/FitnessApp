@@ -161,7 +161,7 @@ public class _FragmentStartRegister extends Fragment {
                     if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
 
                         //Create New User
-                        _user.Register(getEmail(), getPassword());
+                        _user.Register(getEmail(), getPassword(), Boolean.FALSE);
 
                         FragmentManager mFragmentManager = getFragmentManager();
                         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();

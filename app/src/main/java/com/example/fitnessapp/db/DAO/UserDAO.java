@@ -35,4 +35,7 @@ public interface UserDAO {
     @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User) LIMIT 1")
     public LiveData<User> getLatestLogin();
 
+    @Query("SELECT * FROM User")
+    public LiveData<List<User>> getAllUser();
+
 }
