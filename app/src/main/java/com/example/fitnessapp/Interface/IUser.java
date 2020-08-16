@@ -1,18 +1,22 @@
 package com.example.fitnessapp.Interface;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.fitnessapp.db.Entity.User;
 
 public interface IUser {
 
     // Functions Implemented
 
-    User getUser(String email);
+    LiveData<User> getUser(String email);
 
-    User Login(String email, String password);
+    LiveData<User> Login(String email, String password);
 
-    User Register(String email, String password);
+    LiveData<User> Login(String email, String password, Boolean rememberMe);
 
-    User UpdateInfo(User user);
+    LiveData<User> Register(String email, String password, Boolean rememberMe);
+
+    LiveData<User> UpdateInfo(User user);
 
 
 
@@ -22,9 +26,9 @@ public interface IUser {
     boolean UserExists();
 
     // Last edited user
-    User getLastUser();
+    LiveData<User> getLastUser();
 
     // Get User by Id, not by E-Mail
-    User getUserById(int userById);
+    LiveData<User> getUserById(int userById);
 
 }

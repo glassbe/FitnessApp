@@ -1,6 +1,7 @@
 package com.example.fitnessapp.db.DAO;
 
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,8 +17,6 @@ public interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertUser(User user);
 
-
-
     @Update
     public void updateUser(User user);
 
@@ -25,12 +24,12 @@ public interface UserDAO {
     public void deleteUser(User user);
 
     @Query("SELECT * FROM User WHERE email = :mail LIMIT 1")
-    public User getUserByMail(String mail);
+    public LiveData<User> getUserByMail(String mail);
 
     @Query("SELECT * FROM User WHERE Id = :id LIMIT 1")
-    public User getUserById(int id);
+    public LiveData<User> getUserById(int id);
 
-    @Query("SELECT * FROM User WHERE MAX(lastLogIn) LIMIT 1")
-    public User getLatestLogin();
+    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User) LIMIT 1")
+    public LiveData<User> getLatestLogin();
 
 }

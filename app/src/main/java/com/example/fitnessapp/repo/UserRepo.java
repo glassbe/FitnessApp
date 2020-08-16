@@ -2,6 +2,8 @@ package com.example.fitnessapp.repo;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.User;
@@ -23,32 +25,38 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public User getLastUser() {
-        return null;
+    public LiveData<User> getLastUser() {
+        return mUserDAO.getLatestLogin();
     }
 
     @Override
-    public User getUserById(int userById) {
+    public LiveData<User> getUserById(int userById) {
         return mUserDAO.getUserById(userById);
     }
 
     @Override
-    public User getUser(String email) {
+    public LiveData<User> getUser(String email) {
         return mUserDAO.getUserByMail(email);
     }
 
     @Override
-    public User Login(String email, String password) {
-        User requestedUser = mUserDAO.getUserByMail(email);
+    public LiveData<User> Login(String email, String password) {
+        LiveData<User> requestedUser = mUserDAO.getUserByMail(email);
 
-        if(requestedUser == null){
+        if(requestedUser.getValue() == null){
             //Email not found
             return null;
         }
 
         //Check the entered Password
-        if(Security.encrypt(password).equals(requestedUser.getPwHash())){
+        if(Security.encrypt(password).equals(requestedUser.getValue().getPwHash())){
             //Password is correct
+
+            //Set New Timestamp
+            requestedUser.getValue().setLastLogIn();
+
+            mUserDAO.updateUser(requestedUser.getValue());
+
             return requestedUser;
         }
         //Password is false
@@ -56,20 +64,20 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public User Login(String email, String password, Boolean rememberMe) {
+    public LiveData<User> Login(String email, String password, Boolean rememberMe) {
 
-        User mUser = Login(email, password);
+        LiveData<User> mUser = Login(email, password);
 
-        if(mUser != null){
+        if(mUser.getValue() != null){
+
+            User updateUser = mUser.getValue();
+
             //Set the Remember Me
-            mUser.setRememberMe(rememberMe);
+            updateUser.setRememberMe(rememberMe);
 
-            //Set Timestamp to now
-            mUser.setLastLogIn();
+            mUserDAO.updateUser(updateUser);
 
-            mUserDAO.updateUser(mUser);
-
-            mUser  = mUserDAO.getUserById(mUser.getId());
+            mUser  = mUserDAO.getUserById(updateUser.getId());
         }
 
         return mUser;
@@ -77,7 +85,7 @@ public class UserRepo implements IUser {
 
 
     @Override
-    public User Register(String email, String password, Boolean rememberMe) {
+    public LiveData<User> Register(String email, String password, Boolean rememberMe) {
 
         //Check if User exists
         if(getUser(email) != null){
@@ -99,7 +107,7 @@ public class UserRepo implements IUser {
 
     }
 
-    public User UpdateInfo(User user){
+    public LiveData<User> UpdateInfo(User user){
         /*
         * Only change non-critical values
         * Email, Id and pwHash remain unchanged.
@@ -107,53 +115,35 @@ public class UserRepo implements IUser {
 
 
         //Get User from DB
-        User userFromDB = mUserDAO.getUserById(user.getId());
+        LiveData<User> userFromDB = mUserDAO.getUserById(user.getId());
 
         //Set firstName if input is valid
         if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
-            userFromDB.setFirstName(user.getFirstName());
+            userFromDB.getValue().setFirstName(user.getFirstName());
         }
 
         //Set lastName if input is valid
         if(user.getLastName() != null && !(user.getLastName().equals(""))){
-            userFromDB.setLastName(user.getLastName());
+            userFromDB.getValue().setLastName(user.getLastName());
         }
 
         //Set height if input is between 50 und 300 cm
         if(user.getHeight() > 50 && user.getHeight() < 300){
-            userFromDB.setHeight(user.getHeight());
+            userFromDB.getValue().setHeight(user.getHeight());
         }
 
         //Set gender
-        userFromDB.setGender(user.getGender());
+        userFromDB.getValue().setGender(user.getGender());
 
         //Update User on DB
-        mUserDAO.updateUser(userFromDB);
+        mUserDAO.updateUser(userFromDB.getValue());
 
         //Get current user with changes from DB
-        return mUserDAO.getUserById(userFromDB.getId());
+        return mUserDAO.getUserById(userFromDB.getValue().getId());
 
     }
 
-    @Override
-    public boolean UserExists() {
-        return false;
-    }
 
-    @Override
-    public User getLastUser() {
-        return null;
-    }
-
-    @Override
-    public User getUserById(int userById) {
-        return null;
-    }
-
-    @Override
-    public User CreateUser() {
-        return null;
-    }
 
 
 }
