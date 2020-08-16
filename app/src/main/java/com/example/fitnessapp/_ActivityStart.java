@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -18,9 +19,9 @@ import com.example.fitnessapp.repo.UserRepo;
 public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
-    private IUser _user = new UserRepo(this.getApplication());
-
+    private IUser _user = null;
     private User mUser = null;
+
 
 
     private static String mStartFrame;
@@ -37,6 +38,9 @@ public class _ActivityStart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Start Service
+        _user = new UserRepo(getApplication());
 
         //Set Activity Layout
         setContentView(R.layout._activity_start);

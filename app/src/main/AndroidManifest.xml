@@ -46,6 +46,10 @@
         <activity android:name="._ActivityCoach"
                   android:screenOrientation="portrait"/>
 
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+
 
 <!-- FROM FastNFitness-->
 

@@ -9,15 +9,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class _FragmentStartYourDataSetData extends Fragment {
+
+    //Use Services
+    private IUser _user = null;
+
+    private User mUser = null;
 
 
     private EditText mFirstName;
@@ -35,6 +43,12 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     public _FragmentStartYourDataSetData() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        _user = new UserRepo(getActivity().getApplication());
     }
 
 

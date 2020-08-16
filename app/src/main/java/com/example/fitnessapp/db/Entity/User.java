@@ -1,13 +1,9 @@
 package com.example.fitnessapp.db.Entity;
 
-import android.view.animation.ScaleAnimation;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 @Entity
 public class User implements Serializable {
@@ -27,14 +23,10 @@ public class User implements Serializable {
 
     private int gender;
 
-    private boolean rememberMe;
-
-    private Timestamp lastLogIn;
 
     public User(String email, String pwHash){
         this.email = email;
         this.pwHash = pwHash;
-        this.rememberMe = false;
         this.Id = 0;
     }
 
@@ -76,18 +68,18 @@ public class User implements Serializable {
         this.pwHash = pwHash;
     }
 
-    public void setRememberMe(boolean b) { this.rememberMe = b; }
+
+
+
+    //Functions to implement
+
+
+    public void setRememberMe(boolean b) {
+        // Set Value in Database, to remember at login
+    }
 
     public boolean getRememberMe() {
-        return  rememberMe;
-    }
-
-    public void setLastLogIn(){
-        Calendar calendar = Calendar.getInstance();
-        this.lastLogIn = new java.sql.Timestamp(calendar.getTime().getTime());
-    }
-
-    public Timestamp getLastLogIn(){
-        return  lastLogIn;
+        //Dummy return
+        return false;
     }
 }

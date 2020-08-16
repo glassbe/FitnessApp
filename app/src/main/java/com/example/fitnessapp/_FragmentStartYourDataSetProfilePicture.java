@@ -27,6 +27,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.camerakit.CameraKitView;
+import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.repo.UserRepo;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +47,10 @@ import static android.graphics.ImageDecoder.decodeBitmap;
  */
 public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
+    //Use Services
+    private IUser _user = null;
+    private User mUser = null;
+
     private CameraKitView cameraKitView;
 
 
@@ -56,6 +63,12 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
     public _FragmentStartYourDataSetProfilePicture() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        _user = new UserRepo(getActivity().getApplication());
     }
 
 

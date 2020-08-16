@@ -11,6 +11,9 @@ import com.example.fitnessapp.repo.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,13 +22,19 @@ import androidx.navigation.ui.NavigationUI;
 public class _ActivityCoach extends AppCompatActivity {
 
     //Use Services
-    private IUser _user = new UserRepo(this.getApplication());
-
+    private IUser _user = null;
     private User mUser = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+        //Start Service
+        _user = new UserRepo(getApplication());
 
         //get User by Id, from other Activity
         mUser = _user.getUserById(getIntent().getIntExtra("ARG_USER_ID", -1));
