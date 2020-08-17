@@ -12,10 +12,6 @@ import java.util.Date;
 @Entity
 public class User implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    private int Id;
-
     @NonNull
     private String email;
 
@@ -48,16 +44,10 @@ public class User implements Serializable {
         this.email = email;
         this.pwHash = pwHash;
         this.rememberMe = false;
-        this.Id = 0;
     }
 
 
 
-    public int getId(){return this.Id;}
-
-    public void setId(int Id){
-        this.Id = 0;
-    }
     public String getEmail(){return this.email;}
 
     public String getFirstName(){return this.firstName;}

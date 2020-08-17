@@ -113,7 +113,7 @@ public class UserRepo implements IUser {
         FitnessDatabase.databaseWriteExecutor.execute(() -> {
             mUserDAO.insertUser(newUser);
         });
-        //new insertAsyncTask(mUserDAO).execute(newUser);
+        //new insertAsyncTask(mUserDAO).execute(newUser);test
 
         //Get new User from DB
         LiveData<User> insertedUser = getUser(email);
