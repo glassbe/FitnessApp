@@ -86,13 +86,14 @@
                     tools:ignore="NotSibling"
                     />
 
-                <com.camerakit.CameraKitView
-                    android:id="@+id/camera"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/icn_feather_camera"
-                    />
+                <!-- Image Cropper fill the remaining available height -->
+                <com.theartofdev.edmodo.cropper.CropImageView
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/cropImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
             </LinearLayout>
         </ScrollView>
 

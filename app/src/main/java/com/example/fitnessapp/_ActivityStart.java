@@ -6,22 +6,26 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.repo.UserRepo;
-import com.example.fitnessapp.repo.UserRepoDummy;
+import com.example.fitnessapp.utils.ExpandedListView;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
     private IUser _user = null;
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
 
 
@@ -41,8 +45,7 @@ public class _ActivityStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Start Service
-//        _user = new UserRepo(getApplication());
-        _user = new UserRepoDummy();
+        _user = new UserRepo(getApplication());
 
 
 
@@ -80,7 +83,12 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-        mUser = _user.getLastUser().getValue();
+        try {
+            mUser = _user.getLastUser().getValue();
+        } catch (Exception e){
+            Log.getStackTraceString(e);
+        }
+
         if(mUser != null){
             //LOGIN
 

@@ -30,6 +30,16 @@ public class User implements Serializable {
 
     private Date lastLogIn;
 
+    //=======================
+    // Variables to Implement
+
+    private String profilePicPath;
+
+
+    //=======================
+    //=======================
+
+
 
     public User(String email, String pwHash){
         this.email = email;
@@ -94,5 +104,13 @@ public class User implements Serializable {
 
     public Date getLastLogIn(){
         return  lastLogIn;
+    }
+
+    public String getProfilePicPath() {
+        return profilePicPath;
+    }
+
+    public void setProfilePicPath(String profilePicPath) {
+        this.profilePicPath = profilePicPath;
     }
 }
