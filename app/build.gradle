@@ -153,7 +153,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 
-    //Room
+    //Roo
     def room_version = "2.2.5"
 
     implementation "androidx.room:room-runtime:$room_version"
