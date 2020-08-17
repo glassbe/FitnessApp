@@ -12,6 +12,7 @@ import java.util.Date;
 @Entity
 public class User implements Serializable {
 
+    @PrimaryKey
     @NonNull
     private String email;
 
