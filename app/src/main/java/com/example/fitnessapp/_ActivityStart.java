@@ -6,15 +6,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
-import com.example.fitnessapp.repo.UserRepoDummy;
+import com.example.fitnessapp.db.UserRepo;
+import com.example.fitnessapp.db.UserRepoDummy;
 
 
 public class _ActivityStart extends AppCompatActivity {
@@ -41,8 +40,8 @@ public class _ActivityStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Start Service
-//        _user = new UserRepo(getApplication());
-        _user = new UserRepoDummy();
+        _user = new UserRepo(getApplication());
+        //_user = new UserRepoDummy();
 
 
 
@@ -80,22 +79,22 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-        mUser = _user.getLastUser().getValue();
-        if(mUser != null){
+        mUser = _user.getLastUser();
+        if(mUser.getValue() != null){
             //LOGIN
 
             mStartFrame = "login";
 
-            if(mUser.getRememberMe()){
+            if(mUser.getValue().getRememberMe()){
                 //Login
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
-                intent.putExtra("ARG_USER_ID", mUser.getId());
+                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
                 startActivity(intent);
 
             } else {
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getId(), mUser.getEmail()), null);
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getValue().getEmail()), null);
             }
         }
         else {

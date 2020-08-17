@@ -1,25 +1,11 @@
 package com.example.fitnessapp;
 
-import android.annotation.TargetApi;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,16 +15,10 @@ import androidx.fragment.app.Fragment;
 import com.camerakit.CameraKitView;
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.Manifest.permission_group.CAMERA;
 import static android.graphics.ImageDecoder.decodeBitmap;
 
 

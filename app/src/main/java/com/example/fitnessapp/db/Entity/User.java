@@ -5,15 +5,16 @@ import android.view.animation.ScaleAnimation;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 public class User implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int Id;
-
+    @PrimaryKey
+    @NotNull
     private String email;
 
     private String pwHash;
@@ -35,15 +36,6 @@ public class User implements Serializable {
         this.email = email;
         this.pwHash = pwHash;
         this.rememberMe = false;
-        this.Id = 0;
-    }
-
-
-
-    public int getId(){return this.Id;}
-
-    public void setId(int Id){
-        this.Id = 0;
     }
     public String getEmail(){return this.email;}
 

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 
 
 /**

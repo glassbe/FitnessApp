@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -63,10 +63,9 @@ public class _FragmentStartLogin extends Fragment
      * @param email Parameter 1.
      * @return A new instance of fragment FragmentCoachOverview.
      */
-    public static _FragmentStartLogin newInstance(int user_id, String email) {
+    public static _FragmentStartLogin newInstance(String email) {
         _FragmentStartLogin fragment = new _FragmentStartLogin();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_USER_ID, user_id);
         args.putString(ARG_EMAIL, email);
         fragment.setArguments(args);
         return fragment;
@@ -85,8 +84,8 @@ public class _FragmentStartLogin extends Fragment
                              Bundle savedInstanceState) {
         // Get User
         if(getArguments() != null)
-            if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
-                mUser = _user.getUserById(mUser_Id).getValue();
+            if((mEmail = getArguments().getString(ARG_EMAIL, "")) != "")
+                mUser = _user.getUser(mEmail).getValue();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
@@ -189,7 +188,7 @@ public class _FragmentStartLogin extends Fragment
         if( mUser != null){
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                intent.putExtra("ARG_USER_ID", mUser.getId());
+                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent);
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);

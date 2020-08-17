@@ -14,7 +14,7 @@ import com.example.fitnessapp.db.Entity.User;
 @Dao
 public abstract class UserDAO_Dummy extends LiveData<User> {
 
-    public static final User user_dummy = new User()
+    //public static final User user_dummy = new User();
 
 
     public abstract void insertUser(User user);

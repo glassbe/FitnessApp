@@ -28,10 +28,6 @@ public interface UserDAO {
     @Query("SELECT * FROM User WHERE email = :mail LIMIT 1")
     public LiveData<User> getUserByMail(String mail);
 
-
-    @Query("SELECT * FROM User WHERE Id = :id LIMIT 1")
-    public LiveData<User> getUserById(int id);
-
     @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User) LIMIT 1")
     public LiveData<User> getLatestLogin();
 

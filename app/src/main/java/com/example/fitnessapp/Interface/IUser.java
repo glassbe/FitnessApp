@@ -21,9 +21,6 @@ public interface IUser {
     // Last edited user
     LiveData<User> getLastUser();
 
-    // Get User by Id, not by E-Mail
-    LiveData<User> getUserById(int userById);
-
     void Logout(User user);
 
     //Functions to Implement

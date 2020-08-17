@@ -1,7 +1,6 @@
-package com.example.fitnessapp.repo;
+package com.example.fitnessapp.db;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
@@ -16,7 +15,7 @@ public class UserRepoDummy implements IUser {
 
     @Override
     public LiveData<User> getUser(String email) {
-        return user_dummy;
+        return null;
     }
 
     @Override
@@ -46,11 +45,6 @@ public class UserRepoDummy implements IUser {
 
     @Override
     public LiveData<User> getLastUser() {
-        return null;
-    }
-
-    @Override
-    public LiveData<User> getUserById(int userById) {
         return null;
     }
 

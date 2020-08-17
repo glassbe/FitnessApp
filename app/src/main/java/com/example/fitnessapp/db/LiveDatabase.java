@@ -9,7 +9,7 @@ public class LiveDatabase extends ViewModel {
 
     private MutableLiveData<User> user = new MutableLiveData<>();
 
-    user.
+    //user.
 
 
     private MutableLiveData<String> email = new MutableLiveData<>();

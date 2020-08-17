@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {User.class, StatusUpdate.class}, version = 2)
 @TypeConverters({Converters.class})
-public abstract class FitnessDatabase extends RoomDatabase {
+abstract class FitnessDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
     public abstract StatusUpdateDAO statusUpdateDAO();
@@ -25,8 +25,7 @@ public abstract class FitnessDatabase extends RoomDatabase {
 
     private static volatile FitnessDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
 
 

@@ -16,14 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.regex.Pattern;
@@ -147,7 +145,7 @@ public class _FragmentStartRegister extends Fragment {
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         mFragmentManager.popBackStack();
-        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(-1, getEmail()), "login");
+        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(getEmail()), "login");
         if(_ActivityStart.getStartFrame() != "login")
             mFragmentTransaction.addToBackStack("login");
         mFragmentTransaction.commit();
