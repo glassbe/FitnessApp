@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.regex.Pattern;
@@ -67,7 +67,7 @@ public class _FragmentStartRegister extends Fragment {
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
     private boolean my_bool = true;
-    private ActivityStart_ViewModel mViewModel;
+    private SharedViewModel mViewModel;
 
     public _FragmentStartRegister() {
         // Required empty public constructor
@@ -88,10 +88,6 @@ public class _FragmentStartRegister extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public static _FragmentStartRegister newInstance() {
-        return new _FragmentStartRegister();
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,12 +107,11 @@ public class _FragmentStartRegister extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged());
-//        if(getArguments() != null)
-//            mEt_eMail.setText(getArguments().getString(ARG_EMAIL, " "));
+        if(getArguments() != null)
+            mEt_eMail.setText(getArguments().getString(ARG_EMAIL, " "));
 
         mEt_password = view.findViewById(R.id.et_password_text);
-        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged());
+        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged(v, hasFocus));
 
         mEt_password_repeat = view.findViewById(R.id.et_password_repeat_text);
 
@@ -126,36 +121,31 @@ public class _FragmentStartRegister extends Fragment {
         mBtn_register = view.findViewById(R.id.tv_register);
         mBtn_register.setOnClickListener(v -> btnRegisterClicked());
 
+
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
-        // Observes if there are changes on Password and Email
-        mViewModel.getPassword().observe(getActivity(), password -> mEt_password.setText(password));
-        mViewModel.getEmail().observe(getActivity(), email -> mEt_eMail.setText(email));
+        mViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        mViewModel.getText().observe(getActivity(), v ->  mEt_password.setText(v));
+    }
+
+    private void passwordChanged(View v, boolean hasFocus) {
+        mViewModel.setText(mEt_password.getText().toString());
     }
 
 
     // =================
     // Private Functions
 
-    private void emailChanged() {
-        mViewModel.setEmail(mEt_eMail.getText().toString());
-    }
-
-    private void passwordChanged() {
-        mViewModel.setPassword(mEt_password.getText().toString());
-    }
-
-
     private void btnLoginClicked() {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         mFragmentManager.popBackStack();
-        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(),"login");
+        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(getEmail()), "login");
         if(_ActivityStart.getStartFrame() != "login")
             mFragmentTransaction.addToBackStack("login");
         mFragmentTransaction.commit();
@@ -170,10 +160,6 @@ public class _FragmentStartRegister extends Fragment {
 
                         //Create New User
                         _user.Register(getEmail(), getPassword(), Boolean.FALSE);
-
-                        // Update Data in ViewModel
-                        passwordChanged();
-                        emailChanged();
 
                         FragmentManager mFragmentManager = getFragmentManager();
                         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();

@@ -24,15 +24,8 @@
 
 package com.example.fitnessapp.intro;
 
-import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.FragmentTransaction;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,15 +34,9 @@ import android.widget.RadioButton;
 
 import com.example.fitnessapp.DatePickerDialogFragment;
 import com.example.fitnessapp.Interface.IUser;
-import com.example.fitnessapp.R;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
-import com.example.fitnessapp.utils.DateConverter;
-import com.example.fitnessapp.utils.Gender;
+import com.example.fitnessapp.db.UserRepo;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
-import com.onurkaganaldemir.ktoastlib.KToast;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class NewProfileFragment extends SlideFragment {
 

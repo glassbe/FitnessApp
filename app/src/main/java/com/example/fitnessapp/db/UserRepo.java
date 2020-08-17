@@ -1,4 +1,4 @@
-package com.example.fitnessapp.repo;
+package com.example.fitnessapp.db;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -33,10 +33,6 @@ public class UserRepo implements IUser {
         return mUserDAO.getLatestLogin();
     }
 
-    @Override
-    public LiveData<User> getUserById(int userById) {
-        return mUserDAO.getUserById(userById);
-    }
 
     @Override
     public LiveData<User> getUser(String email) {
@@ -81,7 +77,7 @@ public class UserRepo implements IUser {
 
             new updateAsyncTask(mUserDAO).execute(updateUser);
 
-            mUser  = mUserDAO.getUserById(updateUser.getId());
+            mUser  = mUserDAO.getUserByMail(updateUser.getEmail());
         }
 
         return mUser;
@@ -102,7 +98,8 @@ public class UserRepo implements IUser {
     public LiveData<User> Register(String email, String password, Boolean rememberMe) {
 
         //Check if User exists
-        if(getUser(email) != null){
+        User existingUser = getUser(email).getValue();
+        if(existingUser != null){
             return null;
         }
 
@@ -113,10 +110,17 @@ public class UserRepo implements IUser {
         User newUser = new User(email, pwHash);
         newUser.setRememberMe(rememberMe);
         //Insert User in DB async
-        new insertAsyncTask(mUserDAO).execute(newUser);
+        FitnessDatabase.databaseWriteExecutor.execute(() -> {
+            mUserDAO.insertUser(newUser);
+        });
+        //new insertAsyncTask(mUserDAO).execute(newUser);
 
         //Get new User from DB
-        return getUser(email);
+        LiveData<User> insertedUser = getUser(email);
+
+        User user = insertedUser.getValue();
+
+        return insertedUser;
 
     }
 
@@ -128,7 +132,7 @@ public class UserRepo implements IUser {
 
 
         //Get User from DB
-        User userFromDB = mUserDAO.getUserById(user.getId()).getValue();
+        User userFromDB = mUserDAO.getUserByMail(user.getEmail()).getValue();
 
         //Set firstName if input is valid
         if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
@@ -153,7 +157,7 @@ public class UserRepo implements IUser {
 
 
         //Get current user with changes from DB
-        return mUserDAO.getUserById(userFromDB.getId());
+        return mUserDAO.getUserByMail(userFromDB.getEmail());
 
     }
 

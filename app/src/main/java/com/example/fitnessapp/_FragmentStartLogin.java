@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
+import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -33,7 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class _FragmentStartLogin extends Fragment
 {
     //Use Services
-    private IUser _IUser = null;
+    private IUser _user = null;
     private User mUser = null;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -51,7 +51,7 @@ public class _FragmentStartLogin extends Fragment
     private CheckBox mCb_passwordReminder;
     private Button mBtn_login;
     private TextView mTv_register;
-    private ActivityStart_ViewModel mViewModel;
+    private SharedViewModel mViewModel;
 
 
     public _FragmentStartLogin() {
@@ -63,25 +63,18 @@ public class _FragmentStartLogin extends Fragment
      * @param email Parameter 1.
      * @return A new instance of fragment FragmentCoachOverview.
      */
-    public static _FragmentStartLogin newInstance(int user_id, String email) {
+    public static _FragmentStartLogin newInstance(String email) {
         _FragmentStartLogin fragment = new _FragmentStartLogin();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_USER_ID, user_id);
         args.putString(ARG_EMAIL, email);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static _FragmentStartLogin newInstance() {
-        return new _FragmentStartLogin();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        _IUser = new UserRepo(getActivity().getApplication());
+        _user = new UserRepo(getActivity().getApplication());
 
     }
 
@@ -91,17 +84,18 @@ public class _FragmentStartLogin extends Fragment
                              Bundle savedInstanceState) {
         // Get User
         if(getArguments() != null)
-            if((mUser_Id = getArguments().getInt(ARG_USER_ID, -1)) != -1)
-                mUser = _IUser.getUserById(mUser_Id).getValue();
+            if((mEmail = getArguments().getString(ARG_EMAIL, "")) != "")
+                mUser = _user.getUser(mEmail).getValue();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
 
+//        mIv_loginLogo = view.findViewById(R.id.iv_login_logo);
 
         // Set received email
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged(v,hasFocus));
-
+        if((mEmail = getArguments().getString(ARG_EMAIL, "")) != null)
+            mEt_eMail.setText(mEmail);
 
         // Set password Adapter
         mEt_password = view.findViewById(R.id.et_password_text);
@@ -131,29 +125,40 @@ public class _FragmentStartLogin extends Fragment
         return view;
     }
 
+    private void passwordChanged(View v, boolean hasFocus) {
+        mViewModel.setText(mEt_password.getText().toString());
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
+        mViewModel.getText().observe(getActivity(), new Observer<CharSequence>() {
+            @Override
+            public void onChanged(CharSequence charSequence) {
+                mEt_password.setText(charSequence);
+            }
+        });
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
-
-        // Observes if there are changes on Password and Email
-        mViewModel.getPassword().observe(getActivity(), password -> mEt_password.setText(password));
-        mViewModel.getEmail().observe(getActivity(), email -> mEt_eMail.setText(email));
+        mViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        mViewModel.getText().observe(getActivity(), v ->  mEt_password.setText(v));
     }
 
+
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//    }
 
     //==================
     //private Functions
-
-    private void emailChanged(View v, boolean hasFocus) {
-        mViewModel.setEmail(mEt_eMail.getText().toString());
-    }
-
-    private void passwordChanged(View v, boolean hasFocus) {
-        mViewModel.setPassword(mEt_password.getText().toString());
-    }
 
     private void btnRegisterClicked() {
 
@@ -165,7 +170,7 @@ public class _FragmentStartLogin extends Fragment
 
         // Create new Frame
         mFragmentTransaction.replace
-                (R.id.start_frame, _FragmentStartRegister.newInstance(), "register");
+                (R.id.start_frame, _FragmentStartRegister.newInstance(getEmail()), "register");
 
         // Don't add to StackBack, when it is start Frame
         if(_ActivityStart.getStartFrame() != "register")
@@ -178,14 +183,12 @@ public class _FragmentStartLogin extends Fragment
     private void btnLoginClicked() {
 
         // Load User, if fails mUser = null
-        LiveData<User> m;
-        if((m = _IUser.Login(getEmail(), getPassword()))!= null)
-            mUser = m.getValue();
+        mUser = _user.Login(getEmail(), getPassword()).getValue();
 
         if( mUser != null){
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                intent.putExtra("ARG_USER_ID", mUser.getId());
+                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent);
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);

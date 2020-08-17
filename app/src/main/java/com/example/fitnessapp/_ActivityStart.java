@@ -7,25 +7,20 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.repo.UserRepo;
-import com.example.fitnessapp.utils.ExpandedListView;
-import com.theartofdev.edmodo.cropper.CropImage;
-
-import java.util.concurrent.ExecutionException;
+import com.example.fitnessapp.db.UserRepo;
+import com.example.fitnessapp.db.UserRepoDummy;
 
 
 public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
     private IUser _user = null;
-    private User mUser = null;
+    private LiveData<User> mUser = null;
 
 
 
@@ -46,6 +41,7 @@ public class _ActivityStart extends AppCompatActivity {
 
         //Start Service
         _user = new UserRepo(getApplication());
+        //_user = new UserRepoDummy();
 
 
 
@@ -83,27 +79,22 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-        try {
-            mUser = _user.getLastUser().getValue();
-        } catch (Exception e){
-            Log.getStackTraceString(e);
-        }
-
-        if(mUser != null){
+        mUser = _user.getLastUser();
+        if(mUser.getValue() != null){
             //LOGIN
 
             mStartFrame = "login";
 
-            if(mUser.getRememberMe()){
+            if(mUser.getValue().getRememberMe()){
                 //Login
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
-                intent.putExtra("ARG_USER_ID", mUser.getId());
+                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
                 startActivity(intent);
 
             } else {
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getId(), mUser.getEmail()), null);
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getValue().getEmail()), null);
             }
         }
         else {
