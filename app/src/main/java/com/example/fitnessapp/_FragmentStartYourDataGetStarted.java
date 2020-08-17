@@ -20,7 +20,7 @@ import android.widget.ImageView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class _FragmentStartYourDataGetStarted extends Fragment implements View.OnClickListener{
+public class _FragmentStartYourDataGetStarted extends Fragment{
 
     private Button mBtn_getStarted;
     private ImageView mImg_yourData;
@@ -37,13 +37,9 @@ public class _FragmentStartYourDataGetStarted extends Fragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout._fragment_start_your_data_get_started, container, false);
-    }
+        View view =  inflater.inflate(R.layout._fragment_start_your_data_get_started, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+        //Create Animations
         mAnim_from_bottom = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_from_bottom);
         mAnim_alpha_in = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_alpha_in);
 
@@ -52,16 +48,11 @@ public class _FragmentStartYourDataGetStarted extends Fragment implements View.O
 
         mBtn_getStarted = view.findViewById(R.id.btn_getStarted);
         mBtn_getStarted.setAnimation(mAnim_alpha_in);
-        mBtn_getStarted.setOnClickListener(this);
+        mBtn_getStarted.setOnClickListener(v -> btn_getStartedClicked());
+
+        return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v == mBtn_getStarted){
-            btn_getStartedClicked();
-        }
-
-    }
 
     private void btn_getStartedClicked() {
         FragmentManager mFragmentManager = getFragmentManager();
@@ -79,4 +70,6 @@ public class _FragmentStartYourDataGetStarted extends Fragment implements View.O
 
         mFragmentTransaction.commit();
     }
+
+
 }

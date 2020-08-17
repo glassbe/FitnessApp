@@ -58,8 +58,6 @@ public class _FragmentStartYourDataSetData extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_your_data_set_data, container, false);
 
-
-
         mFirstName = view.findViewById(R.id.et_input_firstname);
         mSurName = view.findViewById(R.id.et_input_surname);
         mBirthdate = view.findViewById(R.id.et_input_birthdate);

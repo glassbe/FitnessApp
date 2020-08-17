@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
-import com.example.fitnessapp.db.UserRepoDummy;
 
 
 public class _ActivityStart extends AppCompatActivity {
@@ -94,7 +93,7 @@ public class _ActivityStart extends AppCompatActivity {
                 startActivity(intent);
 
             } else {
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(mUser.getValue().getEmail()), null);
+                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), null);
             }
         }
         else {
@@ -111,6 +110,7 @@ public class _ActivityStart extends AppCompatActivity {
     public static String getStartFrame(){
         return mStartFrame;
     }
+
 
 
     //=====================

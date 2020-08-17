@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -37,7 +39,8 @@ public class _FragmentStartRegister extends Fragment {
     //Use Services
     private IUser _user = null;
 
-    private User mUser = null;
+    private LiveData<User> mUser = null;
+
 
     public final String backStateName = this.getClass().getName();
     private static final Pattern PASSWORD_PATTERN =
@@ -67,7 +70,7 @@ public class _FragmentStartRegister extends Fragment {
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
     private boolean my_bool = true;
-    private SharedViewModel mViewModel;
+    private ActivityStart_ViewModel mViewModel;
 
     public _FragmentStartRegister() {
         // Required empty public constructor
@@ -89,6 +92,10 @@ public class _FragmentStartRegister extends Fragment {
         return fragment;
     }
 
+    public static _FragmentStartRegister newInstance() {
+        return new _FragmentStartRegister();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,18 +113,21 @@ public class _FragmentStartRegister extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        if(getArguments() != null)
-            mEt_eMail.setText(getArguments().getString(ARG_EMAIL, " "));
+        mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged());
 
+        // Set password Adapter
         mEt_password = view.findViewById(R.id.et_password_text);
-        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged(v, hasFocus));
+        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged());
 
         mEt_password_repeat = view.findViewById(R.id.et_password_repeat_text);
 
+        // Set Login Adapter
         mTv_login = view.findViewById(R.id.tv_login);
         mTv_login.setOnClickListener(v -> btnLoginClicked());
 
+        // Set Register Adapter
         mBtn_register = view.findViewById(R.id.tv_register);
         mBtn_register.setOnClickListener(v -> btnRegisterClicked());
 
@@ -128,24 +138,31 @@ public class _FragmentStartRegister extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-        mViewModel.getText().observe(getActivity(), v ->  mEt_password.setText(v));
+        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
+
+        mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
+        mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
     }
 
-    private void passwordChanged(View v, boolean hasFocus) {
-        mViewModel.setText(mEt_password.getText().toString());
-    }
 
 
     // =================
     // Private Functions
+
+    private void emailChanged() {
+        mViewModel.setEmail(mEt_eMail.getText().toString());
+    }
+
+    private void passwordChanged() {
+        mViewModel.setPassword(mEt_password.getText().toString());
+    }
 
     private void btnLoginClicked() {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         mFragmentManager.popBackStack();
-        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(getEmail()), "login");
+        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login");
         if(_ActivityStart.getStartFrame() != "login")
             mFragmentTransaction.addToBackStack("login");
         mFragmentTransaction.commit();
@@ -159,22 +176,31 @@ public class _FragmentStartRegister extends Fragment {
                     if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
 
                         //Create New User
-                        _user.Register(getEmail(), getPassword(), Boolean.FALSE);
+                        if(_user.Register(getEmail(), getPassword(), Boolean.FALSE) != null){
+                            // Store Values in ViewModel
+                            emailChanged();
+                            passwordChanged();
 
-                        FragmentManager mFragmentManager = getFragmentManager();
-                        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                            FragmentManager mFragmentManager = getFragmentManager();
+                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-                        Fragment f = null;
-                        f = mFragmentManager.findFragmentByTag("startMyData");
-                        if(f == null){
-                            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
-                            mFragmentTransaction.addToBackStack("startMyData");
-                        } else {
-                            mFragmentManager.popBackStack();
-                            mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            Fragment f = null;
+                            f = mFragmentManager.findFragmentByTag("startMyData");
+                            if(f == null){
+                                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
+                                mFragmentTransaction.addToBackStack("startMyData");
+                            } else {
+                                mFragmentManager.popBackStack();
+                                mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            }
+
+                            mFragmentTransaction.commit();
+                        }
+                        else {
+                            myToast("E-Mail already used");
+
                         }
 
-                        mFragmentTransaction.commit();
                     }
                     else{
                         myToast("Passwords doesn't match");
@@ -193,7 +219,6 @@ public class _FragmentStartRegister extends Fragment {
         }
 
     }
-
 
 
     private boolean validateEmail(String emailInput){
@@ -218,7 +243,7 @@ public class _FragmentStartRegister extends Fragment {
             mEt_password.setError("Field can't be empty");
             return false;
         } else if(!PASSWORD_PATTERN.matcher(passwordInput).matches()){
-            mEt_password.setError("Password needs to include: \na-z, A-Z, 1-9, !@#$%=");
+            mEt_password.setError("Password needs to include: \na-z, A-Z, 1-9, !@#$%= \nAt least 8 Character");
             return false;
         } else {
             mEt_password.setError(null);
@@ -229,7 +254,6 @@ public class _FragmentStartRegister extends Fragment {
     private boolean passwordMatches(String password, String password_repeat) {
         return password.equals(password_repeat);
     }
-
 
     private void myToast(String s) {
         Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
