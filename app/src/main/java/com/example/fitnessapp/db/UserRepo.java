@@ -2,6 +2,7 @@ package com.example.fitnessapp.db;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -11,7 +12,9 @@ import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.FitnessDatabase;
 import com.example.fitnessapp.helper.Security;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class UserRepo implements IUser {
 
@@ -23,64 +26,55 @@ public class UserRepo implements IUser {
 
     @Override
     public boolean UserExists() {
-        List<User> users = mUserDAO.getAllUser().getValue();
+        List<User> users = mUserDAO.getAllUser();
 
         return !users.isEmpty();
     }
 
     @Override
-    public LiveData<User> getLastUser() {
+    public LiveData<User> getLastUserAsync() {
+        return mUserDAO.getLatestLoginAsync();
+    }
+
+    @Override
+    public User getLastUser() {
         return mUserDAO.getLatestLogin();
     }
 
+    @Override
+    public LiveData<User> getUserAsync(String email) {
+        return mUserDAO.getUserByMailAsync(email);
+    }
 
     @Override
-    public LiveData<User> getUser(String email) {
+    public User getUser(String email) {
         return mUserDAO.getUserByMail(email);
     }
 
     @Override
-    public LiveData<User> Login(String email, String password) {
-        LiveData<User> requestedUser = mUserDAO.getUserByMail(email);
+    public Boolean Login(String email, String password, Boolean rememberMe) {
 
-        if(requestedUser.getValue() == null){
+        User requestedUser = mUserDAO.getUserByMail(email);
+
+        if(requestedUser == null){
             //Email not found
-            return null;
+            return Boolean.FALSE;
         }
 
         //Check the entered Password
-        if(Security.encrypt(password).equals(requestedUser.getValue().getPwHash())){
+        if(Security.encrypt(password).equals(requestedUser.getPwHash())){
             //Password is correct
 
             //Set New Timestamp
-            User updateUser = requestedUser.getValue();
-            updateUser.setLastLogIn();
+            requestedUser.setLastLogIn(new Date(System.currentTimeMillis()));
+            requestedUser.setRememberMe(rememberMe);
 
-            new updateAsyncTask(mUserDAO).execute(updateUser);
-            return requestedUser;
+            new updateAsyncTask(mUserDAO).execute(requestedUser);
+
+            return Boolean.TRUE;
         }
         //Password is false
-        return null;
-    }
-
-    @Override
-    public LiveData<User> Login(String email, String password, Boolean rememberMe) {
-
-        LiveData<User> mUser = Login(email, password);
-
-        if(mUser.getValue() != null){
-
-            User updateUser = mUser.getValue();
-
-            //Set the Remember Me
-            updateUser.setRememberMe(rememberMe);
-
-            new updateAsyncTask(mUserDAO).execute(updateUser);
-
-            mUser  = mUserDAO.getUserByMail(updateUser.getEmail());
-        }
-
-        return mUser;
+        return Boolean.FALSE;
     }
 
     @Override
@@ -95,13 +89,16 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public LiveData<User> Register(String email, String password, Boolean rememberMe) {
+    public Boolean Register(String email, String password, Boolean rememberMe) {
 
         //Check if User exists
-        User existingUser = getUser(email).getValue();
+        User existingUser = mUserDAO.getUserByMail(email);
+
         if(existingUser != null){
-            return null;
+            return false;
         }
+
+
 
         //Hash password
         String pwHash = Security.encrypt(password);
@@ -110,21 +107,23 @@ public class UserRepo implements IUser {
         User newUser = new User(email, pwHash);
         newUser.setRememberMe(rememberMe);
         //Insert User in DB async
-        FitnessDatabase.databaseWriteExecutor.execute(() -> {
-            mUserDAO.insertUser(newUser);
-        });
-        //new insertAsyncTask(mUserDAO).execute(newUser);test
+        AsyncTask<User, Void, Void> insert = new insertAsyncTask(mUserDAO).execute(newUser);
 
-        //Get new User from DB
-        LiveData<User> insertedUser = getUser(email);
+        try{
+            insert.get(1000, TimeUnit.MILLISECONDS);
 
-        User user = insertedUser.getValue();
+            return Boolean.TRUE;
+        }
+        catch (Exception e){
+            Log.e("Data Access",e.getMessage());
 
-        return insertedUser;
+            return Boolean.FALSE;
+        }
+
 
     }
 
-    public LiveData<User> UpdateInfo(User user){
+    public Boolean UpdateInfo(User user){
         /*
         * Only change non-critical values
         * Email, Id and pwHash remain unchanged.
@@ -132,7 +131,11 @@ public class UserRepo implements IUser {
 
 
         //Get User from DB
-        User userFromDB = mUserDAO.getUserByMail(user.getEmail()).getValue();
+        User userFromDB = mUserDAO.getUserByMail(user.getEmail());
+
+        if(userFromDB == null){
+            return Boolean.FALSE;
+        }
 
         //Set firstName if input is valid
         if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
@@ -155,9 +158,9 @@ public class UserRepo implements IUser {
         //Update User on DB
         new updateAsyncTask(mUserDAO).execute(userFromDB);
 
+        return Boolean.TRUE;
 
-        //Get current user with changes from DB
-        return mUserDAO.getUserByMail(userFromDB.getEmail());
+
 
     }
 

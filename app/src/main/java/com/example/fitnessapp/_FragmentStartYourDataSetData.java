@@ -11,8 +11,10 @@ import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
 
@@ -23,7 +25,7 @@ import com.example.fitnessapp.db.UserRepo;
 public class _FragmentStartYourDataSetData extends Fragment {
 
     //Use Services
-    private IUser _user = null;
+    private UserViewModel _user;
 
     private User mUser = null;
 
@@ -48,7 +50,7 @@ public class _FragmentStartYourDataSetData extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _user = new UserRepo(getActivity().getApplication());
+        _user = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
 

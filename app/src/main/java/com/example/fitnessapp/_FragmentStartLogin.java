@@ -24,9 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.List;
 
 
 /**
@@ -35,7 +38,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class _FragmentStartLogin extends Fragment
 {
     //Use Services
-    private IUser _user = null;
+    private UserViewModel _user;
     private LiveData<User> mUser = null;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -81,7 +84,7 @@ public class _FragmentStartLogin extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _user = new UserRepo(getActivity().getApplication());
+        _user = new ViewModelProvider(this).get(UserViewModel.class);
 
     }
 
@@ -91,7 +94,7 @@ public class _FragmentStartLogin extends Fragment
                              Bundle savedInstanceState) {
         // Get User
 //        if(getEmail() != null)
-        mUser = _user.getUser(mEmail);
+        mUser = _user.mUserRepo.getUserAsync(mEmail);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
@@ -183,16 +186,18 @@ public class _FragmentStartLogin extends Fragment
     private void btnLoginClicked() {
 
         // Load User, if fails mUser = null
+        Boolean success = false;
+        String mail = getEmail();
         try {
-            mUser = _user.Login(getEmail(), getPassword());
+            success =  _user.mUserRepo.Login(mail, getPassword(), false);
         } catch (Exception e){
             Log.getStackTraceString(e);
         }
 
-        if( mUser != null){
+        if( success){
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
+                intent.putExtra("ARG_USER_MAIL", mail);
                 startActivity(intent);
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);

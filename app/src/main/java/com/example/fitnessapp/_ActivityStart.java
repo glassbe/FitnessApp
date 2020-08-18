@@ -5,21 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
+
+import java.util.List;
 
 
 public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
-    private IUser _user = null;
-    private LiveData<User> mUser = null;
+    private UserViewModel _user;
+    private User mUser = null;
 
 
 
@@ -39,7 +43,7 @@ public class _ActivityStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Start Service
-        _user = new UserRepo(getApplication());
+        _user = new ViewModelProvider(this).get(UserViewModel.class);
         //_user = new UserRepoDummy();
 
 
@@ -78,18 +82,18 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-        mUser = _user.getLastUser();
-        if(mUser.getValue() != null){
+        mUser = _user.mUserRepo.getLastUser();
+        if(mUser != null){
             //LOGIN
 
             mStartFrame = "login";
 
-            if(mUser.getValue().getRememberMe()){
+            if(mUser.getRememberMe()){
                 //Login
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
-                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
+                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent);
 
             } else {

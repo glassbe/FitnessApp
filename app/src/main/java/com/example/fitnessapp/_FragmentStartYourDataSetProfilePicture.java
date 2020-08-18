@@ -25,6 +25,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.ImageUtil;
 import com.example.fitnessapp.utils.RealPathUtil;
@@ -38,6 +39,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 import com.example.fitnessapp.db.UserRepo;
@@ -48,8 +50,8 @@ import com.example.fitnessapp.db.UserRepo;
 public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
     //Use Services
-    private IUser _IUser = null;
-    private LiveData<User> mUser = null;
+    private UserViewModel _IUser;
+    private User mUser = null;
 
     private ActivityStart_ViewModel mViewModel = null;
 
@@ -68,7 +70,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _IUser = new UserRepo(getActivity().getApplication());
+        _IUser = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
 
@@ -80,7 +82,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
         //Get User by Mail from ViewModel
         mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
-        mUser = _IUser.getUser(mViewModel.getEmail().getValue());
+        mUser = _IUser.mUserRepo.getUser(mViewModel.getEmail().getValue());
 
         //Set Button Take Picture Adapter
         mBtn_take_picture = view.findViewById(R.id.btn_take_picture);
@@ -101,7 +103,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        _IUser.UpdateInfo(mUser.getValue());
+        _IUser.mUserRepo.UpdateInfo(mUser);
     }
 
 
@@ -289,15 +291,15 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         switch (view.getId()) {
             case R.id.photo_round_profile:
 //                if (mUser != null) {
-                    mUser.getValue().setProfilePicPath(mCurrentPhotoPath);
+                    mUser.setProfilePicPath(mCurrentPhotoPath);
                     profileToUpdate = true;
 //                }
                 break;
         }
 
         if (profileToUpdate) {
-            _IUser.UpdateInfo(mUser.getValue());
-            KToast.infoToast(getActivity(), mUser.getValue().getFirstName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            _IUser.mUserRepo.UpdateInfo(mUser);
+            KToast.infoToast(getActivity(), mUser.getFirstName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }
 

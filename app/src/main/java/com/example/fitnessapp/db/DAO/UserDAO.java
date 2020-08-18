@@ -25,13 +25,22 @@ public interface UserDAO {
     @Delete
     public void deleteUser(User user);
 
-    @Query("SELECT * FROM User WHERE email = :mail LIMIT 1")
-    public LiveData<User> getUserByMail(String mail);
+    @Query("SELECT * FROM User WHERE email LIKE :mail LIMIT 1")
+    public LiveData<User> getUserByMailAsync(String mail);
 
-    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User) LIMIT 1")
-    public LiveData<User> getLatestLogin();
+    @Query("SELECT * FROM User WHERE email LIKE :mail LIMIT 1")
+    public User getUserByMail(String mail);
+
+    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User)")
+    public LiveData<User> getLatestLoginAsync();
+
+    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User)")
+    public User getLatestLogin();
 
     @Query("SELECT * FROM User")
-    public LiveData<List<User>> getAllUser();
+    public LiveData<List<User>> getAllUserAsync();
+
+    @Query("SELECT * FROM User")
+    public List<User> getAllUser();
 
 }

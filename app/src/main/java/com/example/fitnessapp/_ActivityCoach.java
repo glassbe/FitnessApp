@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 public class _ActivityCoach extends AppCompatActivity {
 
     //Use Services
-    private IUser _user = null;
+    private UserViewModel _user;
     private User mUser = null;
 
 
@@ -26,10 +28,10 @@ public class _ActivityCoach extends AppCompatActivity {
 
 
         //Start Service
-        _user = new UserRepo(getApplication());
+        _user = new ViewModelProvider(this).get(UserViewModel.class);
 
         //get User by Id, from other Activity
-        mUser = _user.getUser(getIntent().getStringExtra("ARG_USER_MAIL")).getValue();
+        mUser = _user.mUserRepo.getUser(getIntent().getStringExtra("ARG_USER_MAIL"));
 
 
         setContentView(R.layout._activity_coach);

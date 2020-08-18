@@ -45,6 +45,7 @@ public class User implements Serializable {
         this.email = email;
         this.pwHash = pwHash;
         this.rememberMe = false;
+        this.lastLogIn = new Date(System.currentTimeMillis());
     }
 
 

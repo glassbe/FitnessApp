@@ -1,3 +1,4 @@
+/*
 package com.example.fitnessapp.db;
 
 import android.app.Application;
@@ -124,12 +125,13 @@ public class UserRepo_V1 implements IUser {
     }
 
     public LiveData<User> UpdateInfo(User user){
+*/
         /*
         * Only change non-critical values
         * Email, Id and pwHash remain unchanged.
         */
 
-
+/*
         //Get User from DB
         User userFromDB = mUserDAO.getUserByMail(user.getEmail()).getValue();
 
@@ -192,3 +194,4 @@ public class UserRepo_V1 implements IUser {
 
 
 }
+*/

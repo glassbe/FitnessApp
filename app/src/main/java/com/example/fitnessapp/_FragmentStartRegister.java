@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import com.example.fitnessapp.Interface.IUser;
+import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,7 +38,7 @@ import java.util.regex.Pattern;
 public class _FragmentStartRegister extends Fragment {
 
     //Use Services
-    private IUser _user = null;
+    private UserViewModel _user;
 
     private LiveData<User> mUser = null;
 
@@ -99,7 +100,7 @@ public class _FragmentStartRegister extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _user = new UserRepo(getActivity().getApplication());
+        _user = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
     @Override
@@ -171,12 +172,12 @@ public class _FragmentStartRegister extends Fragment {
 
     private void btnRegisterClicked() {
         if (validateEmail(getEmail()) || my_bool){
-            if(_user.getUser(getEmail()) != null || my_bool){
+            if(_user.mUserRepo.getUser(getEmail()) != null || my_bool){
                 if(validatePassword(getPassword()) || my_bool){
                     if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
 
                         //Create New User
-                        if(_user.Register(getEmail(), getPassword(), Boolean.FALSE) != null){
+                        if(_user.mUserRepo.Register(getEmail(), getPassword(), Boolean.FALSE) != null){
                             // Store Values in ViewModel
                             emailChanged();
                             passwordChanged();
