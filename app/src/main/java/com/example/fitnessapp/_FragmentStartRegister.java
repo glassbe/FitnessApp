@@ -39,7 +39,7 @@ public class _FragmentStartRegister extends Fragment {
     //Use Services
     private IUser _user = null;
 
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
 
     public final String backStateName = this.getClass().getName();
@@ -69,7 +69,7 @@ public class _FragmentStartRegister extends Fragment {
     private TextView mTv_login;
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
-    private boolean my_bool = true;
+    private boolean my_bool = false;
     private ActivityStart_ViewModel mViewModel;
 
     public _FragmentStartRegister() {
@@ -142,6 +142,7 @@ public class _FragmentStartRegister extends Fragment {
 
         mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
         mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
+
     }
 
 
@@ -171,9 +172,10 @@ public class _FragmentStartRegister extends Fragment {
 
     private void btnRegisterClicked() {
         if (validateEmail(getEmail()) || my_bool){
-            if(_user.getUser(getEmail()) != null || my_bool){
-                if(validatePassword(getPassword()) || my_bool){
-                    if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
+            if(validatePassword(getPassword()) || my_bool){
+                if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
+//                    if(_user.getUser(getEmail()) != null || my_bool)
+                    {
 
                         //Create New User
                         if(_user.Register(getEmail(), getPassword(), Boolean.FALSE) != null){
@@ -202,16 +204,16 @@ public class _FragmentStartRegister extends Fragment {
                         }
 
                     }
-                    else{
-                        myToast("Passwords doesn't match");
-                    }
+//                    else{
+//                        myToast("E-Mail already exists in Database");
+//                    }
                 }
                 else{
-                    myToast("Password is invalid");
+                    myToast("Passwords doesn't match");
                 }
             }
             else{
-                myToast("E-Mail already exists in Database");
+                myToast("Password is invalid");
             }
         }
         else{

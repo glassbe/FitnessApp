@@ -19,8 +19,7 @@ public class _ActivityStart extends AppCompatActivity {
 
     //Use Services
     private IUser _user = null;
-    private LiveData<User> mUser = null;
-
+    private User mUser = null;
 
 
     private static String mStartFrame;
@@ -79,17 +78,17 @@ public class _ActivityStart extends AppCompatActivity {
 
     private void loginOrRegister() {
         mUser = _user.getLastUser();
-        if(mUser.getValue() != null){
+        if(mUser != null){
             //LOGIN
 
             mStartFrame = "login";
 
-            if(mUser.getValue().getRememberMe()){
+            if(mUser.getRememberMe()){
                 //Login
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
-                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
+                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent);
 
             } else {

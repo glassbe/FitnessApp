@@ -8,18 +8,18 @@ public interface IUser {
 
     // Functions Implemented
 
-    LiveData<User> getUser(String email);
+    User getUser(String email);
 
-    LiveData<User> Login(String email, String password);
+    User Login(String email, String password);
 
-    LiveData<User> Login(String email, String password, Boolean rememberMe);
+    User Login(String email, String password, Boolean rememberMe);
 
-    LiveData<User> Register(String email, String password, Boolean rememberMe);
+    User Register(String email, String password, Boolean rememberMe);
 
-    LiveData<User> UpdateInfo(User user);
+    User UpdateInfo(User user);
 
     // Last edited user
-    LiveData<User> getLastUser();
+    User getLastUser();
 
     void Logout(User user);
 

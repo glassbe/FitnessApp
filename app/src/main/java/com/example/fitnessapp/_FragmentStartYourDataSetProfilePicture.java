@@ -49,7 +49,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
     //Use Services
     private IUser _IUser = null;
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
     private ActivityStart_ViewModel mViewModel = null;
 
@@ -101,7 +101,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        _IUser.UpdateInfo(mUser.getValue());
+        _IUser.UpdateInfo(mUser);
     }
 
 
@@ -289,15 +289,15 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         switch (view.getId()) {
             case R.id.photo_round_profile:
 //                if (mUser != null) {
-                    mUser.getValue().setProfilePicPath(mCurrentPhotoPath);
+                    mUser.setProfilePicPath(mCurrentPhotoPath);
                     profileToUpdate = true;
 //                }
                 break;
         }
 
         if (profileToUpdate) {
-            _IUser.UpdateInfo(mUser.getValue());
-            KToast.infoToast(getActivity(), mUser.getValue().getFirstName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            _IUser.UpdateInfo(mUser);
+            KToast.infoToast(getActivity(), mUser.getFirstName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }
 

@@ -12,10 +12,16 @@ import java.util.Date;
 @Entity
 public class User implements Serializable {
 
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    public int id = 0;
+
+//    @PrimaryKey
     @NonNull
     private String email;
 
+    @NonNull
     private String pwHash;
 
     private String firstName;

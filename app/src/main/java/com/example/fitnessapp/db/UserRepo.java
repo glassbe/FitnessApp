@@ -3,57 +3,69 @@ package com.example.fitnessapp.db;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.db.FitnessDatabase;
 import com.example.fitnessapp.helper.Security;
 
 import java.util.List;
 
-public class UserRepo implements IUser {
+public class UserRepo extends AndroidViewModel implements IUser {
+
+    private LiveData<List<User>> mSelectedUser;
 
     private UserDAO mUserDAO;
-    public UserRepo(Application application){
+
+
+    public UserRepo(Application application) {
+        super(application);
         FitnessDatabase db = FitnessDatabase.getDatabase(application);
         mUserDAO = db.userDAO();
+
     }
 
     @Override
     public boolean UserExists() {
-        List<User> users = mUserDAO.getAllUser().getValue();
-
+        List<User> users = mUserDAO.getAllUser();
         return !users.isEmpty();
     }
 
     @Override
-    public LiveData<User> getLastUser() {
-        return mUserDAO.getLatestLogin();
+    public User getLastUser() {
+        List<User> m = mUserDAO.getLatestLogin();
+        if(!m.isEmpty())
+            return m.get(0);
+        return null;
     }
 
 
     @Override
-    public LiveData<User> getUser(String email) {
-        return mUserDAO.getUserByMail(email);
+    public User getUser(String email) {
+        List<User> m = mUserDAO.getUserByMail(email);
+        if(!m.isEmpty())
+            return m.get(0);
+        return null;
     }
 
     @Override
-    public LiveData<User> Login(String email, String password) {
-        LiveData<User> requestedUser = mUserDAO.getUserByMail(email);
+    public User Login(String email, String password) {
+        User requestedUser = (getUser(email));
 
-        if(requestedUser.getValue() == null){
+        if (requestedUser == null) {
             //Email not found
             return null;
         }
 
         //Check the entered Password
-        if(Security.encrypt(password).equals(requestedUser.getValue().getPwHash())){
+        if (Security.encrypt(password).equals(requestedUser.getPwHash())) {
             //Password is correct
 
             //Set New Timestamp
-            User updateUser = requestedUser.getValue();
+            User updateUser = requestedUser;
             updateUser.setLastLogIn();
 
             new updateAsyncTask(mUserDAO).execute(updateUser);
@@ -64,20 +76,20 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public LiveData<User> Login(String email, String password, Boolean rememberMe) {
+    public User Login(String email, String password, Boolean rememberMe) {
 
-        LiveData<User> mUser = Login(email, password);
+        User mUser = Login(email, password);
 
-        if(mUser.getValue() != null){
+        if (mUser != null) {
 
-            User updateUser = mUser.getValue();
+            User updateUser = mUser;
 
             //Set the Remember Me
             updateUser.setRememberMe(rememberMe);
 
             new updateAsyncTask(mUserDAO).execute(updateUser);
 
-            mUser  = mUserDAO.getUserByMail(updateUser.getEmail());
+            mUser = (getUser(updateUser.getEmail()));
         }
 
         return mUser;
@@ -86,7 +98,7 @@ public class UserRepo implements IUser {
     @Override
     public void Logout(User user) {
 
-        if(user != null){
+        if (user != null) {
             //Set rememberMe to false so autologin is disabled
             user.setRememberMe(false);
 
@@ -95,11 +107,11 @@ public class UserRepo implements IUser {
     }
 
     @Override
-    public LiveData<User> Register(String email, String password, Boolean rememberMe) {
+    public User Register(String email, String password, Boolean rememberMe) {
 
         //Check if User exists
-        User existingUser = getUser(email).getValue();
-        if(existingUser != null){
+        User existingUser = getUser(email);
+        if (existingUser != null) {
             return null;
         }
 
@@ -110,42 +122,42 @@ public class UserRepo implements IUser {
         User newUser = new User(email, pwHash);
         newUser.setRememberMe(rememberMe);
         //Insert User in DB async
-        FitnessDatabase.databaseWriteExecutor.execute(() -> {
-            mUserDAO.insertUser(newUser);
-        });
-        //new insertAsyncTask(mUserDAO).execute(newUser);test
+//        FitnessDatabase.databaseWriteExecutor.execute(() -> {
+//            mUserDAO.insertUser(newUser);
+//        });
+        new insertAsyncTask(mUserDAO).execute(newUser);
 
         //Get new User from DB
-        LiveData<User> insertedUser = getUser(email);
+        User insertedUser = getUser(email);
 
-        User user = insertedUser.getValue();
+        User user = insertedUser;
 
         return insertedUser;
 
     }
 
-    public LiveData<User> UpdateInfo(User user){
+    public User UpdateInfo(User user) {
         /*
-        * Only change non-critical values
-        * Email, Id and pwHash remain unchanged.
-        */
+         * Only change non-critical values
+         * Email, Id and pwHash remain unchanged.
+         */
 
 
         //Get User from DB
-        User userFromDB = mUserDAO.getUserByMail(user.getEmail()).getValue();
+        User userFromDB = (getUser(user.getEmail()));
 
         //Set firstName if input is valid
-        if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
+        if (user.getFirstName() != null && !(user.getFirstName().equals(""))) {
             userFromDB.setFirstName(user.getFirstName());
         }
 
         //Set lastName if input is valid
-        if(user.getLastName() != null && !(user.getLastName().equals(""))){
+        if (user.getLastName() != null && !(user.getLastName().equals(""))) {
             userFromDB.setLastName(user.getLastName());
         }
 
         //Set height if input is between 50 und 300 cm
-        if(user.getHeight() > 50 && user.getHeight() < 300){
+        if (user.getHeight() > 50 && user.getHeight() < 300) {
             userFromDB.setHeight(user.getHeight());
         }
 
@@ -157,15 +169,17 @@ public class UserRepo implements IUser {
 
 
         //Get current user with changes from DB
-        return mUserDAO.getUserByMail(userFromDB.getEmail());
+        return (getUser(userFromDB.getEmail()));
 
     }
+
+    // AsyncTasks
 
     private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
 
         private UserDAO mAsyncTaskDao;
 
-        insertAsyncTask(UserDAO dao){
+        insertAsyncTask(UserDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -176,11 +190,11 @@ public class UserRepo implements IUser {
         }
     }
 
-    private static class updateAsyncTask extends AsyncTask<User, Void, Void>{
+    private static class updateAsyncTask extends AsyncTask<User, Void, Void> {
 
         private UserDAO mAsyncTaskDAO;
 
-        updateAsyncTask(UserDAO dao){
+        updateAsyncTask(UserDAO dao) {
             mAsyncTaskDAO = dao;
         }
 
@@ -189,6 +203,21 @@ public class UserRepo implements IUser {
             mAsyncTaskDAO.updateUser(users[0]);
             return null;
         }
+    }
+
+
+    //=============
+    //My Functions
+
+    <T> LiveData<T> ConvertLiveDataList(LiveData<List<T>> input) {
+        List<T> m;
+        T n;
+        LiveData<T> l = new MutableLiveData<T>();
+        if ((m = input.getValue()) != null) {
+            n = m.get(0);
+            ((MutableLiveData<T>) l).setValue(n);
+        }
+        return l;
     }
 
 

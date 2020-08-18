@@ -26,12 +26,12 @@ public interface UserDAO {
     public void deleteUser(User user);
 
     @Query("SELECT * FROM User WHERE email = :mail LIMIT 1")
-    public LiveData<User> getUserByMail(String mail);
+    public List<User> getUserByMail(String mail);
 
     @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User) LIMIT 1")
-    public LiveData<User> getLatestLogin();
+    public List<User> getLatestLogin();
 
     @Query("SELECT * FROM User")
-    public LiveData<List<User>> getAllUser();
+    public List<User> getAllUser();
 
 }

@@ -36,7 +36,7 @@ public class _FragmentStartLogin extends Fragment
 {
     //Use Services
     private IUser _user = null;
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -153,9 +153,9 @@ public class _FragmentStartLogin extends Fragment
     private void ChangeRememberMe(boolean isChecked) {
         if(mUser != null) {
             if (isChecked) {
-                mUser.getValue().setRememberMe(true);
+                mUser.setRememberMe(true);
             } else {
-                mUser.getValue().setRememberMe(false);
+                mUser.setRememberMe(false);
             }
         }
     }
@@ -192,7 +192,7 @@ public class _FragmentStartLogin extends Fragment
         if( mUser != null){
             try{
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                intent.putExtra("ARG_USER_MAIL", mUser.getValue().getEmail());
+                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent);
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);
