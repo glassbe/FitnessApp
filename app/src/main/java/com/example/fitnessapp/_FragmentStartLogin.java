@@ -1,5 +1,6 @@
 package com.example.fitnessapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,10 +13,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,6 +35,8 @@ import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
+
+import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
 
 
 /**
@@ -57,6 +64,7 @@ public class _FragmentStartLogin extends Fragment
     private Button mBtn_login;
     private TextView mTv_register;
     private ActivityStart_ViewModel mViewModel;
+    private View mImg_logo;
 
 
     public _FragmentStartLogin() {
@@ -99,6 +107,11 @@ public class _FragmentStartLogin extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
 
+        // Set logo Adapter
+        mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
+        view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
+
+
         // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
         mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged());
@@ -119,6 +132,10 @@ public class _FragmentStartLogin extends Fragment
         mTv_register = view.findViewById(R.id.tv_register);
         mTv_register.setOnClickListener(v -> btnRegisterClicked());
 
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_activity_fade_in);
+        view.setAnimation(animation);
+        animation.start();
+
         return view;
     }
 
@@ -128,6 +145,19 @@ public class _FragmentStartLogin extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        AdditiveAnimator
+//                .animate(view)
+//                .scaleX(0)
+//                .scaleY(0)
+//                .alpha(0)
+//                .start();
+//
+//        AdditiveAnimator
+//                .animate(view)
+//                .setDuration(500)
+//                .scale(1)
+//                .alpha(1)
+//                .start();
     }
 
     @Override
@@ -167,6 +197,8 @@ public class _FragmentStartLogin extends Fragment
 
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+
 
         // delete last Step from Back Stack
         mFragmentManager.popBackStack();
@@ -220,4 +252,13 @@ public class _FragmentStartLogin extends Fragment
     }
 
 
+    // Gimmig
+    public boolean onLogoTouch(View v, MotionEvent event) {
+        float x = (event.getX());
+        float y = (event.getY());
+        AdditiveAnimator.animate(mImg_logo, 500).centerX(x).centerY(y).start();
+//        Handler handler = new Handler();
+//        handler.postDelayed()
+        return true;
+    }
 }

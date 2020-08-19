@@ -16,6 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
+import at.wirecube.additiveanimations.additive_animator.view_visibility.ViewVisibilityAnimation;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,10 +47,24 @@ public class _FragmentStartYourDataGetStarted extends Fragment{
         mAnim_alpha_in = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_alpha_in);
 
         mImg_yourData = view.findViewById(R.id.img_yourData);
-        mImg_yourData.setAnimation(mAnim_from_bottom);
+        mImg_yourData.setY(500);
+        new AdditiveAnimator()
+                .animate(mImg_yourData)
+                .setDuration(750)
+                .visibility(ViewVisibilityAnimation.fadeInAndTranslateBack())
+                .start();
+
+//        mImg_yourData.setAnimation(mAnim_from_bottom);
 
         mBtn_getStarted = view.findViewById(R.id.btn_getStarted);
-        mBtn_getStarted.setAnimation(mAnim_alpha_in);
+        mBtn_getStarted.setAlpha(0);
+        new AdditiveAnimator()
+                .animate(mBtn_getStarted)
+                .setDuration(750)
+                .alpha(1)
+                .start();
+
+//        mBtn_getStarted.setAnimation(mAnim_alpha_in);
         mBtn_getStarted.setOnClickListener(v -> btn_getStartedClicked());
 
         return view;

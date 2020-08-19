@@ -139,6 +139,8 @@ dependencies {
 
 // End of open Source App Code
 
+    implementation "at.wirecube:additive_animations:1.7.5"
+
 
 // Room Database
     implementation 'androidx.appcompat:appcompat:1.1.0'

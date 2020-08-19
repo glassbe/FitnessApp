@@ -1,8 +1,10 @@
 package com.example.fitnessapp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,19 +19,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.regex.Pattern;
 
-
+import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
 
 
 /**
@@ -70,8 +69,9 @@ public class _FragmentStartRegister extends Fragment {
     private TextView mTv_login;
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
-    private boolean my_bool = true;
+    private boolean my_bool = false;
     private ActivityStart_ViewModel mViewModel;
+    private View mImg_logo;
 
     public _FragmentStartRegister() {
         // Required empty public constructor
@@ -107,12 +107,13 @@ public class _FragmentStartRegister extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout._fragment_start_register, container, false);
-    }
+        View view = inflater.inflate(R.layout._fragment_start_register, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        // Set logo Adapter
+        mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
+//        mImg_logo.setOnTouchListener((v, event) -> onLogoTouch(v, event));
+        view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
+
 
         // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
@@ -132,7 +133,12 @@ public class _FragmentStartRegister extends Fragment {
         mBtn_register = view.findViewById(R.id.tv_register);
         mBtn_register.setOnClickListener(v -> btnRegisterClicked());
 
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
     }
 
@@ -161,6 +167,8 @@ public class _FragmentStartRegister extends Fragment {
     private void btnLoginClicked() {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+
 
         mFragmentManager.popBackStack();
         mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login");
@@ -172,18 +180,21 @@ public class _FragmentStartRegister extends Fragment {
 
     private void btnRegisterClicked() {
         if (validateEmail(getEmail()) || my_bool){
-            if(_user.mUserRepo.getUser(getEmail()) != null || my_bool){
+            User m;
+            if( (m = _user.mUserRepo.getUser(getEmail())) != null || my_bool){
                 if(validatePassword(getPassword()) || my_bool){
                     if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
 
                         //Create New User
-                        if(_user.mUserRepo.Register(getEmail(), getPassword(), Boolean.FALSE) != null){
+                        if(_user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE) != null){
                             // Store Values in ViewModel
                             emailChanged();
                             passwordChanged();
 
                             FragmentManager mFragmentManager = getFragmentManager();
                             FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                            mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+
 
                             Fragment f = null;
                             f = mFragmentManager.findFragmentByTag("startMyData");
@@ -272,4 +283,15 @@ public class _FragmentStartRegister extends Fragment {
         return mEt_eMail.getText().toString();
     }
 
+
+
+    // Gimmig
+    public boolean onLogoTouch(View v, MotionEvent event) {
+        float x = (event.getX());
+        float y = (event.getY());
+        AdditiveAnimator.animate(mImg_logo, 500).centerX(x).centerY(y).start();
+//        Handler handler = new Handler();
+//        handler.postDelayed()
+        return true;
+    }
 }

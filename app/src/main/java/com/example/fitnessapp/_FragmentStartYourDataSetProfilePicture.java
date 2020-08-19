@@ -110,8 +110,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-
-
     }
 
     @Override
