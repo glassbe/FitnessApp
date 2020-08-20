@@ -6,14 +6,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Fade;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp.databinding.ActivityStartBinding;
 import com.example.fitnessapp.db.Entity.User;
 
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
@@ -21,12 +26,12 @@ import at.wirecube.additiveanimations.additive_animator.view_visibility.ViewVisi
 
 
 public class _ActivityStart extends AppCompatActivity {
+    //Binding to Layout
+    private ActivityStartBinding binding;
 
     //Use Services
     private UserViewModel _user;
     private User mUser = null;
-
-
 
     private static String mStartFrame;
 
@@ -35,7 +40,8 @@ public class _ActivityStart extends AppCompatActivity {
     private ImageView mImg_logo;
 
     //Change login animation
-    private boolean startFromMiddle = true;
+    private boolean userToLogin = false;
+    private _ActivityStart_ViewModel mViewModelData;
 
 
     @Override
@@ -45,15 +51,31 @@ public class _ActivityStart extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+        super.onCreate(bundle);
+//        super.onCreate(savedInstanceState);
+
+        //Bind Layout to Activity
+        binding = ActivityStartBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setupWindowAnimations();
+
+        //Start ViewModel for Data Storage
+        mViewModelData = new ViewModelProvider(this).get(_ActivityStart_ViewModel.class);
 
         //Start Service
         _user = new ViewModelProvider(this).get(UserViewModel.class);
-        //_user = new UserRepoDummy();
+
+        mUser = _user.mUserRepo.getLastUser();
+        if(mUser != null){
+            //Set Email from last User
+            mViewModelData.setEmail(mUser.getEmail());
+            if(mUser.getRememberMe()) userToLogin = true;
+        }
 
 
         //Set Activity Layout
-        if(startFromMiddle)
+        if(userToLogin)
             setContentView(R.layout._activity_start_from_middle);
         else
             setContentView(R.layout._activity_start);
@@ -73,7 +95,7 @@ public class _ActivityStart extends AppCompatActivity {
 
         // Start Login Animation
         int delay;
-        if(startFromMiddle)
+        if(userToLogin)
             delay = animation_from_middle();
         else
             delay = animation_from_top();
@@ -96,6 +118,7 @@ public class _ActivityStart extends AppCompatActivity {
         final int duration_anim1 = 1000;
         final int duration_anim2 = 750;
         final int duration_anim3 = 750;
+        @SuppressLint("ResourceType") final int duration_anim4 = Integer.parseInt(getString(R.integer.config_navAnimTime));
 
         //Start Point
         AdditiveAnimator
@@ -115,17 +138,17 @@ public class _ActivityStart extends AppCompatActivity {
                 .visibility(ViewVisibilityAnimation.fadeInAndTranslateBack())
                 .then()
                 .setDuration(duration_anim2)
-                .rotationX(180)
+//                .rotationX(180)
                 .rotationY(180)
                 .then()
                 .setDuration(duration_anim3)
-                .rotationX(360)
+//                .rotationX(360)
                 .rotationY(360)
                 .start();
 
         AdditiveAnimator
                 .animate(mImg_logo)
-                .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3+200)
+                .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3 + duration_anim4 + 600)
                 .setDuration(0)
                 .alpha(0)
                 .start();
@@ -157,11 +180,11 @@ public class _ActivityStart extends AppCompatActivity {
                 .visibility(ViewVisibilityAnimation.fadeInAndTranslateBack())
                 .then()
                 .setDuration(duration_anim2)
-                .rotationX(180)
+//                .rotationX(180)
                 .rotationY(180)
                 .then()
                 .setDuration(duration_anim3)
-                .rotationX(360)
+//                .rotationX(360)
                 .rotationY(360)
                 .start();
 
@@ -199,13 +222,15 @@ public class _ActivityStart extends AppCompatActivity {
             //LOGIN
             mStartFrame = "login";
 
-            if(mUser.getRememberMe()){
+            if(userToLogin){
                 //Login
+
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
                 intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
-                startActivity(intent);
+                startActivity(intent, bundle);
 
             } else {
                 //Get Login Fragment
@@ -218,6 +243,19 @@ public class _ActivityStart extends AppCompatActivity {
             mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
         }
         mFragmentTransaction.commit();
+    }
+
+
+    private void setupWindowAnimations() {
+
+//        Fade fade = new Fade();
+//        fade.setDuration(5000);
+//        getWindow().setEnterTransition(fade);
+//
+//
+////        Fade fade = new Fade();
+//        fade.setDuration(1000);
+//        getWindow().setExitTransition(fade);
     }
 
 

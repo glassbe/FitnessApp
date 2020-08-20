@@ -38,7 +38,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged"
             android:configChanges="orientation|screenSize"
-        >
+            android:noHistory="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

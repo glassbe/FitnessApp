@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ActivityStart_ViewModel extends ViewModel {
-    private MutableLiveData<String> password;
-    private MutableLiveData<String> email;
+public class _ActivityStart_ViewModel extends ViewModel {
+    private MutableLiveData<String> password = new MutableLiveData<>();
+    private MutableLiveData<String> email = new MutableLiveData<>();
 
 
     public void setPassword(String input) {

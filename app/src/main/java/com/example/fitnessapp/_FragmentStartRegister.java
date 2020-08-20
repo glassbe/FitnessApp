@@ -1,7 +1,6 @@
 package com.example.fitnessapp;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -39,7 +37,7 @@ public class _FragmentStartRegister extends Fragment {
     //Use Services
     private UserViewModel _user;
 
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
 
     public final String backStateName = this.getClass().getName();
@@ -70,7 +68,7 @@ public class _FragmentStartRegister extends Fragment {
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
     private boolean my_bool = false;
-    private ActivityStart_ViewModel mViewModel;
+    private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
     public _FragmentStartRegister() {
@@ -145,7 +143,7 @@ public class _FragmentStartRegister extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
 
         mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
         mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
@@ -167,7 +165,7 @@ public class _FragmentStartRegister extends Fragment {
     private void btnLoginClicked() {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
 
 
         mFragmentManager.popBackStack();
@@ -179,58 +177,51 @@ public class _FragmentStartRegister extends Fragment {
     }
 
     private void btnRegisterClicked() {
-        if (validateEmail(getEmail()) || my_bool){
-            User m;
-            if( (m = _user.mUserRepo.getUser(getEmail())) != null || my_bool){
-                if(validatePassword(getPassword()) || my_bool){
-                    if(passwordMatches(getPassword(), getPasswordRepeat()) || my_bool){
-
-                        //Create New User
-                        if(_user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE) != null){
-                            // Store Values in ViewModel
-                            emailChanged();
-                            passwordChanged();
-
-                            FragmentManager mFragmentManager = getFragmentManager();
-                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                            mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-
-
-                            Fragment f = null;
-                            f = mFragmentManager.findFragmentByTag("startMyData");
-                            if(f == null){
-                                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
-                                mFragmentTransaction.addToBackStack("startMyData");
-                            } else {
-                                mFragmentManager.popBackStack();
-                                mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            }
-
-                            mFragmentTransaction.commit();
-                        }
-                        else {
-                            myToast("E-Mail already used");
-
-                        }
-
-                    }
-                    else{
-                        myToast("Passwords doesn't match");
-                    }
-                }
-                else{
-                    myToast("Password is invalid");
-                }
-            }
-            else{
-                myToast("E-Mail already exists in Database");
-            }
-        }
-        else{
+        if (!validateEmail(getEmail()) && my_bool) {
             myToast("E-Mail is not valid");
+            return;
         }
 
+        if(!validatePassword(getPassword()) && my_bool) {
+            myToast("Password is invalid"); return;
+        }
+
+        if(!passwordMatches(getPassword(), getPasswordRepeat()) && my_bool) {
+            myToast("Passwords doesn't match");
+            return;
+        }
+
+        User m = _user.mUserRepo.getUser(getEmail());
+        if(((m = _user.mUserRepo.getUser(getEmail())) != null) && my_bool) {
+            myToast("E-Mail already exists in Database");
+            return;
+        }
+
+        //Create New User
+         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
+
+        // Store Values in ViewModel
+        emailChanged();
+        passwordChanged();
+
+        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+
+
+        Fragment f = null;
+        f = mFragmentManager.findFragmentByTag("startMyData");
+        if(f == null){
+            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
+            mFragmentTransaction.addToBackStack("startMyData");
+        } else {
+            mFragmentManager.popBackStack();
+            mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+        mFragmentTransaction.commit();
     }
+
 
 
     private boolean validateEmail(String emailInput){

@@ -21,10 +21,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.ImageUtil;
@@ -37,12 +35,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-
-import com.example.fitnessapp.db.UserRepo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +46,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     private UserViewModel _IUser;
     private User mUser = null;
 
-    private ActivityStart_ViewModel mViewModel = null;
+    private _ActivityStart_ViewModel mViewModel = null;
 
     private Button mBtn_take_picture;
     private Uri mResultUri;
@@ -81,7 +74,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         View view = inflater.inflate(R.layout._fragment_start_your_data_set_profile_pic, container, false);
 
         //Get User by Mail from ViewModel
-        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
         mUser = _IUser.mUserRepo.getUser(mViewModel.getEmail().getValue());
 
         //Set Button Take Picture Adapter
@@ -112,26 +105,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         super.onViewStateRestored(savedInstanceState);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -142,7 +115,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     ImageUtil.setPic(mRoundProfile, mCurrentPhotoPath);
                     ImageUtil.saveThumb(mCurrentPhotoPath);
                     imgUtil.galleryAddPic(this, mCurrentPhotoPath);
-                    requestForSave(mRoundProfile);
                 }
                 break;
             case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
@@ -153,7 +125,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     ImageUtil.setPic(mRoundProfile, realPath);
                     ImageUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
-                    requestForSave(mRoundProfile);
                 }
                 break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
@@ -195,7 +166,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     ImageUtil.setPic(mRoundProfile, realPath);
                     ImageUtil.saveThumb(realPath);
                     mCurrentPhotoPath = realPath;
-                    requestForSave(mRoundProfile);
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
@@ -209,6 +179,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     private void clickSetProfilePic() {
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        requestForSave(mRoundProfile);
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("setData");
@@ -236,34 +208,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
             KToast.infoToast(getActivity(), "Need Camera Permissions", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
 
-    }
-
-    private File createImageFile(Fragment pF) throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = null;
-
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)) {
-            return null;
-        } else {
-            //We use the FastNFitness directory for saving our .csv file.
-            storageDir = Environment.getExternalStoragePublicDirectory("/TrueFitness/DCIM/");
-            if (!storageDir.exists()) {
-                storageDir.mkdirs();
-            }
-        }
-        //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        //mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
     private void requestPermissionForWriting(Fragment pF) {
@@ -297,7 +241,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
         if (profileToUpdate) {
             _IUser.mUserRepo.UpdateInfo(mUser);
-            KToast.infoToast(getActivity(), mUser.getFirstName() + " updated", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            KToast.infoToast(getActivity(), "Profile Pic set", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }
 

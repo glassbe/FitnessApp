@@ -7,12 +7,18 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
-    </style>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">1000</item>
+<!--        <item name="android:windowEnterTransition">@anim/fade_in</item>-->
+<!--        <item name="android:windowExitTransition">@anim/fade_out</item>-->
 
-    <style name="WindowAnimationStyle">
-        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
+<!--        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>-->
+
+<!--    <style name="WindowAnimationStyle">-->
+<!--        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>-->
+<!--        <item name="android:windowExitAnimation">@android:anim/fade_out</item>-->
+<!--    </style>-->
 
 </resources>

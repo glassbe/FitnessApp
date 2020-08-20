@@ -1,6 +1,5 @@
 package com.example.fitnessapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,31 +9,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.db.UserRepo;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
 
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
 
@@ -63,7 +53,7 @@ public class _FragmentStartLogin extends Fragment
     private CheckBox mCb_passwordReminder;
     private Button mBtn_login;
     private TextView mTv_register;
-    private ActivityStart_ViewModel mViewModel;
+    private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
 
@@ -132,10 +122,6 @@ public class _FragmentStartLogin extends Fragment
         mTv_register = view.findViewById(R.id.tv_register);
         mTv_register.setOnClickListener(v -> btnRegisterClicked());
 
-        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_activity_fade_in);
-        view.setAnimation(animation);
-        animation.start();
-
         return view;
     }
 
@@ -163,7 +149,7 @@ public class _FragmentStartLogin extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(ActivityStart_ViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
 
         mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
         mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
@@ -197,7 +183,7 @@ public class _FragmentStartLogin extends Fragment
 
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
 
 
         // delete last Step from Back Stack
