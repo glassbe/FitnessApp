@@ -1,6 +1,7 @@
 package com.example.fitnessapp;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -99,6 +101,9 @@ public class _FragmentStartRegister extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _user = new ViewModelProvider(this).get(UserViewModel.class);
+
+        //Set Shared Elements to its position
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
     }
 
     @Override
@@ -107,9 +112,9 @@ public class _FragmentStartRegister extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_register, container, false);
 
-        // Set logo Adapter
+
+        // Set logo Adapter to make it draggable
         mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
-//        mImg_logo.setOnTouchListener((v, event) -> onLogoTouch(v, event));
         view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
 
 
@@ -135,14 +140,10 @@ public class _FragmentStartRegister extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //Set Data ViewModel
         mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
 
         mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
@@ -169,7 +170,10 @@ public class _FragmentStartRegister extends Fragment {
 
 
         mFragmentManager.popBackStack();
-        mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login");
+        mFragmentTransaction
+                .replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login")
+                .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
+
         if(_ActivityStart.getStartFrame() != "login")
             mFragmentTransaction.addToBackStack("login");
         mFragmentTransaction.commit();

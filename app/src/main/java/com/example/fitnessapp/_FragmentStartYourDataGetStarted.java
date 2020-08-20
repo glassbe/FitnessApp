@@ -28,8 +28,6 @@ public class _FragmentStartYourDataGetStarted extends Fragment{
     private Button mBtn_getStarted;
     private ImageView mImg_yourData;
 
-    private Animation mAnim_from_bottom;
-    private Animation mAnim_alpha_in;
 
     public _FragmentStartYourDataGetStarted() {
         // Required empty public constructor
@@ -39,12 +37,10 @@ public class _FragmentStartYourDataGetStarted extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout._fragment_start_your_data_get_started, container, false);
 
-        //Create Animations
-        mAnim_from_bottom = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_from_bottom);
-        mAnim_alpha_in = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_alpha_in);
 
         mImg_yourData = view.findViewById(R.id.img_yourData);
         mImg_yourData.setY(500);
@@ -54,7 +50,6 @@ public class _FragmentStartYourDataGetStarted extends Fragment{
                 .visibility(ViewVisibilityAnimation.fadeInAndTranslateBack())
                 .start();
 
-//        mImg_yourData.setAnimation(mAnim_from_bottom);
 
         mBtn_getStarted = view.findViewById(R.id.btn_getStarted);
         mBtn_getStarted.setAlpha(0);

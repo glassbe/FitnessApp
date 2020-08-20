@@ -1,21 +1,26 @@
 package com.example.fitnessapp;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.transition.Fade;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -36,7 +41,7 @@ public class _FragmentStartLogin extends Fragment
 {
     //Use Services
     private UserViewModel _user;
-    private LiveData<User> mUser = null;
+    private User mUser = null;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +60,7 @@ public class _FragmentStartLogin extends Fragment
     private TextView mTv_register;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
+        private boolean mRememberMe;
 
 
     public _FragmentStartLogin() {
@@ -84,6 +90,8 @@ public class _FragmentStartLogin extends Fragment
         super.onCreate(savedInstanceState);
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
+        //Set Shared Elements to its position
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
     }
 
 
@@ -92,12 +100,12 @@ public class _FragmentStartLogin extends Fragment
                              Bundle savedInstanceState) {
         // Get User
 //        if(getEmail() != null)
-        mUser = _user.mUserRepo.getUserAsync(mEmail);
+        mUser = _user.mUserRepo.getUser(mEmail);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_login, container, false);
 
-        // Set logo Adapter
+        // Set logo Adapter to make it draggable
         mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
         view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
 
@@ -124,7 +132,6 @@ public class _FragmentStartLogin extends Fragment
 
         return view;
     }
-
 
 
 
@@ -170,12 +177,10 @@ public class _FragmentStartLogin extends Fragment
     }
 
     private void ChangeRememberMe(boolean isChecked) {
-        if(mUser != null) {
-            if (isChecked) {
-                mUser.getValue().setRememberMe(true);
-            } else {
-                mUser.getValue().setRememberMe(false);
-            }
+        if (isChecked) {
+            mRememberMe = true;
+        } else {
+            mRememberMe = false;
         }
     }
 
@@ -190,8 +195,9 @@ public class _FragmentStartLogin extends Fragment
         mFragmentManager.popBackStack();
 
         // Create new Frame
-        mFragmentTransaction.replace
-                (R.id.start_frame, _FragmentStartRegister.newInstance(), "register");
+        mFragmentTransaction
+                .replace(R.id.start_frame, _FragmentStartRegister.newInstance(), "register")
+                .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
 
         // Don't add to StackBack, when it is start Frame
         if(_ActivityStart.getStartFrame() != "register")
@@ -207,16 +213,28 @@ public class _FragmentStartLogin extends Fragment
         Boolean success = false;
         String mail = getEmail();
         try {
-            success =  _user.mUserRepo.Login(mail, getPassword(), false);
+            success =  _user.mUserRepo.Login(mail, getPassword(), mRememberMe);
         } catch (Exception e){
             Log.getStackTraceString(e);
         }
 
-        if( success){
+        if(success){
             try{
+//                mUser.setRememberMe(mRememberMe);
+//                _user.mUserRepo.UpdateInfo(mUser);
+
                 Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
+                Bundle bundle = ActivityOptions
+                        .makeSceneTransitionAnimation(getActivity(),mImg_logo, ViewCompat.getTransitionName(mImg_logo))
+                        .toBundle();
                 intent.putExtra("ARG_USER_MAIL", mail);
-                startActivity(intent);
+                startActivity(intent,bundle);
+
+//                getActivity().finish();
+//                getActivity().overridePendingTransition(R.anim.zoom_out, R.anim.zoom_out);
+                ((_ActivityStart) getActivity()).setupWindowAnimations();
+
+
             } catch(Exception e){
                 Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);
                 toast.show();
@@ -227,6 +245,8 @@ public class _FragmentStartLogin extends Fragment
             toast.show();
         }
     }
+
+
 
 
     private String getPassword() {
@@ -246,5 +266,19 @@ public class _FragmentStartLogin extends Fragment
 //        Handler handler = new Handler();
 //        handler.postDelayed()
         return true;
+    }
+
+    protected void setupWindowAnimations() {
+        Window window = getActivity().getWindow();
+
+        Fade fade = new Fade();
+        fade.setDuration(500);
+//        fade.setStartDelay(2000);
+//        window.setExitTransition(fade);
+
+        window.setEnterTransition(fade);
+//        window.setReturnTransition(fade);
+//        window.setReenterTransition(fade);
+
     }
 }

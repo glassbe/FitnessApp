@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/activity_coach"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTintMode="src_atop"
-    android:backgroundTint="#66000000"
-    android:background="@drawable/pullups_back_man"
-    android:paddingTop="?attr/actionBarSize">
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_host_fragment"-->
-<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:defaultNavHost="true"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/nav_view"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:navGraph="@navigation/mobile_navigation" />-->
-
-    <Button
-        android:id="@+id/button"
+    <eu.long1.spacetablayout.SpaceTabLayout
+        android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="1dp"
+
+        app:icon_one="@drawable/ic_running_shadow2"
+        app:icon_three="@drawable/ic_profile_white_shadow2"
+        app:icon_two="@drawable/ic_true_fitness_logo_shadow"
+
+        app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
+
+        app:number_of_tabs="three"
+        app:starting_position="two"
+
+        app:tab_color="#333333"
+        app:text_color="@color/primaryTextColor"
+        app:button_color="@color/colorAccent"
+
+
+        app:text_one=""
+        app:text_three=""
+        app:text_two=""
+        />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:elevation="1dp">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <ImageView
+        android:id="@+id/iv_login_logo_draggable"
+
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="35dp"
+        android:contentDescription="TODO"
+        android:elevation="0dp"
+        android:src="@drawable/true_fitness_logo_nontransparent_notext2"
+        android:transitionName="@string/draggable_logo"
+        android:layout_gravity="center|bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_btn_default"
+        android:textColor="@color/white"
+        android:text="Logout" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

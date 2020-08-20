@@ -2,6 +2,7 @@ package com.example.fitnessapp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,12 +10,17 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
@@ -51,13 +57,13 @@ public class _ActivityStart extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-        super.onCreate(bundle);
-//        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
         //Bind Layout to Activity
         binding = ActivityStartBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+
+        //Setup Animation for Enter, Exit, Reenter, Return
         setupWindowAnimations();
 
         //Start ViewModel for Data Storage
@@ -93,6 +99,7 @@ public class _ActivityStart extends AppCompatActivity {
         // Get View to Logo
         mImg_logo = findViewById(R.id.iv_login_logo_draggable);
 
+
         // Start Login Animation
         int delay;
         if(userToLogin)
@@ -108,8 +115,9 @@ public class _ActivityStart extends AppCompatActivity {
             handler.postDelayed(loginOrRegister , delay);
         }
 
+
         // Set Animation for Fragments
-        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
 
 
     }
@@ -188,13 +196,23 @@ public class _ActivityStart extends AppCompatActivity {
                 .rotationY(360)
                 .start();
 
+//            AdditiveAnimator
+//                    .animate(mImg_logo)
+//                    .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3)
+//                    .setDuration(duration_anim4)
+//                    .scaleX(5)
+//                    .scaleY(5)
+//                    .alpha(0)
+//                    .start();
+
             AdditiveAnimator
                     .animate(mImg_logo)
                     .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3)
                     .setDuration(duration_anim4)
-                    .scaleX(5)
-                    .scaleY(5)
-                    .alpha(0)
+                    .y(250)
+                    .scaleX((float)0.5)
+                    .scaleY((float)0.5)
+//                    .alpha(0)
                     .start();
 
         //return duration
@@ -224,14 +242,17 @@ public class _ActivityStart extends AppCompatActivity {
 
             if(userToLogin){
                 //Login
-
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+                Bundle bundle = ActivityOptions
+                        .makeSceneTransitionAnimation(this, mImg_logo, ViewCompat.getTransitionName(mImg_logo))
+//                        .makeSceneTransitionAnimation(this)
+                        .toBundle();
 
                 //Call Intent to Coach Activity
                 Intent intent = new Intent(this, _ActivityCoach.class);
                 intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
                 startActivity(intent, bundle);
-
+//                finish();
+//                overridePendingTransition(0, R.anim.my_splash_fade_out);
             } else {
                 //Get Login Fragment
                 mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), null);
@@ -246,16 +267,36 @@ public class _ActivityStart extends AppCompatActivity {
     }
 
 
-    private void setupWindowAnimations() {
+    protected void setupWindowAnimations() {
 
 //        Fade fade = new Fade();
 //        fade.setDuration(5000);
 //        getWindow().setEnterTransition(fade);
 //
 //
-////        Fade fade = new Fade();
+//        Fade fade = new Fade();
 //        fade.setDuration(1000);
+//        fade.setStartDelay(2000);
 //        getWindow().setExitTransition(fade);
+//
+//        getWindow().setEnterTransition(fade);
+//        getWindow().setReturnTransition(fade);
+//        getWindow().setReenterTransition(fade);
+
+
+
+//        Window window = getWindow();
+//        Slide slide = new Slide();
+//        slide.setDuration(2000);
+//        slide.setInterpolator(new LinearInterpolator());
+//        slide.setSlideEdge(Gravity.LEFT);
+//        slide.excludeTarget(android.R.id.statusBarBackground, true);
+//        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+//        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.
+//        window.setReenterTransition(slide); // The Transition to use to move Views into the scene when reentering from a previously-started Activity.
+//        window.setBackgroundDrawableResource(R.drawable.img_background_register_login);
+
+//        getWindow().setExitTransition(null);
     }
 
 
