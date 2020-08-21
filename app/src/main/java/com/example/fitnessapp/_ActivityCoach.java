@@ -3,6 +3,7 @@ package com.example.fitnessapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
+import android.transition.TransitionInflater;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -39,6 +40,10 @@ public class _ActivityCoach extends AppCompatActivity {
 
         setupWindowAnimations();
 
+        //Set Animation for Shared Elements
+        getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.move).setDuration(1000));
+
+
         //Start Service
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
@@ -68,7 +73,7 @@ public class _ActivityCoach extends AppCompatActivity {
 
 
         Button continue_button = findViewById(R.id.button);
-        continue_button.setOnClickListener(v -> ClickRegister());
+        continue_button.setOnClickListener(v -> ClickLogout());
     }
 
     @Override
@@ -116,7 +121,7 @@ public class _ActivityCoach extends AppCompatActivity {
 
     }
 
-    private void ClickRegister(){
+    private void ClickLogout(){
 //        mUser.setRememberMe(false);
         _user.mUserRepo.Logout(mUser);
 

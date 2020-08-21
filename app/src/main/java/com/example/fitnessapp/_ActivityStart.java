@@ -3,6 +3,7 @@ package com.example.fitnessapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -45,8 +47,7 @@ public class _ActivityStart extends AppCompatActivity {
     private FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
     private ImageView mImg_logo;
 
-    //Change login animation
-    private boolean userToLogin = false;
+    private boolean userToLogin;
     private _ActivityStart_ViewModel mViewModelData;
 
 
@@ -59,12 +60,10 @@ public class _ActivityStart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Bind Layout to Activity
-        binding = ActivityStartBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
+//        //Bind Layout to Activity
+//        binding = ActivityStartBinding.inflate(getLayoutInflater());
+//        View view = binding.getRoot();
 
-        //Setup Animation for Enter, Exit, Reenter, Return
-        setupWindowAnimations();
 
         //Start ViewModel for Data Storage
         mViewModelData = new ViewModelProvider(this).get(_ActivityStart_ViewModel.class);
@@ -72,11 +71,15 @@ public class _ActivityStart extends AppCompatActivity {
         //Start Service
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
+        //Get Last User
         mUser = _user.mUserRepo.getLastUser();
         if(mUser != null){
             //Set Email from last User
             mViewModelData.setEmail(mUser.getEmail());
+
+            //Decide whather User Login or Register
             if(mUser.getRememberMe()) userToLogin = true;
+            else userToLogin = false;
         }
 
 
@@ -92,9 +95,6 @@ public class _ActivityStart extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         );
 
-        // Handler for Delay
-        final Handler handler = new Handler();
-        final Runnable loginOrRegister = () -> loginOrRegister();
 
         // Get View to Logo
         mImg_logo = findViewById(R.id.iv_login_logo_draggable);
@@ -109,18 +109,63 @@ public class _ActivityStart extends AppCompatActivity {
 
         //Find Start Frame in Activity
         if (findViewById(R.id.start_frame) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            handler.postDelayed(loginOrRegister , delay);
+            if (savedInstanceState != null) return;
+
+            //Start Login or Register Prozess with delay
+            new Handler().postDelayed(() -> loginOrRegister() , delay);
         }
 
-
-        // Set Animation for Fragments
-//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-
-
     }
+
+
+    @Override
+    public  void onBackPressed() {
+        int count = mFragmentManager.getBackStackEntryCount();
+        if(count == 0){
+            super.onBackPressed();
+        } else{
+            getSupportFragmentManager().popBackStack();
+            //mFragmentTransaction.replace(R.id.start_frame,);
+        }
+    }
+
+    //=====================
+    // private functions
+
+    private void loginOrRegister() {
+        if(mUser != null) Login();
+        else Register();
+    }
+
+    private void Register() {
+        //REGISTER-Layout
+        mStartFrame = "register";
+        mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
+        mFragmentTransaction.commit();
+    }
+
+    private void Login() {
+        //LOGIN-Layout
+        mStartFrame = "login";
+
+        if(userToLogin){
+            //Login User
+            Bundle bundle = ActivityOptions
+                    .makeSceneTransitionAnimation(this, mImg_logo, ViewCompat.getTransitionName(mImg_logo))
+//                        .makeSceneTransitionAnimation(this)
+                    .toBundle();
+            Intent intent = new Intent(this, _ActivityCoach.class);
+            intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
+            startActivity(intent, bundle);
+        } else {
+            //Set Login Fragment
+            Fragment LoginFragment = _FragmentStartLogin.newInstance();
+//            LoginFragment.setEnterTransition(new Fade().excludeTarget(R.id.iv_login_logo_draggable, true));
+            mFragmentTransaction.replace(R.id.start_frame, LoginFragment, null);
+            mFragmentTransaction.commit();
+        }
+    }
+
 
     private int animation_from_top() {
         final int duration_anim1 = 1000;
@@ -205,98 +250,18 @@ public class _ActivityStart extends AppCompatActivity {
 //                    .alpha(0)
 //                    .start();
 
-            AdditiveAnimator
-                    .animate(mImg_logo)
-                    .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3)
-                    .setDuration(duration_anim4)
-                    .y(250)
-                    .scaleX((float)0.5)
-                    .scaleY((float)0.5)
+        AdditiveAnimator
+                .animate(mImg_logo)
+                .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3)
+                .setDuration(duration_anim4)
+                .y(250)
+                .scaleX((float)0.5)
+                .scaleY((float)0.5)
 //                    .alpha(0)
-                    .start();
+                .start();
 
         //return duration
         return (duration_anim1 + duration_anim2 + duration_anim3 + duration_anim4);
-    }
-
-
-    @Override
-    public  void onBackPressed() {
-        int count = mFragmentManager.getBackStackEntryCount();
-        if(count == 0){
-            super.onBackPressed();
-        } else{
-            getSupportFragmentManager().popBackStack();
-            //mFragmentTransaction.replace(R.id.start_frame,);
-        }
-    }
-
-    //=====================
-    // private functions
-
-    private void loginOrRegister() {
-        mUser = _user.mUserRepo.getLastUser();
-        if(mUser != null){
-            //LOGIN
-            mStartFrame = "login";
-
-            if(userToLogin){
-                //Login
-                Bundle bundle = ActivityOptions
-                        .makeSceneTransitionAnimation(this, mImg_logo, ViewCompat.getTransitionName(mImg_logo))
-//                        .makeSceneTransitionAnimation(this)
-                        .toBundle();
-
-                //Call Intent to Coach Activity
-                Intent intent = new Intent(this, _ActivityCoach.class);
-                intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
-                startActivity(intent, bundle);
-//                finish();
-//                overridePendingTransition(0, R.anim.my_splash_fade_out);
-            } else {
-                //Get Login Fragment
-                mFragmentTransaction.replace(R.id.start_frame, _FragmentStartLogin.newInstance(), null);
-            }
-        }
-        else {
-            //REGISTER
-            mStartFrame = "register";
-            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
-        }
-        mFragmentTransaction.commit();
-    }
-
-
-    protected void setupWindowAnimations() {
-
-//        Fade fade = new Fade();
-//        fade.setDuration(5000);
-//        getWindow().setEnterTransition(fade);
-//
-//
-//        Fade fade = new Fade();
-//        fade.setDuration(1000);
-//        fade.setStartDelay(2000);
-//        getWindow().setExitTransition(fade);
-//
-//        getWindow().setEnterTransition(fade);
-//        getWindow().setReturnTransition(fade);
-//        getWindow().setReenterTransition(fade);
-
-
-
-//        Window window = getWindow();
-//        Slide slide = new Slide();
-//        slide.setDuration(2000);
-//        slide.setInterpolator(new LinearInterpolator());
-//        slide.setSlideEdge(Gravity.LEFT);
-//        slide.excludeTarget(android.R.id.statusBarBackground, true);
-//        slide.excludeTarget(android.R.id.navigationBarBackground, true);
-//        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.
-//        window.setReenterTransition(slide); // The Transition to use to move Views into the scene when reentering from a previously-started Activity.
-//        window.setBackgroundDrawableResource(R.drawable.img_background_register_login);
-
-//        getWindow().setExitTransition(null);
     }
 
 

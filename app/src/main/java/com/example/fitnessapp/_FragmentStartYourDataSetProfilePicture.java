@@ -73,9 +73,9 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout._fragment_start_your_data_set_profile_pic, container, false);
 
-        //Get User by Mail from ViewModel
+        //Get ViewModel
         mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
-        mUser = _IUser.mUserRepo.getUser(mViewModel.getEmail().getValue());
+//        mUser = _IUser.mUserRepo.getUser(mViewModel.getEmail().getValue());
 
         //Set Button Take Picture Adapter
         mBtn_take_picture = view.findViewById(R.id.btn_take_picture);
@@ -96,13 +96,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        _IUser.mUserRepo.UpdateInfo(mUser);
-    }
-
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+//        _IUser.mUserRepo.UpdateInfo(mUser);
     }
 
 
@@ -229,18 +223,19 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     protected void requestForSave(View view) {
         boolean profileToUpdate = false;
 
-        // Save all the fields in the Profile
+        // Save all the fields in the ViewModel
         switch (view.getId()) {
             case R.id.photo_round_profile:
 //                if (mUser != null) {
-                    mUser.setProfilePicPath(mCurrentPhotoPath);
+//                    mUser.setProfilePicPath(mCurrentPhotoPath);
+                    mViewModel.setPhotoPath(mCurrentPhotoPath);
                     profileToUpdate = true;
 //                }
                 break;
         }
 
         if (profileToUpdate) {
-            _IUser.mUserRepo.UpdateInfo(mUser);
+//            _IUser.mUserRepo.UpdateInfo(mUser);
             KToast.infoToast(getActivity(), "Profile Pic set", Gravity.BOTTOM, KToast.LENGTH_SHORT);
         }
     }

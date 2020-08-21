@@ -43,14 +43,10 @@ public class _FragmentStartLogin extends Fragment
     private UserViewModel _user;
     private User mUser = null;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_EMAIL = "param1";
-    private static final String ARG_USER_ID = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mEmail = null;
-    private int mUser_Id = -1;
 
     private ImageView mIv_loginLogo;
     private TextInputEditText mEt_eMail;
@@ -60,18 +56,13 @@ public class _FragmentStartLogin extends Fragment
     private TextView mTv_register;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
-        private boolean mRememberMe;
+    private boolean mRememberMe;
 
 
     public _FragmentStartLogin() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * @param email Parameter 1.
-     * @return A new instance of fragment FragmentCoachOverview.
-     */
     public static _FragmentStartLogin newInstance(String email) {
         _FragmentStartLogin fragment = new _FragmentStartLogin();
         Bundle args = new Bundle();
@@ -86,12 +77,25 @@ public class _FragmentStartLogin extends Fragment
 
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
+
+        mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
+        mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
+
         //Set Shared Elements to its position
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+
+        //Set Animations on Enter|Return|Reenter|Exit
+//        setupWindowAnimations();
     }
 
 
@@ -99,7 +103,6 @@ public class _FragmentStartLogin extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Get User
-//        if(getEmail() != null)
         mUser = _user.mUserRepo.getUser(mEmail);
 
         // Inflate the layout for this fragment
@@ -108,7 +111,6 @@ public class _FragmentStartLogin extends Fragment
         // Set logo Adapter to make it draggable
         mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
         view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
-
 
         // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
@@ -134,39 +136,8 @@ public class _FragmentStartLogin extends Fragment
     }
 
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        AdditiveAnimator
-//                .animate(view)
-//                .scaleX(0)
-//                .scaleY(0)
-//                .alpha(0)
-//                .start();
-//
-//        AdditiveAnimator
-//                .animate(view)
-//                .setDuration(500)
-//                .scale(1)
-//                .alpha(1)
-//                .start();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
-
-        mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
-        mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
-    }
-
-
-
     //==================
     //private Functions
-
 
     private void emailChanged() {
         mViewModel.setEmail(mEt_eMail.getText().toString());
@@ -188,8 +159,6 @@ public class _FragmentStartLogin extends Fragment
 
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-
 
         // delete last Step from Back Stack
         mFragmentManager.popBackStack();
@@ -209,52 +178,34 @@ public class _FragmentStartLogin extends Fragment
 
     private void btnLoginClicked() {
 
-        // Load User, if fails mUser = null
-        Boolean success = false;
-        String mail = getEmail();
-        try {
-            success =  _user.mUserRepo.Login(mail, getPassword(), mRememberMe);
-        } catch (Exception e){
-            Log.getStackTraceString(e);
+        // Load User, if fails = false
+        Boolean UserLoggedIn = _user.mUserRepo.Login(getEmail(), getPassword(), mRememberMe);
+
+        if(!UserLoggedIn){
+            Toast.makeText(this.getActivity(),"Passwort oder E-Mail falsch",Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if(success){
-            try{
-//                mUser.setRememberMe(mRememberMe);
-//                _user.mUserRepo.UpdateInfo(mUser);
+        Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
+        Bundle bundle = ActivityOptions
+                .makeSceneTransitionAnimation(getActivity(),mImg_logo, ViewCompat.getTransitionName(mImg_logo))
+                .toBundle();
+        intent.putExtra("ARG_USER_MAIL", getEmail());
+        startActivity(intent,bundle);
 
-                Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
-                Bundle bundle = ActivityOptions
-                        .makeSceneTransitionAnimation(getActivity(),mImg_logo, ViewCompat.getTransitionName(mImg_logo))
-                        .toBundle();
-                intent.putExtra("ARG_USER_MAIL", mail);
-                startActivity(intent,bundle);
-
-//                getActivity().finish();
-//                getActivity().overridePendingTransition(R.anim.zoom_out, R.anim.zoom_out);
-                ((_ActivityStart) getActivity()).setupWindowAnimations();
-
-
-            } catch(Exception e){
-                Toast toast=Toast.makeText(this.getActivity(), "Login Error",Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
-        else{
-            Toast toast=Toast.makeText(this.getActivity(),"Passwort oder E-Mail falsch",Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
-
-
 
 
     private String getPassword() {
-        return mEt_password.getText().toString();
+        String output = mEt_password.getText().toString();
+        if(output == null) return "";
+        return output;
     }
 
     private String getEmail() {
-        return mEt_eMail.getText().toString();
+        String output = mEt_eMail.getText().toString();
+        if(output == null) return "";
+        return output;
     }
 
 
@@ -263,8 +214,6 @@ public class _FragmentStartLogin extends Fragment
         float x = (event.getX());
         float y = (event.getY());
         AdditiveAnimator.animate(mImg_logo, 500).centerX(x).centerY(y).start();
-//        Handler handler = new Handler();
-//        handler.postDelayed()
         return true;
     }
 
@@ -272,7 +221,7 @@ public class _FragmentStartLogin extends Fragment
         Window window = getActivity().getWindow();
 
         Fade fade = new Fade();
-        fade.setDuration(500);
+        fade.setDuration(5000);
 //        fade.setStartDelay(2000);
 //        window.setExitTransition(fade);
 

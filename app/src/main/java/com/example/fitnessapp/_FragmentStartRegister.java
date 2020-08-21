@@ -38,7 +38,6 @@ public class _FragmentStartRegister extends Fragment {
 
     //Use Services
     private UserViewModel _user;
-
     private User mUser = null;
 
 
@@ -54,11 +53,8 @@ public class _FragmentStartRegister extends Fragment {
                     ".{8,}" +               //at least 4 characters
                     "$");
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_EMAIL = "param1";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
 
     private ImageView mIv_loginLogo;
@@ -69,7 +65,7 @@ public class _FragmentStartRegister extends Fragment {
     private TextView mTv_login;
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
-    private boolean my_bool = false;
+    private boolean my_bool = true;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
@@ -202,7 +198,7 @@ public class _FragmentStartRegister extends Fragment {
         }
 
         //Create New User
-         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
+//         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
 
         // Store Values in ViewModel
         emailChanged();

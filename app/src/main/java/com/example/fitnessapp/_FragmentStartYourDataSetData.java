@@ -26,8 +26,9 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     //Use Services
     private UserViewModel _user;
-
     private User mUser = null;
+
+    private _ActivityStart_ViewModel mViewModel;
 
 
     private EditText mFirstName;
@@ -51,6 +52,9 @@ public class _FragmentStartYourDataSetData extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _user = new ViewModelProvider(this).get(UserViewModel.class);
+
+        mViewModel = new ViewModelProvider(getActivity()).get(_ActivityStart_ViewModel.class);
+
     }
 
 
