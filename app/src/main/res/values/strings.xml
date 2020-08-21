@@ -335,7 +335,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="groesse">Größe</string>
-    <string name="energyLevel">Durchsch. Körperliche Belastung</string>
+    <string name="energyLevel">Durchsch. Körperliche Belastung im Alltag</string>
     <string name="draggable_logo">truefitness_draggable_logo</string>
+    <string name="dialog_ok">OK</string>
 </resources>
 

@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -65,7 +64,7 @@ public class _FragmentStartRegister extends Fragment {
     private TextView mTv_login;
     private Button mBtn_register;
     private Boolean mIsNewInstanceNotEmpty = false;
-    private boolean my_bool = true;
+    private boolean registerWithoutInput = false;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
@@ -177,22 +176,22 @@ public class _FragmentStartRegister extends Fragment {
     }
 
     private void btnRegisterClicked() {
-        if (!validateEmail(getEmail()) && my_bool) {
+        if (!validateEmail(getEmail()) && registerWithoutInput) {
             myToast("E-Mail is not valid");
             return;
         }
 
-        if(!validatePassword(getPassword()) && my_bool) {
+        if(!validatePassword(getPassword()) && registerWithoutInput) {
             myToast("Password is invalid"); return;
         }
 
-        if(!passwordMatches(getPassword(), getPasswordRepeat()) && my_bool) {
+        if(!passwordMatches(getPassword(), getPasswordRepeat()) && registerWithoutInput) {
             myToast("Passwords doesn't match");
             return;
         }
 
         User m = _user.mUserRepo.getUser(getEmail());
-        if(((m = _user.mUserRepo.getUser(getEmail())) != null) && my_bool) {
+        if(((m = _user.mUserRepo.getUser(getEmail())) != null) && registerWithoutInput) {
             myToast("E-Mail already exists in Database");
             return;
         }

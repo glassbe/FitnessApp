@@ -114,7 +114,7 @@ public class DateConverter {
     static public String dateToString(int year, int month, int day) {
         // Do something with the date chosen by the user
         DecimalFormat df = new DecimalFormat("00");
-        return df.format(day) + "/" + df.format(month) + "/" + df.format(year);
+        return df.format(day) + "." + df.format(month) + "." + df.format(year);
     }
 
     /**

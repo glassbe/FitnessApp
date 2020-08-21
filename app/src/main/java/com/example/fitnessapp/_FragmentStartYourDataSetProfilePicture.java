@@ -2,6 +2,7 @@ package com.example.fitnessapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +29,8 @@ import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.ImageUtil;
 import com.example.fitnessapp.utils.RealPathUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.dialog.MaterialDialogs;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -174,6 +178,25 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
+        if(mCurrentPhotoPath == null) {
+//            KToast.infoToast(getActivity(), "Foto ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+//            KToast.customColorToast(getActivity(), "Foto ungültig", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.color.error_stroke_color);
+
+            new MaterialAlertDialogBuilder(getContext())
+                    // Add customization options here
+                    .setTitle("Ohne Profilbild fortfahren?")
+
+//                    .setMessage("Möchtest du ohne Profilbild fortfahren?")
+                    .setIcon(R.drawable.ic_baseline_help_outline_24px)
+                    .setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
+                        mCurrentPhotoPath = "";
+                        clickSetProfilePic();
+                    })
+                    .setNegativeButton("Foto machen", (dialog, which) -> takePicture())
+                    .show();
+            return;
+        }
+
         requestForSave(mRoundProfile);
 
         Fragment f = null;
@@ -236,7 +259,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
         if (profileToUpdate) {
 //            _IUser.mUserRepo.UpdateInfo(mUser);
-            KToast.infoToast(getActivity(), "Profile Pic set", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+//            KToast.successToast(getActivity(), "Profilbild gespeichert", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            Toast.makeText(getActivity(), "Profilbild gespeichert", Toast.LENGTH_SHORT);
         }
     }
 

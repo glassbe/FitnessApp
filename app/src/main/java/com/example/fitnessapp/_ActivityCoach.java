@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -75,6 +76,7 @@ public class _ActivityCoach extends AppCompatActivity {
         Button continue_button = findViewById(R.id.button);
         continue_button.setOnClickListener(v -> ClickLogout());
     }
+
 
     @Override
     public void onBackPressed() {

@@ -28,11 +28,18 @@ public class DatePickerDialogFragment extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
 
         Calendar cal = Calendar.getInstance();
-        return new DatePickerDialog(getActivity(),
-            onDateSetListener,
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog m = new DatePickerDialog(getActivity(),
+                onDateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        //Start with Monday
+        m.getDatePicker().setFirstDayOfWeek(2);
+
+        //Start with Year Selection
+        m.getDatePicker().getTouchables().get(0).performClick();
+;
+        return m;
     }
 
     private void setOnDateSetListener(DatePickerDialog.OnDateSetListener listener) {

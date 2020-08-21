@@ -17,6 +17,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
 
+        <item name="colorSurface">@color/colorSurface</item>
+
 <!--        <item name="android:windowActivityTransitions">true</item>-->
 <!--        <item name="android:windowTransitionBackgroundFadeDuration">1000</item>-->
 

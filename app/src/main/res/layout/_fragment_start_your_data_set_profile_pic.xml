@@ -17,10 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
 
-            android:src="@drawable/txt_dein_profilbild"
+            android:layout_marginTop="40dp"
 
-            tools:ignore="NotSibling"
-            tools:layout_editor_absoluteY="8dp" />
+            android:src="@drawable/txt_dein_profilbild"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NotSibling" />
 
         <Button
             android:id="@+id/btn_set_profile_pic"
@@ -83,16 +87,14 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/icn_feather_camera"
                     android:textAlignment="viewStart"
-                    tools:ignore="NotSibling"
-                    />
+                    tools:ignore="NotSibling" />
 
                 <!-- Image Cropper fill the remaining available height -->
-                <com.theartofdev.edmodo.cropper.CropImageView
-                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                <com.theartofdev.edmodo.cropper.CropImageView xmlns:custom="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/cropImageView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
             </LinearLayout>
         </ScrollView>
