@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
@@ -201,6 +202,25 @@ public class _FragmentStartYourDataSetData extends Fragment {
         newUser.setEnergyLevel(mEnergyLevel.getValue());
 
         mViewModel.setUser(newUser);
+
+        KToast.successToast(getActivity(),"Daten eingetragen", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+
+        // Start new Fragment
+        FragmentManager mFragmentManager = getFragmentManager();
+        androidx.fragment.app.FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        Fragment f = null;
+        f = mFragmentManager.findFragmentByTag("createWorkoutPlan");
+        if(f == null){
+            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourGoal(), "createWorkoutPlan");
+            mFragmentTransaction.addToBackStack("createWorkoutPlan");
+        } else {
+            mFragmentManager.popBackStack();
+            mFragmentManager.popBackStack("createWorkoutPlan", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
+        mFragmentTransaction.commit();
 
         return null;
     }

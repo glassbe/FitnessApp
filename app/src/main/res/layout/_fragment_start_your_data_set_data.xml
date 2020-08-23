@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="._FragmentStartYourDataGetStarted"
-    android:background="@drawable/img_background_your_data">
+    android:background="@drawable/img_background_your_data"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
