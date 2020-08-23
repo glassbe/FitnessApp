@@ -338,5 +338,6 @@
     <string name="energyLevel">Durchsch. Körperliche Belastung im Alltag</string>
     <string name="draggable_logo">truefitness_draggable_logo</string>
     <string name="dialog_ok">OK</string>
+    <string name="your_goal"><u>Dein Ziel:</u></string>
 </resources>
 

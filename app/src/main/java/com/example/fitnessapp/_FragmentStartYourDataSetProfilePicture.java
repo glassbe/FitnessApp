@@ -180,18 +180,10 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     //private Functions
 
     private void clickSetProfilePic() {
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-
         if(mCurrentPhotoPath == null) {
-//            KToast.infoToast(getActivity(), "Foto ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-//            KToast.customColorToast(getActivity(), "Foto ungültig", Gravity.BOTTOM, KToast.LENGTH_AUTO, R.color.error_stroke_color);
-
             new MaterialAlertDialogBuilder(getContext())
                     // Add customization options here
                     .setTitle("Ohne Profilbild fortfahren?")
-
-//                    .setMessage("Möchtest du ohne Profilbild fortfahren?")
                     .setIcon(R.drawable.ic_baseline_help_outline_24px)
                     .setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
                         mCurrentPhotoPath = "";
@@ -203,6 +195,10 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         }
 
         requestForSave(mRoundProfile);
+
+
+        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("setData");
@@ -268,8 +264,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
             Toast.makeText(getActivity(), "Profilbild gespeichert", Toast.LENGTH_SHORT);
         }
     }
-
-
 
 
     private void setupWindowAnimations() {

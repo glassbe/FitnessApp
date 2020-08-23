@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="._FragmentStartYourGoal"
+    android:background="@drawable/img_background_your_data">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="355dp" />
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_create_workout_plan"
+            app:layout_constraintEnd_toStartOf="@+id/guideline6"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="@+id/guideline5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="0dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="316dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="0dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="@+id/guideline3">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:src="@drawable/heading_your_goal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/your_goal_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:src="@drawable/blank_goad_view" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/your_goal"
+                            android:textAlignment="center"
+                            android:textColor="@color/mywhite"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/your_goal_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAlignment="center"
+                            android:textColor="@color/mywhite"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/goal_gain_weight_image"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:gravity="center"
+                                    android:src="@drawable/gain_muscles_pic" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="5dp" />
+
+                                <TextView
+                                    android:id="@+id/goal_gain_weight_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Muskeln\naufbauen"
+                                    android:textColor="@color/mywhite"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/goal_loose_weight_image"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                                    android:gravity="center"
+                                    android:src="@drawable/loose_weight_pic" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="5dp" />
+
+                                <TextView
+                                    android:id="@+id/goal_loose_weight_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Gewicht\nverlieren"
+                                    android:textColor="@color/mywhite"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+
+                                    />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/your_goal_become_fitter_image"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+
+                                    android:gravity="center"
+                                    android:src="@drawable/become_fitter_pic" />
+
+                                <Space
+                                    android:layout_width="match_parent"
+                                    android:layout_height="5dp" />
+
+                                <TextView
+                                    android:id="@+id/your_goal_become_fitter_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Fitter\nwerden"
+                                    android:textColor="@color/mywhite"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_create_workout_plan"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_default"
+            android:text="Create Workout Plan"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.87" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

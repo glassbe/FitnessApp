@@ -146,4 +146,13 @@ public class User implements Serializable {
         this.energyLevel = energyLevel;
     }
 
+    public int getFocusToTrain() {
+        return focusToTrain;
+    }
+
+    public void setFocusToTrain(int focusToTrain) {
+        this.focusToTrain = focusToTrain;
+    }
+
+
 }
