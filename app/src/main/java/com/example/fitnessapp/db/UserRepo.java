@@ -32,7 +32,6 @@ public class UserRepo implements IUser {
     }
 
     @Override
-<<<<<<< Updated upstream
     public LiveData<User> getLastUserAsync() {
         return mUserDAO.getLatestLoginAsync();
     }
@@ -40,8 +39,6 @@ public class UserRepo implements IUser {
     @Override
     public User getLastUser() {
         return mUserDAO.getLatestLogin();
-=======
->>>>>>> Stashed changes
     }
 
     @Override

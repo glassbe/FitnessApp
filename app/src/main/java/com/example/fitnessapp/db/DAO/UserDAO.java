@@ -25,7 +25,6 @@ public interface UserDAO {
     @Delete
     public void deleteUser(User user);
 
-<<<<<<< Updated upstream
     @Query("SELECT * FROM User WHERE email LIKE :mail LIMIT 1")
     public LiveData<User> getUserByMailAsync(String mail);
 
@@ -40,8 +39,6 @@ public interface UserDAO {
 
     @Query("SELECT * FROM User")
     public LiveData<List<User>> getAllUserAsync();
-=======
->>>>>>> Stashed changes
 
     @Query("SELECT * FROM User")
     public List<User> getAllUser();
