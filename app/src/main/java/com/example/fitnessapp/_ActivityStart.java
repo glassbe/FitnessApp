@@ -76,6 +76,14 @@ public class _ActivityStart extends AppCompatActivity {
         //Start Service
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
+        //Try Block
+        try {
+            mUser = _user.mUserRepo.getLastUser();
+
+        } catch (Exception e){
+            Log.getStackTraceString(e);
+        }
+
         //Get Last User
         mUser = _user.mUserRepo.getLastUser();
         if(mUser != null){
