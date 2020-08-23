@@ -7,6 +7,7 @@ import android.content.Context;
 import android.drm.DrmStore;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,9 +32,11 @@ import com.example.fitnessapp.utils.DateConverter;
 import com.example.fitnessapp.utils.Keyboard;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.onurkaganaldemir.ktoastlib.KToast;
 import com.rey.material.widget.Slider;
 
 import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -94,7 +97,7 @@ public class _FragmentStartYourDataSetData extends Fragment {
             mEnergyLevel = view.findViewById(R.id.sb_energyLevel);
 
             mSetData = view.findViewById(R.id.btn_setData);
-            mSetData.setOnClickListener(v -> setData());
+            mSetData.setOnClickListener(_view -> setData(_view));
 
             // set selection of Spinner
             String[] arraySpinner = new String[]{
@@ -177,14 +180,40 @@ public class _FragmentStartYourDataSetData extends Fragment {
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        mBirthdate.setText(DateConverter.dateToString(year, month + 1, day));
+        mBirthdate.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mBirthdate.getWindowToken(), 0);
     }
 
 
-    private View.OnClickListener setData() {
+    private View.OnClickListener setData(View _view) {
+        //Check Inputs
+        if(InputIsFalse()) KToast.warningToast(getActivity(),"Eingabe ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+
+        User newUser = mViewModel.getUser();
+        newUser.setProfilePicPath(mViewModel.getPhotoPath());
+        newUser.setFirstName(mFirstName.getText().toString());
+        newUser.setLastName(mSurName.getText().toString());
+        newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
+        newUser.setGender(mGender.getSelectedItemPosition());
+        newUser.setWeight(Integer.parseInt(mWeight.getText().toString()));
+        newUser.setHeight(Integer.parseInt(mHeight.getText().toString()));
+        newUser.setEnergyLevel(mEnergyLevel.getValue());
+
+        mViewModel.setUser(newUser);
+
         return null;
+    }
+
+    private boolean InputIsFalse() {
+        if(mFirstName.getText().toString() == "") return true;
+        if(mSurName.getText().toString() == "") return true;
+        if(mBirthdate.getText().toString() == "") return true;
+//        if(mGender.getSelectedItemPosition() == "") return true;
+        if(mWeight.getText().toString() == "") return true;
+        if(mHeight.getText().toString() == "") return true;
+//        if(mEnergyLevel.getText().toString() == "") return true;
+        return false;
     }
 
 

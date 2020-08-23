@@ -1,12 +1,16 @@
 package com.example.fitnessapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.transition.TransitionInflater;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -99,6 +103,7 @@ public class _FragmentStartRegister extends Fragment {
 
         //Set Shared Elements to its position
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(0,R.anim.anim_slide_out_left);
     }
 
     @Override
@@ -169,6 +174,8 @@ public class _FragmentStartRegister extends Fragment {
                 .replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login")
                 .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
 
+
+
         if(_ActivityStart.getStartFrame() != "login")
             mFragmentTransaction.addToBackStack("login");
         mFragmentTransaction.commit();
@@ -196,16 +203,22 @@ public class _FragmentStartRegister extends Fragment {
             return;
         }
 
-        //Create New User
+        //Create New User in ViewModel
 //         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
+        mViewModel.setUser(new User(getEmail(), getPassword()));
 
         // Store Values in ViewModel
         emailChanged();
         passwordChanged();
 
+
+
+
         FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        @SuppressLint("WrongConstant") FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.addSharedElement(mImg_logo,ViewCompat.getTransitionName(mImg_logo));
+
+//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
 
 
         Fragment f = null;
@@ -219,6 +232,8 @@ public class _FragmentStartRegister extends Fragment {
         }
 
         mFragmentTransaction.commit();
+
+
     }
 
 

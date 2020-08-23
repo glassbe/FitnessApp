@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
+    <slide
+        android:duration="1000"
+        android:slideEdge="right"
+        android:interpolator="@android:interpolator/linear"
+
+        />
+</transitionManager>
+
+    <!--    //        Slide slide = new Slide();-->
+    <!--    //        slide.setDuration(1000);-->
+    <!--    //        slide.setInterpolator(new LinearInterpolator());-->
+    <!--    //        slide.setSlideEdge(Gravity.RIGHT);-->
+    <!--    //        slide.excludeTarget(android.R.id.statusBarBackground, true);-->
+    <!--    //        slide.excludeTarget(android.R.id.navigationBarBackground, true);-->
+    <!--    //        window.setEnterTransition(slide); // The Transition to use to move Views into the initial Scene.-->
+    <!--    //        window.setReturnTransition(slide); //-->
+    <!--    //        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.-->
+    <!--    //        window.setReenterTransition(slide);-->

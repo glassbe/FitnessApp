@@ -8,12 +8,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -68,6 +71,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _IUser = new ViewModelProvider(this).get(UserViewModel.class);
+
+        setupWindowAnimations();
     }
 
 
@@ -262,6 +267,23 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 //            KToast.successToast(getActivity(), "Profilbild gespeichert", Gravity.BOTTOM, KToast.LENGTH_SHORT);
             Toast.makeText(getActivity(), "Profilbild gespeichert", Toast.LENGTH_SHORT);
         }
+    }
+
+
+
+
+    private void setupWindowAnimations() {
+        Window window = getActivity().getWindow();
+        Slide slide = new Slide();
+        slide.setDuration(1000);
+        slide.setInterpolator(new LinearInterpolator());
+        slide.setSlideEdge(Gravity.RIGHT);
+        slide.excludeTarget(android.R.id.statusBarBackground, true);
+        slide.excludeTarget(android.R.id.navigationBarBackground, true);
+        window.setEnterTransition(slide); // The Transition to use to move Views into the initial Scene.
+        window.setReturnTransition(slide); //
+//        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.
+//        window.setReenterTransition(slide);
     }
 
 

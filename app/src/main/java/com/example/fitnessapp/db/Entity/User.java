@@ -35,8 +35,15 @@ public class User implements Serializable {
 
     private String profilePicPath;
 
+    private int weight;
 
-    //=======================
+    private Date birthdate;
+
+    private int energyLevel;
+
+    private int focusToTrain; // 1|Gain Muscles, 2|Loose Weight, 3|Become Fitter
+
+//=======================
     //=======================
 
 
@@ -101,6 +108,12 @@ public class User implements Serializable {
         return  lastLogIn;
     }
 
+
+
+
+    //=======================
+    // Methods to Implement
+
     public String getProfilePicPath() {
         return profilePicPath;
     }
@@ -108,4 +121,29 @@ public class User implements Serializable {
     public void setProfilePicPath(String profilePicPath) {
         this.profilePicPath = profilePicPath;
     }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public int getEnergyLevel() {
+        return energyLevel;
+    }
+
+    public void setEnergyLevel(int energyLevel) {
+        this.energyLevel = energyLevel;
+    }
+
 }

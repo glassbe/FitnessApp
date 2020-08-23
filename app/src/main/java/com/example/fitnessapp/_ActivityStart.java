@@ -284,37 +284,6 @@ public class _ActivityStart extends AppCompatActivity {
     //Database Functions
 
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = findViewById(android.R.id.content).getRootView();
-
-        if (v != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int[] sourceCoordinates = new int[2];
-            v.getLocationOnScreen(sourceCoordinates);
-            float x = ev.getRawX() + v.getLeft() - sourceCoordinates[0];
-            float y = ev.getRawY() + v.getTop() - sourceCoordinates[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-                hideKeyboard(this);
-            }
-
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    private void hideKeyboard(Activity activity) {
-        if (activity != null && activity.getWindow() != null) {
-            findViewById(android.R.id.content).getRootView().findViewById(android.R.id.content).clearFocus();
-            activity.getWindow().getDecorView();
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
-            }
-        }
-    }
-
 
 
 }

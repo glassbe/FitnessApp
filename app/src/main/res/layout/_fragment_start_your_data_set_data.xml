@@ -59,7 +59,8 @@
                     android:layout_width="@dimen/Layout_SetData_LinearLayout_Width"
                     android:layout_height="@dimen/Layout_SetData_LinearLayout_Height"
                     android:background="@drawable/shape_btn_setdata_dark"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
 
                     <TextView
                         android:id="@+id/tv_firstname"
@@ -300,7 +301,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/Layout_SetData_MarginTop"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -317,7 +318,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-15dp"
+                        android:layout_marginTop="-25dp"
                         android:layout_weight="1">
 
                         <TextView
@@ -348,6 +349,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:sl_stepValue="10"
 
+                            app:sl_secondaryColor="@color/float_transparent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:sl_discreteMode="true"
                             app:sl_maxValue="100"
