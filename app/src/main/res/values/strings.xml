@@ -339,5 +339,12 @@
     <string name="draggable_logo">truefitness_draggable_logo</string>
     <string name="dialog_ok">OK</string>
     <string name="your_goal"><u>Dein Ziel:</u></string>
+    <string name="gain_weight">Muskeln
+        aufbauen</string>
+    <string name="become_fitter">Fitter
+        werden</string>
+    <string name="loose_weight">Gewicht
+        verlieren</string>
+
 </resources>
 

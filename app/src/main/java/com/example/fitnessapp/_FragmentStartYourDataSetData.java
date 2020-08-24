@@ -189,21 +189,24 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     private View.OnClickListener setData(View _view) {
         //Check Inputs
-        if(InputIsFalse()) KToast.warningToast(getActivity(),"Eingabe ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+        if(InputIsFalse() && false) {
+            KToast.warningToast(getActivity(),"Eingabe ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            return null;
+        }
 
-        User newUser = mViewModel.getUser();
-        newUser.setProfilePicPath(mViewModel.getPhotoPath());
-        newUser.setFirstName(mFirstName.getText().toString());
-        newUser.setLastName(mSurName.getText().toString());
-        newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
-        newUser.setGender(mGender.getSelectedItemPosition());
-        newUser.setWeight(Integer.parseInt(mWeight.getText().toString()));
-        newUser.setHeight(Integer.parseInt(mHeight.getText().toString()));
-        newUser.setEnergyLevel(mEnergyLevel.getValue());
-
-        mViewModel.setUser(newUser);
-
-        KToast.successToast(getActivity(),"Daten eingetragen", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+//        User newUser = mViewModel.getUser();
+//        newUser.setProfilePicPath(mViewModel.getPhotoPath());
+//        newUser.setFirstName(mFirstName.getText().toString());
+//        newUser.setLastName(mSurName.getText().toString());
+//        newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
+//        newUser.setGender(mGender.getSelectedItemPosition());
+//        newUser.setWeight(Float.parseFloat(mWeight.getText().toString()));
+//        newUser.setHeight(Float.parseFloat(mHeight.getText().toString()));
+//        newUser.setEnergyLevel(mEnergyLevel.getValue());
+//
+//        mViewModel.setUser(newUser);
+//
+//        KToast.successToast(getActivity(),"Daten eingetragen", Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
 
         // Start new Fragment
@@ -226,12 +229,14 @@ public class _FragmentStartYourDataSetData extends Fragment {
     }
 
     private boolean InputIsFalse() {
-        if(mFirstName.getText().toString() == "") return true;
-        if(mSurName.getText().toString() == "") return true;
-        if(mBirthdate.getText().toString() == "") return true;
+
+
+        if(mFirstName.getText().toString().length() == 0) return true;
+        if(mSurName.getText().toString().length() == 0) return true;
+        if(mBirthdate.getText().toString().length() == 0) return true;
 //        if(mGender.getSelectedItemPosition() == "") return true;
-        if(mWeight.getText().toString() == "") return true;
-        if(mHeight.getText().toString() == "") return true;
+        if(mWeight.getText().toString().length() == 0) return true;
+        if(mHeight.getText().toString().length() == 0) return true;
 //        if(mEnergyLevel.getText().toString() == "") return true;
         return false;
     }

@@ -22,7 +22,7 @@ public class User implements Serializable {
 
     private String lastName;
 
-    private int height;
+    private float height;
 
     private int gender;
 
@@ -35,7 +35,7 @@ public class User implements Serializable {
 
     private String profilePicPath;
 
-    private int weight;
+    private float weight;
 
     private Date birthdate;
 
@@ -71,9 +71,9 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getHeight(){return this.height;}
+    public float getHeight(){return this.height;}
 
-    public void setHeight(int height){
+    public void setHeight(float height){
         this.height = height;
     }
 
@@ -122,11 +122,11 @@ public class User implements Serializable {
         this.profilePicPath = profilePicPath;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 

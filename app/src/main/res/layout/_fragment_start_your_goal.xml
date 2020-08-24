@@ -81,6 +81,8 @@
                         android:src="@drawable/heading_your_goal" />
 
                     <LinearLayout
+                        android:id="@+id/your_goal_image_holder"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -142,7 +144,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Muskeln\naufbauen"
+                                    android:text="@string/gain_weight"
                                     android:textColor="@color/mywhite"
                                     android:textSize="18sp"
                                     android:textStyle="bold"
@@ -172,7 +174,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Gewicht\nverlieren"
+                                    android:text="@string/loose_weight"
                                     android:textColor="@color/mywhite"
                                     android:textSize="18sp"
                                     android:textStyle="bold"
@@ -203,7 +205,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Fitter\nwerden"
+                                    android:text="@string/become_fitter"
                                     android:textColor="@color/mywhite"
                                     android:textSize="18sp"
                                     android:textStyle="bold"

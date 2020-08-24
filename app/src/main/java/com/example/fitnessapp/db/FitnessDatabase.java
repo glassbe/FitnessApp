@@ -17,7 +17,7 @@ import com.example.fitnessapp.db.Entity.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, StatusUpdate.class}, version = 4)
+@Database(entities = {User.class, StatusUpdate.class}, version = 5)
 @TypeConverters({Converters.class})
 abstract class FitnessDatabase extends RoomDatabase {
 

@@ -50,8 +50,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/CL_btn_getStarted"
-        android:layout_width="319dp"
-        android:layout_height="61dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
 
 
         android:background="@drawable/shape_btn_default"
@@ -65,8 +65,8 @@
         <Button
             android:id="@+id/btn_getStarted"
 
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/float_transparent"
             android:text="Get Started"
             android:textColor="@android:color/white"

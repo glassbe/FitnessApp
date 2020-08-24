@@ -212,12 +212,12 @@ public class _ActivityStart extends AppCompatActivity {
                 .rotationY(360)
                 .start();
 
-        AdditiveAnimator
-                .animate(mImg_logo)
-                .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3 + duration_anim4 + 600)
-                .setDuration(0)
-                .alpha(0)
-                .start();
+//        AdditiveAnimator
+//                .animate(mImg_logo)
+//                .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3 + duration_anim4 + 600)
+//                .setDuration(0)
+//                .alpha(0)
+//                .start();
 
         //return duration
         return (duration_anim1 + duration_anim2 + duration_anim3);
