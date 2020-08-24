@@ -44,6 +44,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import es.dmoral.toasty.Toasty;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -181,8 +184,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
     private void clickSetProfilePic() {
         if(mCurrentPhotoPath == null) {
-            new MaterialAlertDialogBuilder(getContext())
-                    // Add customization options here
+            new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                     Add customization options here
                     .setTitle("Ohne Profilbild fortfahren?")
                     .setIcon(R.drawable.ic_baseline_help_outline_24px)
                     .setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
@@ -192,6 +195,16 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     .setNegativeButton("Foto machen", (dialog, which) -> takePicture())
                     .show();
             return;
+
+//            if(mCurrentPhotoPath == null) {
+//                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                        .setTitleText("Ohne Profilbild fortfahren?")
+//                        .setCustomImage(R.drawable.__arrow_up)
+//    //                    .setContentText(getContext().getResources().getText(R.string.profileCreated).toString())
+//    //                    .setConfirmClickListener(sDialog -> nextSlide())
+//                        .setNeutralClickListener(sweetAlertDialog -> {})
+//                        .show();
+//            return;
         }
 
         requestForSave(mRoundProfile);
@@ -199,6 +212,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+//        mFragmentTransaction.setCustomAnimations(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("setData");
@@ -223,7 +238,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     .start(getContext(),this);
         } catch(Exception e){
             Log.getStackTraceString(e);
-            KToast.infoToast(getActivity(), "Need Camera Permissions", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+           Toasty.info(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
         }
 
     }
@@ -261,7 +276,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         if (profileToUpdate) {
 //            _IUser.mUserRepo.UpdateInfo(mUser);
 //            KToast.successToast(getActivity(), "Profilbild gespeichert", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            Toast.makeText(getActivity(), "Profilbild gespeichert", Toast.LENGTH_SHORT);
+            Toasty.success(getActivity(), "Profilbild gespeichert", Toasty.LENGTH_SHORT,true).show();
         }
     }
 

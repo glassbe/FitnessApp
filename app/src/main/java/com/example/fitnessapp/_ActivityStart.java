@@ -153,6 +153,7 @@ public class _ActivityStart extends AppCompatActivity {
     private void Register() {
         //REGISTER-Layout
         mStartFrame = "register";
+        mFragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.animate_slide_out_left,R.anim.fade_in, R.anim.animate_slide_out_left);
         mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
         mFragmentTransaction.commit();
     }

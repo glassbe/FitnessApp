@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -103,7 +104,7 @@ public class _FragmentStartRegister extends Fragment {
 
         //Set Shared Elements to its position
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(0,R.anim.anim_slide_out_left);
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(0,R.anim.animate_slide_out_left);
     }
 
     @Override
@@ -164,76 +165,84 @@ public class _FragmentStartRegister extends Fragment {
     }
 
     private void btnLoginClicked() {
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        new Thread(() ->
+        {
+            FragmentManager mFragmentManager = getFragmentManager();
+            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 //        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
 
 
-        mFragmentManager.popBackStack();
-        mFragmentTransaction
-                .replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login")
-                .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
+            mFragmentManager.popBackStack();
+            mFragmentTransaction
+                    .replace(R.id.start_frame, _FragmentStartLogin.newInstance(), "login")
+                    .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
 
 
-
-        if(_ActivityStart.getStartFrame() != "login")
-            mFragmentTransaction.addToBackStack("login");
-        mFragmentTransaction.commit();
+            if (_ActivityStart.getStartFrame() != "login")
+                mFragmentTransaction.addToBackStack("login");
+            mFragmentTransaction.commit();
+        }).start();
 
     }
 
     private void btnRegisterClicked() {
-        if (!validateEmail(getEmail()) && registerWithoutInput) {
-            myToast("E-Mail is not valid");
-            return;
-        }
+        String mail = getEmail();
+        String password = getPassword();
+        String passwordRepeat = getPasswordRepeat();
 
-        if(!validatePassword(getPassword()) && registerWithoutInput) {
-            myToast("Password is invalid"); return;
-        }
+                if (!validateEmail(mail) && registerWithoutInput) {
+                    myToast("E-Mail is not valid");
+                    return;
+                }
 
-        if(!passwordMatches(getPassword(), getPasswordRepeat()) && registerWithoutInput) {
-            myToast("Passwords doesn't match");
-            return;
-        }
+                if (!validatePassword(password) && registerWithoutInput) {
+                    myToast("Password is invalid");
+                    return;
+                }
 
-        User m = _user.mUserRepo.getUser(getEmail());
-        if(((m = _user.mUserRepo.getUser(getEmail())) != null) && registerWithoutInput) {
-            myToast("E-Mail already exists in Database");
-            return;
-        }
+                if (!passwordMatches(password, passwordRepeat) && registerWithoutInput) {
+                    myToast("Passwords doesn't match");
+                    return;
+                }
 
-        //Create New User in ViewModel
+                User m = _user.mUserRepo.getUser(mail);
+                if (((m = _user.mUserRepo.getUser(mail)) != null) && registerWithoutInput) {
+                    myToast("E-Mail already exists in Database");
+                    return;
+                }
+
+
+                //Create New User in ViewModel
 //         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
-        mViewModel.setUser(new User(getEmail(), getPassword()));
+                mViewModel.setUser(new User(mail, password));
 
-        // Store Values in ViewModel
-        emailChanged();
-        passwordChanged();
+                // Store Values in ViewModel
+                emailChanged();
+                passwordChanged();
 
+        new Thread(()-> {
+            FragmentManager mFragmentManager = getFragmentManager();
+            @SuppressLint("WrongConstant") FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
 
-
-
-        FragmentManager mFragmentManager = getFragmentManager();
-        @SuppressLint("WrongConstant") FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.addSharedElement(mImg_logo,ViewCompat.getTransitionName(mImg_logo));
-
-//        mFragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+//            mFragmentTransaction.setCustomAnimations(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
 
 
-        Fragment f = null;
-        f = mFragmentManager.findFragmentByTag("startMyData");
-        if(f == null){
-            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
-            mFragmentTransaction.addToBackStack("startMyData");
-        } else {
-            mFragmentManager.popBackStack();
-            mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
+            Fragment f = null;
+            f = mFragmentManager.findFragmentByTag("startMyData");
+            if (f == null) {
+                        mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
+        //                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartCreateWorkoutPlan(), "startMyData");
+//                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourGoal(), "startMyData");
+                mFragmentTransaction.addToBackStack("startMyData");
+            } else {
+                mFragmentManager.popBackStack();
+                mFragmentManager.popBackStack("startMyData", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
 
-        mFragmentTransaction.commit();
+            mFragmentTransaction.commit();
 
-
+        }).start();
     }
 
 

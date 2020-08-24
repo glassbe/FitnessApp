@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,8 @@ import com.rey.material.widget.Slider;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -190,7 +193,7 @@ public class _FragmentStartYourDataSetData extends Fragment {
     private View.OnClickListener setData(View _view) {
         //Check Inputs
         if(InputIsFalse() && false) {
-            KToast.warningToast(getActivity(),"Eingabe ungültig", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            Toasty.warning(getActivity(),"Eingabe ungültig", Toasty.LENGTH_SHORT, true).show();
             return null;
         }
 
@@ -212,6 +215,8 @@ public class _FragmentStartYourDataSetData extends Fragment {
         // Start new Fragment
         FragmentManager mFragmentManager = getFragmentManager();
         androidx.fragment.app.FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+//        mFragmentTransaction.setCustomAnimations(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("createWorkoutPlan");

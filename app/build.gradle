@@ -147,6 +147,13 @@ dependencies {
     //Slider for Activities
     implementation 'com.r0adkll:slidableactivity:2.1.0'
 
+    //Noty & Toasty
+    implementation 'com.emredavarci:noty:1.0.3'
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+    //Intent Animation
+    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
+
 // Room Database
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'

@@ -157,22 +157,25 @@ public class _FragmentStartLogin extends Fragment
 
     private void btnRegisterClicked() {
 
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        new Thread(() ->
+        {
+            FragmentManager mFragmentManager = getFragmentManager();
+            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-        // delete last Step from Back Stack
-        mFragmentManager.popBackStack();
+            // delete last Step from Back Stack
+            mFragmentManager.popBackStack();
 
-        // Create new Frame
-        mFragmentTransaction
-                .replace(R.id.start_frame, _FragmentStartRegister.newInstance(), "register")
-                .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
+            // Create new Frame
+            mFragmentTransaction
+                    .replace(R.id.start_frame, _FragmentStartRegister.newInstance(), "register")
+                    .addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
 
-        // Don't add to StackBack, when it is start Frame
-        if(_ActivityStart.getStartFrame() != "register")
-            mFragmentTransaction.addToBackStack("register");
+            // Don't add to StackBack, when it is start Frame
+            if (_ActivityStart.getStartFrame() != "register")
+                mFragmentTransaction.addToBackStack("register");
 
-        mFragmentTransaction.commit();
+            mFragmentTransaction.commit();
+        }).start();
     }
 
 
@@ -186,12 +189,13 @@ public class _FragmentStartLogin extends Fragment
             return;
         }
 
+
         Intent intent = new Intent(this.getActivity(), _ActivityCoach.class);
         Bundle bundle = ActivityOptions
-                .makeSceneTransitionAnimation(getActivity(),mImg_logo, ViewCompat.getTransitionName(mImg_logo))
+                .makeSceneTransitionAnimation(getActivity(), mImg_logo, ViewCompat.getTransitionName(mImg_logo))
                 .toBundle();
         intent.putExtra("ARG_USER_MAIL", getEmail());
-        startActivity(intent,bundle);
+        startActivity(intent, bundle);
 
     }
 

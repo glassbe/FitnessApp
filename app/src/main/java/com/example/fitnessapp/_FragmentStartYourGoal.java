@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.emredavarci.noty.Noty;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.databinding.FragmentStartYourGoalBinding;
 import com.example.fitnessapp.db.Entity.User;
@@ -28,6 +30,7 @@ import org.w3c.dom.Text;
 import java.lang.ref.WeakReference;
 
 import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
+import es.dmoral.toasty.Toasty;
 
 import static com.example.fitnessapp._FragmentStartYourGoal.END_ANIMATION_TIME;
 import static com.example.fitnessapp._FragmentStartYourGoal.START_ANIMATION_TIME;
@@ -198,7 +201,7 @@ public class _FragmentStartYourGoal extends Fragment {
 
     private void endAnimationOfGoal(ImageView imageview, TextView textview) {
         AdditiveAnimator
-                .animate(imageview, textview)
+                .animate(imageview, textview, binding.yourGoalImage, binding.yourGoalText)
                 .setStartDelay(START_ANIMATION_TIME)
                 .setDuration(END_ANIMATION_TIME)
                 .alpha(1)
@@ -207,7 +210,7 @@ public class _FragmentStartYourGoal extends Fragment {
 
     private void startAnimationOfGoal(ImageView imageview, TextView textview) {
         AdditiveAnimator
-                .animate(imageview, textview)
+                .animate(imageview, textview, binding.yourGoalImage, binding.yourGoalText)
                 .setDuration(START_ANIMATION_TIME)
                 .alpha(0)
                 .start();
@@ -217,7 +220,14 @@ public class _FragmentStartYourGoal extends Fragment {
         int result = 0;
 
         if(binding.yourGoalText.getText().toString().length() == 0){
-            KToast.warningToast(getActivity(),"Ziel auswählen", Gravity.BOTTOM, KToast.LENGTH_SHORT);
+//            Noty.init(getActivity(),"Ziel auswählen", binding.getRoot(), Noty.WarningStyle.SIMPLE)
+//                    .setAnimation(Noty.RevealAnim.SLIDE_UP, Noty.DismissAnim.BACK_TO_BOTTOM, 400,400)
+//                    .setWarningBoxPosition(Noty.WarningPos.BOTTOM)
+//                    .setWarningInset(0,0,0,0)
+//                    .setWarningBoxBgColor("#ff5c33")
+//                    .setWarningTappedColor("#ff704d")
+//                    .show();
+            Toasty.warning(getActivity(),"Ziel auswählen", Toast.LENGTH_SHORT, true).show();
             return;
         }
 
@@ -235,11 +245,13 @@ public class _FragmentStartYourGoal extends Fragment {
 
         FragmentManager mFragmentManager = getFragmentManager();
         androidx.fragment.app.FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+//        mFragmentTransaction.setCustomAnimations(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("WorkoutCreated");
         if(f == null){
-            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourGoal(), "WorkoutCreated");
+            mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartCreateWorkoutPlan(), "WorkoutCreated");
             mFragmentTransaction.addToBackStack("WorkoutCreated");
         } else {
             mFragmentManager.popBackStack();
@@ -250,55 +262,57 @@ public class _FragmentStartYourGoal extends Fragment {
     }
 
 
-}
-
-class MyAsyncTask extends android.os.AsyncTask<Object, Void, Void> {
-    private WeakReference<_FragmentStartYourGoal> fragmentWeakReference;
-
-    MyAsyncTask(_FragmentStartYourGoal fragment){
-        fragmentWeakReference = new WeakReference<_FragmentStartYourGoal>(fragment);
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-        _FragmentStartYourGoal fragment = fragmentWeakReference.get();
-        if(fragment == null)
-            return;
 
 
-    }
+    static class MyAsyncTask extends android.os.AsyncTask<Object, Void, Void> {
+        private WeakReference<_FragmentStartYourGoal> fragmentWeakReference;
 
-    @Override
-    protected Void doInBackground(Object... objects) {
-        try{
-            _FragmentStartYourGoal fragment = fragmentWeakReference.get();
-            if(fragment == null) return null;
-
-            ImageView imageView = (ImageView) objects[0];
-            TextView textView = (TextView) objects[1];
-
-            new Handler().postDelayed(() -> {
-                fragment.binding.yourGoalImage.setImageDrawable(imageView.getDrawable());
-                fragment.binding.yourGoalText.setText(textView.getText().toString().replaceAll("\\n", " "));
-            }, START_ANIMATION_TIME);
-
-            return null;
-
-        } catch (Exception e){
-            return null;
+        MyAsyncTask(_FragmentStartYourGoal fragment){
+            fragmentWeakReference = new WeakReference<_FragmentStartYourGoal>(fragment);
         }
-    }
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
-    }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
+            _FragmentStartYourGoal fragment = fragmentWeakReference.get();
+            if(fragment == null)
+                return;
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Object... objects) {
+            try{
+                _FragmentStartYourGoal fragment = fragmentWeakReference.get();
+                if(fragment == null) return null;
+
+                ImageView imageView = (ImageView) objects[0];
+                TextView textView = (TextView) objects[1];
+
+                new Handler().postDelayed(() -> {
+                    fragment.binding.yourGoalImage.setImageDrawable(imageView.getDrawable());
+                    fragment.binding.yourGoalText.setText(textView.getText().toString().replaceAll("\\n", " "));
+                }, START_ANIMATION_TIME-100);
+
+                return null;
+
+            } catch (Exception e){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
     }
 
 }
