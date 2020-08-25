@@ -22,3 +22,4 @@ public class StatusUpdate {
     public float weight;
 
 }
+

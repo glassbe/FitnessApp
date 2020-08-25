@@ -155,6 +155,21 @@ public class UserRepo implements IUser {
         //Set gender
         userFromDB.setGender(user.getGender());
 
+        //Profile Picture
+        userFromDB.setProfilePicPath(user.getProfilePicPath());
+
+        //Weight
+        userFromDB.setWeight(user.getWeight());
+
+        //Birthday
+        userFromDB.setBirthdate(user.getBirthdate());
+
+        //EnergyLevel
+        userFromDB.setEnergyLevel(user.getEnergyLevel());
+
+        //FocusToTrain
+        userFromDB.setFocusToTrain(user.getFocusToTrain());
+
         //Update User on DB
         new updateAsyncTask(mUserDAO).execute(userFromDB);
 
