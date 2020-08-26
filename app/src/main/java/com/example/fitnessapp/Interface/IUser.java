@@ -34,5 +34,6 @@ public interface IUser {
 
     void DeleteUser(User user);
 
+    boolean changePassword(String email, String oldPassword, String newPassword);
 
 }

@@ -75,6 +75,8 @@ public class User implements Serializable {
 
     public void setHeight(float height){
         this.height = height;
+        if(height > 300) this.height = 300;
+        if(height < 50) this.height = 50;
     }
 
     public int getGender(){return this.gender;}

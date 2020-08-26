@@ -38,6 +38,33 @@ public class UserRepo implements IUser {
     }
 
     @Override
+    public boolean changePassword(String email, String oldPassword, String newPassword) {
+
+        User requestedUser = mUserDAO.getUserByMail(email);
+
+        if(requestedUser == null){
+            //Email not found
+            return Boolean.FALSE;
+        }
+
+        //Check the oldPassword
+        if(Security.encrypt(oldPassword).equals(requestedUser.getPwHash())){
+            //Password is correct
+
+            //Set New Timestamp
+            requestedUser.setPwHash(Security.encrypt(newPassword));
+
+            new updateAsyncTask(mUserDAO).execute(requestedUser);
+
+            return Boolean.TRUE;
+        }
+        //Password is false
+        return Boolean.FALSE;
+
+
+    }
+
+    @Override
     public LiveData<User> getLastUserAsync() {
         return mUserDAO.getLatestLoginAsync();
     }
@@ -154,9 +181,7 @@ public class UserRepo implements IUser {
         }
 
         //Set height if input is between 50 und 300 cm
-        if(user.getHeight() > 50 && user.getHeight() < 300){
-            userFromDB.setHeight(user.getHeight());
-        }
+        userFromDB.setHeight(user.getHeight());
 
         //Set gender
         userFromDB.setGender(user.getGender());
