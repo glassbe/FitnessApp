@@ -257,7 +257,7 @@
     <string name="muscles">Muskeln</string>
     <string name="description">Beschreibung</string>
     <string name="edit_soon_available">in Kürze verfügbar</string>
-    <string name="edit_value">Neue Wert</string>
+    <string name="edit_value">Neuer Wert</string>
     <string name="CardioMenuLabel">Cardio (Obsolete)</string>
     <string name="sumDistance">Entfernung</string>
     <string name="sumDuration">Dauer</string>
@@ -345,6 +345,9 @@
         werden</string>
     <string name="loose_weight">Gewicht
         verlieren</string>
+    <string name="cancel">Cancel</string>
+    <string name="decline">Abbrechen</string>
+    <string name="accept">Ok</string>
 
 </resources>
 

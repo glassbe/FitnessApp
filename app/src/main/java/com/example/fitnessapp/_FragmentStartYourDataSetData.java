@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import es.dmoral.toasty.Toasty;
  */
 public class _FragmentStartYourDataSetData extends Fragment {
 
+    private static final String TAG = "_FragmentStartYourDataSetData";
     //Use Services
     private UserViewModel _user;
     private User mUser = null;
@@ -87,38 +89,16 @@ public class _FragmentStartYourDataSetData extends Fragment {
             mHeight = view.findViewById(R.id.et_input_height);
             mEnergyLevelText = view.findViewById(R.id.textview_energy_level);
             mEnergyLevel = view.findViewById(R.id.sb_energyLevel);
-            mEnergyLevel.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
-                @Override
-                public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
-                    final int ENERGY_STEP = mEnergyLevel.getMaxValue()/5;
-                    final int ENERGY_LEVEL_1 = ENERGY_STEP * 1;
-                    final int ENERGY_LEVEL_2 = ENERGY_STEP * 2;
-                    final int ENERGY_LEVEL_3 = ENERGY_STEP * 3;
-                    final int ENERGY_LEVEL_4 = ENERGY_STEP * 4;
-                    final int ENERGY_LEVEL_5 = ENERGY_STEP * 5;
-
-                    if(newValue <= ENERGY_LEVEL_1){
-                        mEnergyLevelText.setText("Coach Potato");
-                    } else if(newValue <= ENERGY_LEVEL_2){
-                        mEnergyLevelText.setText("Motivated Potato");
-                    } else if(newValue <= ENERGY_LEVEL_3){
-                        mEnergyLevelText.setText("Worker Potato");
-                    } else if(newValue <= ENERGY_LEVEL_4){
-                        mEnergyLevelText.setText("Runner Potato");
-                    } else if(newValue <= ENERGY_LEVEL_5){
-                        mEnergyLevelText.setText("SuperHero Potato");
-                    }
-                }
-            });
+            mEnergyLevel.setOnPositionChangeListener((view1, fromUser, oldPos, newPos, oldValue, newValue) -> EnergyLevelPositionChanged(newValue));
 
             mSetData = view.findViewById(R.id.btn_setData);
             mSetData.setOnClickListener(_view -> setData(_view));
 
             // set selection of Spinner
             String[] arraySpinner = new String[]{
-                    "männlich",
-                    "weiblich",
-                    "divers"
+                getString(R.string.maleGender),
+                getString(R.string.femaleGender),
+                getString(R.string.otherGender)
             };
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                     R.layout.spinner_item, arraySpinner);
@@ -129,6 +109,26 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     }
 
+    private void EnergyLevelPositionChanged(int newValue) {
+        final int ENERGY_STEP = mEnergyLevel.getMaxValue()/5;
+        final int ENERGY_LEVEL_1 = ENERGY_STEP * 1;
+        final int ENERGY_LEVEL_2 = ENERGY_STEP * 2;
+        final int ENERGY_LEVEL_3 = ENERGY_STEP * 3;
+        final int ENERGY_LEVEL_4 = ENERGY_STEP * 4;
+        final int ENERGY_LEVEL_5 = ENERGY_STEP * 5;
+
+        if(newValue <= ENERGY_LEVEL_1){
+            mEnergyLevelText.setText("Coach Potato");
+        } else if(newValue <= ENERGY_LEVEL_2){
+            mEnergyLevelText.setText("Motivated Potato");
+        } else if(newValue <= ENERGY_LEVEL_3){
+            mEnergyLevelText.setText("Worker Potato");
+        } else if(newValue <= ENERGY_LEVEL_4){
+            mEnergyLevelText.setText("Runner Potato");
+        } else if(newValue <= ENERGY_LEVEL_5){
+            mEnergyLevelText.setText("SuperHero Potato");
+        }
+    }
 
     private void openDateDialog() {
 
@@ -203,24 +203,30 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     private View.OnClickListener setData(View _view) {
         //Check Inputs
-        if(InputIsFalse() && false) {
-            Toasty.warning(getActivity(),"Eingabe ungültig", Toasty.LENGTH_SHORT, true).show();
-            return null;
+        boolean ForTesting = false;
+        if(!ForTesting){
+
+            if(InputIsFalse()) {
+                Toasty.warning(getActivity(),"Eingabe ungültig", Toasty.LENGTH_SHORT, true).show();
+                return null;
+            }
+
+            User newUser = mViewModel.getUser();
+            newUser.setProfilePicPath(mViewModel.getPhotoPath());
+            newUser.setFirstName(mFirstName.getText().toString());
+            newUser.setLastName(mSurName.getText().toString());
+            newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
+            newUser.setGender(mGender.getSelectedItemPosition()+1);
+            newUser.setWeight(Float.parseFloat(mWeight.getText().toString()));
+            newUser.setHeight(Float.parseFloat(mHeight.getText().toString()));
+            newUser.setEnergyLevel(mEnergyLevel.getValue());
+
+            mViewModel.setUser(newUser);
+
+            Toasty.success(getActivity(),"Daten eingetragen", Toasty.LENGTH_SHORT);
+
         }
 
-//        User newUser = mViewModel.getUser();
-//        newUser.setProfilePicPath(mViewModel.getPhotoPath());
-//        newUser.setFirstName(mFirstName.getText().toString());
-//        newUser.setLastName(mSurName.getText().toString());
-//        newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
-//        newUser.setGender(mGender.getSelectedItemPosition());
-//        newUser.setWeight(Float.parseFloat(mWeight.getText().toString()));
-//        newUser.setHeight(Float.parseFloat(mHeight.getText().toString()));
-//        newUser.setEnergyLevel(mEnergyLevel.getValue());
-//
-//        mViewModel.setUser(newUser);
-//
-//        KToast.successToast(getActivity(),"Daten eingetragen", Gravity.BOTTOM, KToast.LENGTH_SHORT);
 
 
         // Start new Fragment
@@ -245,7 +251,6 @@ public class _FragmentStartYourDataSetData extends Fragment {
     }
 
     private boolean InputIsFalse() {
-
 
         if(mFirstName.getText().toString().length() == 0) return true;
         if(mSurName.getText().toString().length() == 0) return true;

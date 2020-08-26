@@ -32,6 +32,9 @@ public interface IUser {
     // check if more than one User exits in Database
     boolean UserExists();
 
+    //
+    boolean DeleteUser();
+
 
 
 }

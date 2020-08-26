@@ -50,16 +50,6 @@ public class _FragmentStartYourGoal extends Fragment {
     private User mUser = null;
 
     private _ActivityStart_ViewModel mViewModel;
-    private ImageView mGoal_gain_weight_image;
-    private TextView mGoal_gain_weight_text;
-    private ImageView mGoal_loose_weight_image;
-    private TextView mGoal_loose_weight_text;
-    private ImageView mYour_goal_become_fitter_image;
-    private TextView mYour_goal_become_fitter_text;
-    private Button mBtn_create_workout_plan;
-    private ImageView mYour_goal_image;
-    private TextView mYour_goal_text;
-    private LinearLayout mYour_goal_image_holder;
 
     protected FragmentStartYourGoalBinding binding;
 

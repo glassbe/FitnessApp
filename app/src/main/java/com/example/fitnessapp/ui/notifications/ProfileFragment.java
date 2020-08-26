@@ -1,35 +1,570 @@
 package com.example.fitnessapp.ui.notifications;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.fitnessapp.DatePickerDialogFragment;
 import com.example.fitnessapp.R;
+import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp._ActivityStart;
+import com.example.fitnessapp._Activity_CoachViewModel;
+import com.example.fitnessapp.databinding.FragmentCoachProfileBinding;
+import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.utils.DateConverter;
+import com.example.fitnessapp.utils.ImageUtil;
+import com.example.fitnessapp.utils.RealPathUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel notificationsViewModel;
+    //Use Services
+    private UserViewModel _user;
+    private User mUser = null;
+    
+    private FragmentCoachProfileBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout._fragment_coach_profile, container, false);
-//        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
+    private ImageUtil imgUtil = null;
+    private String mCurrentPhotoPath = "";
+
+    private InputFilter filter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; ++i)
+            {
+                if (!Pattern.compile("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890]*").matcher(String.valueOf(source.charAt(i))).matches())
+                {
+                    return "";
+                }
+            }
+
+            return null;
+        }
+    };
+    private DatePickerDialogFragment mDateFrag;
+    private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> onDateSet(view, year, month, day);
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Bind layout to Class
+        binding = FragmentCoachProfileBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        //INIT Viewmodels
+        {
+            //Start Service
+            _user = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+
+            //Get User
+            mUser = _user.getUser();
+
+            //set Observer
+            _user.getLiveUser().observe(getActivity(), user ->  {
+                mUser = user;
+
+                binding.firstnameInput.setText(mUser.getFirstName());
+                binding.lastnameInput.setText(mUser.getLastName());
+                String gender = null;
+                switch(mUser.getGender()){
+                    case 1:
+                        gender = getString(R.string.maleGender);
+                        break;
+                    case 2:
+                        gender = getString(R.string.femaleGender);
+                        break;
+                    case 3:
+                        gender = getString(R.string.otherGender);
+                        break;
+                    default :
+                        gender = "";
+                }
+                binding.genderInput.setText(gender);
+                if(mUser.getBirthdate() != null)
+                    binding.birthdateInput.setText(DateConverter.dateToLocalDateStr(mUser.getBirthdate(),getContext()));
+                binding.heightInput.setText(String.valueOf(mUser.getHeight()) + " cm");
+
+                mCurrentPhotoPath = mUser.getProfilePicPath();
+                if(mUser.getProfilePicPath() != null){
+                    ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
+                    ImageUtil.saveThumb(mCurrentPhotoPath);
+                }
+
+                binding.emailInput.setText(mUser.getEmail());
+            });
+        }
+
+
+
+        
+        binding.photoRoundProfile.setOnClickListener(v -> ClickProfilePhoto());
+        int m = binding.photoRoundProfile.getMeasuredHeight();
+
+        binding.firstnameInput.setOnClickListener(v -> ClickOnFirstName((TextView) v));
+        binding.lastnameInput.setOnClickListener(v -> ClickOnLastName((TextView) v));
+
+        binding.birthdateInput.setOnClickListener(v -> ClickOnBirthdate(v));
+        binding.genderInput.setOnClickListener(v -> ClickGenderInput(v));
+        binding.heightInput.setOnClickListener(v -> ClickOnHeight(v));
+
+        binding.emailInput.setOnClickListener(v -> ClickEmail());
+        binding.passwordInput.setOnClickListener(v -> ClickOnPassword(v));
+
+        binding.btnDeleteAccount.setOnClickListener(v -> ClickDeleteAccount(v));
+        binding.btnLogout.setOnClickListener(v -> ClickLogout());
+
+
+        /* Initialisation des valeurs */
+        imgUtil = new ImageUtil(binding.photoRoundProfile);
+
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ImageView iv= binding.photoRoundProfile;
+        ViewTreeObserver vto = iv.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
+            private int mFinalWidth = 0;
+            private int mFinalHeight = 0;
+
+            public boolean onPreDraw() {
+
+                if(mFinalHeight != 0 || mFinalWidth != 0)
+                    return true;
+
+                mFinalHeight = iv.getHeight();
+                mFinalWidth = iv.getWidth();
+                Log.d("hilength","Height: " + mFinalHeight + " Width: " + mFinalWidth);
+
+
+                ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
+                return true;
             }
         });
-        return root;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case ImageUtil.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    mCurrentPhotoPath = imgUtil.getFilePath();
+                    ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
+                    ImageUtil.saveThumb(mCurrentPhotoPath);
+                    imgUtil.galleryAddPic(this, mCurrentPhotoPath);
+                }
+                break;
+            case ImageUtil.REQUEST_PICK_GALERY_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), data.getData());
+
+                    ImageUtil.setPic(binding.photoRoundProfile, realPath);
+                    ImageUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                }
+                break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    String realPath;
+                    realPath = RealPathUtil.getRealPath(this.getContext(), resultUri);
+
+                    // Le fichier est crée dans le cache.
+                    // Déplacer le fichier dans le repertoire de FastNFitness
+                    File SourceFile = new File(realPath);
+
+                    File storageDir = null;
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + ".jpg";
+                    String state = Environment.getExternalStorageState();
+                    if (!Environment.MEDIA_MOUNTED.equals(state)) {
+                        return;
+                    } else {
+                        //We use the FastNFitness directory for saving our .csv file.
+                        storageDir = Environment.getExternalStoragePublicDirectory("/TrueFitness/Camera/");
+                        if (!storageDir.exists()) {
+                            storageDir.mkdirs();
+                        }
+                    }
+                    new File(storageDir.getPath() + imageFileName);
+                    File DestinationFile;
+
+                    try {
+                        DestinationFile = imgUtil.moveFile(SourceFile, storageDir);
+                        Log.v("Moving", "Moving file successful.");
+                        realPath = DestinationFile.getPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.v("Moving", "Moving file failed.");
+                    }
+
+                    ImageUtil.setPic(binding.photoRoundProfile, realPath);
+                    ImageUtil.saveThumb(realPath);
+                    mCurrentPhotoPath = realPath;
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                }
+                break;
+
+        }
+        if(mCurrentPhotoPath != "") {
+            mUser.setProfilePicPath(mCurrentPhotoPath);
+            _user.updateUser(mUser);
+        }
+    }
+
+
+
+    private void ClickProfilePhoto() {
+        takePicture();
+    }
+
+
+
+    private void ClickOnFirstName(TextView v) {
+        EditTextDialog(v);
+    }
+
+    private void ClickOnLastName(TextView v) {
+        EditTextDialog(v);
+    }
+
+    private void ClickOnBirthdate(View v){
+        showDatePickerFragment();
+    }
+
+    private void ClickGenderInput(View v) {
+        String oldValue = binding.genderInput.getText().toString();
+
+        new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setNeutralText(getString(R.string.maleGender))
+                .setCancelText(getString(R.string.femaleGender))
+                .setConfirmText(getString(R.string.otherGender))
+                .setNeutralClickListener(sDialog -> {
+                    if (!oldValue.equals(getString(R.string.maleGender))) {
+                        binding.genderInput.setText(getString(R.string.maleGender));
+                        mUser.setGender(1);
+                        updateUser();
+                    }
+                    sDialog.dismissWithAnimation();
+                })
+                .setCancelClickListener(sDialog -> {
+                    if (!oldValue.equals(getString(R.string.femaleGender))) {
+                        binding.genderInput.setText(getString(R.string.femaleGender));
+                        mUser.setGender(2);
+                        updateUser();
+                    }
+                    sDialog.dismissWithAnimation();
+                })
+                .setConfirmClickListener(sDialog -> {
+                    if (!oldValue.equals(getString(R.string.otherGender))) {
+                        binding.genderInput.setText(getString(R.string.otherGender));
+                        mUser.setGender(3);
+                        updateUser();
+                    }
+                    sDialog.dismissWithAnimation();
+                })
+                .show();
+    }
+
+    private void ClickOnHeight(View v) {
+        EditNumberDialog((TextView) v);
+    }
+
+
+
+
+    private void ClickEmail() {
+        Toasty.error(getActivity().getWindow().getContext(),"E-Mail kann nicht geändert werden",Toasty.LENGTH_SHORT,true).show();
+    }
+
+    private void ClickOnPassword(View v) {
+        EditPasswordDialog((TextView) v);
+    }
+
+
+
+    private void ClickDeleteAccount(View v) {
+        new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                     Add customization options here
+                .setTitle("Willst du dein Profil wirklich löschen?")
+                .setMessage("Alle deine Daten gehen verloren!")
+                .setIcon(android.R.drawable.ic_delete)
+                .setPositiveButton("Löschen", (dialog, which) -> {
+                    if(_user.mUserRepo.DeleteUser()){
+                        Toasty.success(getContext(),"User gelöscht",Toasty.LENGTH_SHORT,true).show();
+                        startActivity(new Intent(getActivity(), _ActivityStart.class));
+                        getActivity().finish();
+                    }
+                    else
+                        Toasty.error(getContext(),"User konnte nicht gelöscht werden",Toasty.LENGTH_SHORT,true).show();
+
+                })
+                .setNegativeButton("Logout", ((dialog, which) -> ClickLogout()))
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .show();
+    }
+
+    private void ClickLogout() {
+        new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                     Add customization options here
+                .setTitle("Willst du dich wirklich ausloggen?")
+//                .setMessage("Alle deine Daten gehen verloren!")
+//                .setIcon(android.R.drawable.ic_delete)
+                .setPositiveButton("Logout", (dialog, which) -> {
+                    _user.mUserRepo.Logout(mUser);
+                    Toasty.success(getContext(),"Ausgeloggt",Toasty.LENGTH_SHORT,true).show();
+                    startActivity(new Intent(getActivity(), _ActivityStart.class));
+                    getActivity().finish();
+                })
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .show();
+
+
+//        _user.mUserRepo.Logout(mUser);
+//
+//        startActivity(new Intent(getActivity(), _ActivityStart.class));
+//        getActivity().finish();
+    }
+
+
+
+    private void updateUser() {
+
+        mUser.setFirstName(binding.firstnameInput.getText().toString());
+        mUser.setLastName(binding.lastnameInput.getText().toString());
+        mUser.setBirthdate(DateConverter.localDateStrToDate(binding.birthdateInput.getText().toString(),getContext()));
+        String gender = binding.genderInput.getText().toString();
+        int result = 0;
+        if(gender == getString(R.string.maleGender))
+            result = 1;
+        else if(gender == getString(R.string.femaleGender))
+            result = 2;
+        else if(gender == getString(R.string.otherGender))
+            result = 3;
+        mUser.setGender(result);
+        mUser.setFirstName(binding.firstnameInput.getText().toString());
+        mUser.setHeight(Float.parseFloat(binding.heightInput.getText().toString().replaceAll(" cm","")));
+
+        _user.updateUser(mUser);
+//        _user.mUserRepo.UpdateInfo(mUser);
+    }
+
+
+
+
+    private void EditTextDialog(TextView editTextView){
+        Context context = getContext();
+
+        final EditText editText = new EditText(context);
+        editText.setText(editTextView.getText().toString());
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText.requestFocus();
+
+        LinearLayout linearLayout = new LinearLayout(context.getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(editText);
+
+        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setConfirmClickListener(sDialog -> {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    }
+                    editTextView.setText(editText.getText().toString());
+                    sDialog.dismissWithAnimation();
+                    updateUser();
+
+//                    if (mConfirmClickListener != null)
+//                        mConfirmClickListener.onTextChanged(EditableInputView.this);
+                });
+        dialog.setCustomView(linearLayout);
+        dialog.show();
+    }
+
+    private void EditNumberDialog(TextView editTextView){
+        Context context = getContext();
+
+        final EditText editText = new EditText(context);
+        editText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editText.setFilters(new InputFilter[]{filter,new InputFilter.LengthFilter(6)});
+        editText.requestFocus();
+
+        LinearLayout linearLayout = new LinearLayout(context.getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(editText);
+
+        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setConfirmClickListener(sDialog -> {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    }
+                    editTextView.setText(editText.getText().toString() + " cm");
+                    sDialog.dismissWithAnimation();
+                    updateUser();
+//                    if (mConfirmClickListener != null)
+//                        mConfirmClickListener.onTextChanged(EditableInputView.this);
+                });
+        dialog.setCustomView(linearLayout);
+        dialog.show();
+    }
+
+    private void EditPasswordDialog(TextView editTextView){
+        Context context = getContext();
+
+        final EditText editText_oldPassword = new EditText(context);
+//        editText_oldPassword.setText(editTextView.getText().toString());
+        editText_oldPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText_oldPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        editText_oldPassword.requestFocus();
+
+        final EditText editText_newPassword = new EditText(context);
+//        editText_newPassword.setText(editTextView.getText().toString());
+        editText_newPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText_newPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//        editText_newPassword.requestFocus();
+
+        final EditText editText_newPasswordConfirm = new EditText(context);
+//        editText_newPasswordConfirm.setText(editTextView.getText().toString());
+        editText_newPasswordConfirm.setInputType(InputType.TYPE_CLASS_TEXT);
+        editText_newPasswordConfirm.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//        editText_newPasswordConfirm.requestFocus();
+
+        LinearLayout linearLayout = new LinearLayout(context.getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(editText_oldPassword);
+        linearLayout.addView(editText_newPassword);
+        linearLayout.addView(editText_newPasswordConfirm);
+
+        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setConfirmClickListener(sDialog -> {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText_oldPassword.getWindowToken(), 0);
+                    }
+                    String result = editText_newPassword.getText().toString();
+                    editTextView.setText(result);
+                    sDialog.dismissWithAnimation();
+
+                    mUser.setPwHash(result);
+                    _user.updateUser(mUser);
+//                    updateUser();
+
+//                    if (mConfirmClickListener != null)
+//                        mConfirmClickListener.onTextChanged(EditableInputView.this);
+                });
+        dialog.setCustomView(linearLayout);
+        dialog.show();
+    }
+
+
+
+
+
+    private void takePicture() {
+        //Get Permissions, if not granted yet
+        requestPermissionForWriting(this);
+        try{
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(getContext(),this);
+        } catch(Exception e){
+            Log.getStackTraceString(e);
+            Toasty.error(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
+        }
+    }
+
+    private void requestPermissionForWriting(Fragment pF) {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(pF.getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // No explanation needed, we can request the permission.
+
+            int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
+            ActivityCompat.requestPermissions(pF.getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+        }
+    }
+
+
+
+    private void showDatePickerFragment() {
+        if (mDateFrag == null) {
+            mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
+        }
+
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        mDateFrag.show(ft, "dialog");
+    }
+
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        binding.birthdateInput.setText(DateConverter.dateToLocalDateStr(year, month + 1, day, getContext()));
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(binding.birthdateInput.getWindowToken(), 0);
+        updateUser();
+    }
+
+
+
 }

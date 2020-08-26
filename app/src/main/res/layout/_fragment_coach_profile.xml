@@ -85,18 +85,18 @@
                         android:paddingLeft="10dp"
                         android:text="Vorname:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-                        app:layout_constraintEnd_toStartOf="@+id/textView5"
+                        app:layout_constraintBottom_toBottomOf="@+id/firstname_input"
+                        app:layout_constraintEnd_toStartOf="@+id/firstname_input"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView5"
+                        app:layout_constraintTop_toTopOf="@+id/firstname_input"
                         app:layout_constraintVertical_bias="0.30"
 
                         />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/firstname_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -106,7 +106,14 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/textView4"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Vorname"
+                        />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/textView41"
@@ -117,26 +124,33 @@
                         android:paddingLeft="10dp"
                         android:text="Nachname:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView51"
+                        app:layout_constraintBottom_toBottomOf="@+id/lastname_input"
                         app:layout_constraintEnd_toEndOf="@+id/textView4"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="@+id/textView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5"
+                        app:layout_constraintTop_toBottomOf="@+id/firstname_input"
                         app:layout_constraintVertical_bias="0.3"
                         app:layout_constraintVertical_weight="1" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView51"
+                        android:id="@+id/lastname_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/background_fragment_profile_input_text_background"
                         android:paddingRight="10dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView5"
+                        app:layout_constraintEnd_toEndOf="@+id/firstname_input"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="@+id/textView5"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5"
+                        app:layout_constraintStart_toStartOf="@+id/firstname_input"
+                        app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Nachname"
 
                         />
 
@@ -149,24 +163,32 @@
                         android:paddingLeft="10dp"
                         android:text="Geburtstag:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView52"
+                        app:layout_constraintBottom_toBottomOf="@+id/birthdate_input"
                         app:layout_constraintEnd_toEndOf="@+id/textView4"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="@+id/textView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView51"
+                        app:layout_constraintTop_toBottomOf="@+id/lastname_input"
                         app:layout_constraintVertical_bias="0.3" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView52"
+                        android:id="@+id/birthdate_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/background_fragment_profile_input_text_background"
                         android:paddingRight="10dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView51"
-                        app:layout_constraintStart_toStartOf="@+id/textView51"
-                        app:layout_constraintTop_toBottomOf="@+id/textView51" />
+                        app:layout_constraintEnd_toEndOf="@+id/lastname_input"
+                        app:layout_constraintStart_toStartOf="@+id/lastname_input"
+                        app:layout_constraintTop_toBottomOf="@+id/lastname_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="TT.MM.JJJJ"
+                        />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/textView43"
@@ -177,25 +199,33 @@
                         android:paddingLeft="10dp"
                         android:text="Geschlecht:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView53"
+                        app:layout_constraintBottom_toBottomOf="@+id/gender_input"
                         app:layout_constraintEnd_toEndOf="@+id/textView4"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="@+id/textView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView52"
+                        app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
                         app:layout_constraintVertical_bias="0.3" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView53"
+                        android:id="@+id/gender_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/background_fragment_profile_input_text_background"
                         android:paddingRight="10dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView52"
+                        app:layout_constraintEnd_toEndOf="@+id/birthdate_input"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="@+id/textView52"
-                        app:layout_constraintTop_toBottomOf="@+id/textView52" />
+                        app:layout_constraintStart_toStartOf="@+id/birthdate_input"
+                        app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Als was du dich fühlst"
+                        />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/textView44"
@@ -206,25 +236,33 @@
                         android:paddingLeft="10dp"
                         android:text="Größe:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView54"
+                        app:layout_constraintBottom_toBottomOf="@+id/height_input"
                         app:layout_constraintEnd_toEndOf="@+id/textView4"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="@+id/textView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView53"
+                        app:layout_constraintTop_toBottomOf="@+id/gender_input"
                         app:layout_constraintVertical_bias="0.3" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView54"
+                        android:id="@+id/height_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/background_fragment_profile_input_text_background"
                         android:paddingRight="10dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView53"
+                        app:layout_constraintEnd_toEndOf="@+id/gender_input"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="@+id/textView53"
-                        app:layout_constraintTop_toBottomOf="@+id/textView53" />
+                        app:layout_constraintStart_toStartOf="@+id/gender_input"
+                        app:layout_constraintTop_toBottomOf="@+id/gender_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="XXX cm"
+                        />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -254,18 +292,18 @@
                         android:paddingLeft="10dp"
                         android:text="E-Mail:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                        app:layout_constraintEnd_toStartOf="@+id/textView8"
+                        app:layout_constraintBottom_toBottomOf="@+id/email_input"
+                        app:layout_constraintEnd_toStartOf="@+id/email_input"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView8"
+                        app:layout_constraintTop_toTopOf="@+id/email_input"
                         app:layout_constraintVertical_bias="0.30"
 
                         />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/email_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -275,7 +313,15 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/textView11"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Email@mail.com"
+                        />
 
                     <com.rey.material.widget.TextView
                         android:id="@+id/textView81"
@@ -286,26 +332,35 @@
                         android:paddingLeft="10dp"
                         android:text="Passwort:"
                         android:textSize="22dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView82"
+                        app:layout_constraintBottom_toBottomOf="@+id/password_input"
                         app:layout_constraintEnd_toEndOf="@+id/textView11"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="@+id/textView11"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8"
+                        app:layout_constraintTop_toBottomOf="@+id/email_input"
                         app:layout_constraintVertical_bias="0.3"
                         app:layout_constraintVertical_weight="1" />
 
                     <com.rey.material.widget.TextView
-                        android:id="@+id/textView82"
+                        android:id="@+id/password_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/background_fragment_profile_input_text_background"
                         android:paddingRight="10dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView8"
+                        app:layout_constraintEnd_toEndOf="@+id/email_input"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="@+id/textView8"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8"
+                        app:layout_constraintStart_toStartOf="@+id/email_input"
+                        app:layout_constraintTop_toBottomOf="@+id/email_input"
+
+                        android:inputType="textPassword"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="oooooooooooo"
 
                         />
 
@@ -321,7 +376,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
                     <Button
-                        android:id="@+id/button8"
+                        android:id="@+id/btn_delete_account"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -331,14 +386,14 @@
                         android:text="Konto Löschen"
                         android:textColor="@color/mywhite"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/button9"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
-                        android:id="@+id/button9"
+                        android:id="@+id/btn_logout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -352,7 +407,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button8" />
+                        app:layout_constraintTop_toBottomOf="@+id/btn_delete_account" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--                <Button-->
