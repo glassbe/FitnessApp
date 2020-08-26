@@ -32,6 +32,12 @@ public class UserRepo implements IUser {
     }
 
     @Override
+    public void DeleteUser(User user) {
+        new deleteAsyncTask(mUserDAO).doInBackground(user);
+        return;
+    }
+
+    @Override
     public LiveData<User> getLastUserAsync() {
         return mUserDAO.getLatestLoginAsync();
     }
@@ -190,6 +196,21 @@ public class UserRepo implements IUser {
         @Override
         protected Void doInBackground(final User... users) {
             mAsyncTaskDao.insertUser(users[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<User, Void, Void> {
+
+        private UserDAO mAsyncTaskDao;
+
+        deleteAsyncTask(UserDAO dao){
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final User... users) {
+            mAsyncTaskDao.deleteUser(users[0]);
             return null;
         }
     }
