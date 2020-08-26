@@ -3,13 +3,8 @@ package com.example.fitnessapp;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.drm.DrmStore;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -17,12 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,14 +23,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.DateConverter;
-import com.example.fitnessapp.utils.Keyboard;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.onurkaganaldemir.ktoastlib.KToast;
 import com.rey.material.widget.Slider;
-
-import java.util.Calendar;
-import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
 
@@ -67,7 +54,7 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     private DatePickerDialog.OnDateSetListener dateSet = (view, year, month, day) -> onDateSet(view, year, month, day);
     private DatePickerDialogFragment mDateFrag = null;
-
+    private TextView mEnergyLevelText;
 
 
     public _FragmentStartYourDataSetData() {
@@ -98,7 +85,31 @@ public class _FragmentStartYourDataSetData extends Fragment {
             mGender = view.findViewById(R.id.s_input_gender);
             mWeight = view.findViewById(R.id.et_input_weight);
             mHeight = view.findViewById(R.id.et_input_height);
+            mEnergyLevelText = view.findViewById(R.id.textview_energy_level);
             mEnergyLevel = view.findViewById(R.id.sb_energyLevel);
+            mEnergyLevel.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+                @Override
+                public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
+                    final int ENERGY_STEP = mEnergyLevel.getMaxValue()/5;
+                    final int ENERGY_LEVEL_1 = ENERGY_STEP * 1;
+                    final int ENERGY_LEVEL_2 = ENERGY_STEP * 2;
+                    final int ENERGY_LEVEL_3 = ENERGY_STEP * 3;
+                    final int ENERGY_LEVEL_4 = ENERGY_STEP * 4;
+                    final int ENERGY_LEVEL_5 = ENERGY_STEP * 5;
+
+                    if(newValue <= ENERGY_LEVEL_1){
+                        mEnergyLevelText.setText("Coach Potato");
+                    } else if(newValue <= ENERGY_LEVEL_2){
+                        mEnergyLevelText.setText("Motivated Potato");
+                    } else if(newValue <= ENERGY_LEVEL_3){
+                        mEnergyLevelText.setText("Worker Potato");
+                    } else if(newValue <= ENERGY_LEVEL_4){
+                        mEnergyLevelText.setText("Runner Potato");
+                    } else if(newValue <= ENERGY_LEVEL_5){
+                        mEnergyLevelText.setText("SuperHero Potato");
+                    }
+                }
+            });
 
             mSetData = view.findViewById(R.id.btn_setData);
             mSetData.setOnClickListener(_view -> setData(_view));

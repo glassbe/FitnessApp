@@ -11,7 +11,7 @@
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="1dp"
+        android:elevation="5dp"
 
         app:icon_one="@drawable/ic_running_shadow2"
         app:icon_three="@drawable/ic_profile_white_shadow2"
@@ -51,7 +51,7 @@
         android:layout_marginBottom="35dp"
         android:contentDescription="TODO"
         android:elevation="0dp"
-        android:src="@drawable/true_fitness_logo_nontransparent_notext"
+        android:src="@drawable/img_true_fitness_logo_nontransparent_notext"
         android:transitionName="@string/draggable_logo"
         android:layout_gravity="center|bottom"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
-import android.view.MotionEvent;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.ui.dashboard.DashboardFragment;
 import com.example.fitnessapp.ui.home.HomeFragment;
-import com.example.fitnessapp.ui.notifications.NotificationsFragment;
+import com.example.fitnessapp.ui.notifications.ProfileFragment;
 
 import eu.long1.spacetablayout.SpaceTabLayout;
 
@@ -55,7 +54,7 @@ public class _ActivityCoach extends AppCompatActivity {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new DashboardFragment());
         fragmentList.add(new HomeFragment());
-        fragmentList.add(new NotificationsFragment());
+        fragmentList.add(new ProfileFragment());
 
         ViewPager viewPager = findViewById(R.id.viewPager);
         mSpaceTabLayout = findViewById(R.id.spaceTabLayout);

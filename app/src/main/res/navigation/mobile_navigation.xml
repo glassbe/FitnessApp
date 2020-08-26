@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.example.fitnessapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_coach_home" />
+        tools:layout="@layout/_fragment_coach_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.fitnessapp.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_coach_dashboard" />
+        tools:layout="@layout/_fragment_coach_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.fitnessapp.ui.notifications.NotificationsFragment"
+        android:name="com.example.fitnessapp.ui.notifications.ProfileFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_coach_notifications" />
+        tools:layout="@layout/_fragment_coach_profile" />
 </navigation>
