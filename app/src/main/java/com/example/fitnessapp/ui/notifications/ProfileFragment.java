@@ -2,14 +2,17 @@ package com.example.fitnessapp.ui.notifications;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -45,11 +48,13 @@ import com.example.fitnessapp.utils.DateConverter;
 import com.example.fitnessapp.utils.ImageUtil;
 import com.example.fitnessapp.utils.RealPathUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -126,10 +131,10 @@ public class ProfileFragment extends Fragment {
                 binding.heightInput.setText(String.valueOf(mUser.getHeight()) + " cm");
 
                 mCurrentPhotoPath = mUser.getProfilePicPath();
-                if(mUser.getProfilePicPath() != null){
-                    ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
-                    ImageUtil.saveThumb(mCurrentPhotoPath);
-                }
+//                if(mUser.getProfilePicPath() != null){
+//                    ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
+//                    ImageUtil.saveThumb(mCurrentPhotoPath);
+//                }
 
                 binding.emailInput.setText(mUser.getEmail());
             });
@@ -139,7 +144,6 @@ public class ProfileFragment extends Fragment {
 
         
         binding.photoRoundProfile.setOnClickListener(v -> ClickProfilePhoto());
-        int m = binding.photoRoundProfile.getMeasuredHeight();
 
         binding.firstnameInput.setOnClickListener(v -> ClickOnFirstName((TextView) v));
         binding.lastnameInput.setOnClickListener(v -> ClickOnLastName((TextView) v));
@@ -262,6 +266,8 @@ public class ProfileFragment extends Fragment {
             mUser.setProfilePicPath(mCurrentPhotoPath);
             _user.updateUser(mUser);
         }
+
+
     }
 
 
@@ -343,13 +349,11 @@ public class ProfileFragment extends Fragment {
                 .setMessage("Alle deine Daten gehen verloren!")
                 .setIcon(android.R.drawable.ic_delete)
                 .setPositiveButton("Löschen", (dialog, which) -> {
-                    if(_user.mUserRepo.DeleteUser()){
-                        Toasty.success(getContext(),"User gelöscht",Toasty.LENGTH_SHORT,true).show();
-                        startActivity(new Intent(getActivity(), _ActivityStart.class));
-                        getActivity().finish();
-                    }
-                    else
-                        Toasty.error(getContext(),"User konnte nicht gelöscht werden",Toasty.LENGTH_SHORT,true).show();
+                    _user.mUserRepo.DeleteUser(mUser);
+                    Toasty.success(getContext(),"User gelöscht",Toasty.LENGTH_SHORT,true).show();
+                    startActivity(new Intent(getActivity(), _ActivityStart.class));
+                    getActivity().finish();
+
 
                 })
                 .setNegativeButton("Logout", ((dialog, which) -> ClickLogout()))
@@ -361,8 +365,6 @@ public class ProfileFragment extends Fragment {
         new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
 //                     Add customization options here
                 .setTitle("Willst du dich wirklich ausloggen?")
-//                .setMessage("Alle deine Daten gehen verloren!")
-//                .setIcon(android.R.drawable.ic_delete)
                 .setPositiveButton("Logout", (dialog, which) -> {
                     _user.mUserRepo.Logout(mUser);
                     Toasty.success(getContext(),"Ausgeloggt",Toasty.LENGTH_SHORT,true).show();
@@ -372,36 +374,47 @@ public class ProfileFragment extends Fragment {
                 .setNeutralButton(R.string.cancel, (dialog, which) -> {})
                 .show();
 
-
-//        _user.mUserRepo.Logout(mUser);
-//
-//        startActivity(new Intent(getActivity(), _ActivityStart.class));
-//        getActivity().finish();
     }
 
 
 
     private void updateUser() {
 
-        mUser.setFirstName(binding.firstnameInput.getText().toString());
-        mUser.setLastName(binding.lastnameInput.getText().toString());
-        mUser.setBirthdate(DateConverter.localDateStrToDate(binding.birthdateInput.getText().toString(),getContext()));
-        String gender = binding.genderInput.getText().toString();
-        int result = 0;
-        if(gender == getString(R.string.maleGender))
-            result = 1;
-        else if(gender == getString(R.string.femaleGender))
-            result = 2;
-        else if(gender == getString(R.string.otherGender))
-            result = 3;
-        mUser.setGender(result);
-        mUser.setFirstName(binding.firstnameInput.getText().toString());
-        mUser.setHeight(Float.parseFloat(binding.heightInput.getText().toString().replaceAll(" cm","")));
+                mUser.setFirstName(binding.firstnameInput.getText().toString());
+                mUser.setLastName(binding.lastnameInput.getText().toString());
+                mUser.setBirthdate(DateConverter.localDateStrToDate(binding.birthdateInput.getText().toString(),getContext()));
+                String gender = binding.genderInput.getText().toString();
+                int result = 0;
+                if(gender == getString(R.string.maleGender))
+                    result = 1;
+                else if(gender == getString(R.string.femaleGender))
+                    result = 2;
+                else if(gender == getString(R.string.otherGender))
+                    result = 3;
+                mUser.setGender(result);
+                mUser.setFirstName(binding.firstnameInput.getText().toString());
+                mUser.setHeight(Float.parseFloat(binding.heightInput.getText().toString().replaceAll(" cm","")));
 
-        _user.updateUser(mUser);
+
+        new AsyncTask <Void,Void,Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                // Try Block
+                try {
+                    _user.updateUser(mUser);
+
+                } catch (Exception e){
+                    Log.getStackTraceString(e);
+                }
 //        _user.mUserRepo.UpdateInfo(mUser);
-    }
 
+                return null;
+            }
+        }.execute();
+
+
+    }
 
 
 
@@ -438,80 +451,157 @@ public class ProfileFragment extends Fragment {
     private void EditNumberDialog(TextView editTextView){
         Context context = getContext();
 
-        final EditText editText = new EditText(context);
-        editText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        editText.setFilters(new InputFilter[]{filter,new InputFilter.LengthFilter(6)});
-        editText.requestFocus();
+        new AsyncTask<Void, Void, Void>(){
 
-        LinearLayout linearLayout = new LinearLayout(context.getApplicationContext());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(editText);
 
-        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getContext().getString(R.string.edit_value))
-                .setConfirmClickListener(sDialog -> {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
-                    editTextView.setText(editText.getText().toString() + " cm");
-                    sDialog.dismissWithAnimation();
-                    updateUser();
+            private LinearLayout mLinearLayout;
+            private EditText mEditText;
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                mEditText = new EditText(context);
+                mEditText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
+                mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                mEditText.setFilters(new InputFilter[]{filter,new InputFilter.LengthFilter(6)});
+                mEditText.requestFocus();
+
+                mLinearLayout = new LinearLayout(context.getApplicationContext());
+                mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+                mLinearLayout.addView(mEditText);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText(getContext().getString(R.string.edit_value))
+                        .setConfirmClickListener(sDialog -> {
+                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                            }
+                            editTextView.setText(mEditText.getText().toString() + " cm");
+                            sDialog.dismissWithAnimation();
+                            updateUser();
 //                    if (mConfirmClickListener != null)
 //                        mConfirmClickListener.onTextChanged(EditableInputView.this);
-                });
-        dialog.setCustomView(linearLayout);
-        dialog.show();
+                        });
+                dialog.setCustomView(mLinearLayout);
+                dialog.show();
+
+            }
+        }.execute();
+
     }
 
     private void EditPasswordDialog(TextView editTextView){
         Context context = getContext();
 
-        final EditText editText_oldPassword = new EditText(context);
-//        editText_oldPassword.setText(editTextView.getText().toString());
-        editText_oldPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText_oldPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        editText_oldPassword.requestFocus();
 
-        final EditText editText_newPassword = new EditText(context);
-//        editText_newPassword.setText(editTextView.getText().toString());
-        editText_newPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText_newPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        editText_newPassword.requestFocus();
+         AsyncTask a = new AsyncTask<Void, Void, Void>() {
 
-        final EditText editText_newPasswordConfirm = new EditText(context);
-//        editText_newPasswordConfirm.setText(editTextView.getText().toString());
-        editText_newPasswordConfirm.setInputType(InputType.TYPE_CLASS_TEXT);
-        editText_newPasswordConfirm.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        editText_newPasswordConfirm.requestFocus();
+            private EditText mEditText_newPasswordConfirm;
+            private EditText mEditText_newPassword;
+            private EditText mEditText_oldPassword;
+            private LinearLayout mLinearLayout;
 
-        LinearLayout linearLayout = new LinearLayout(context.getApplicationContext());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(editText_oldPassword);
-        linearLayout.addView(editText_newPassword);
-        linearLayout.addView(editText_newPasswordConfirm);
+            private WeakReference<ProfileFragment> mFragmentWeakReference;
 
-        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getContext().getString(R.string.edit_value))
-                .setConfirmClickListener(sDialog -> {
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText_oldPassword.getWindowToken(), 0);
-                    }
-                    String result = editText_newPassword.getText().toString();
-                    editTextView.setText(result);
-                    sDialog.dismissWithAnimation();
+             @Override
+             protected void onPreExecute() {
+                 super.onPreExecute();
 
-                    mUser.setPwHash(result);
-                    _user.updateUser(mUser);
-//                    updateUser();
+             }
 
-//                    if (mConfirmClickListener != null)
-//                        mConfirmClickListener.onTextChanged(EditableInputView.this);
-                });
-        dialog.setCustomView(linearLayout);
-        dialog.show();
+             @Override
+            protected Void doInBackground(Void... voids) {
+
+                mEditText_oldPassword = new EditText(context);
+                mEditText_oldPassword.setHint("Altes Passwort");
+                mEditText_oldPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                mEditText_oldPassword.requestFocus();
+
+                final TextInputLayout textInputLayout_oldPassword = new TextInputLayout(context);
+                textInputLayout_oldPassword.addView(mEditText_oldPassword);
+
+
+                mEditText_newPassword = new EditText(context);
+                mEditText_newPassword.setHint("Neues Passwort");
+                mEditText_newPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                final TextInputLayout textInputLayout_newPassword = new TextInputLayout(context);
+                textInputLayout_newPassword.addView(mEditText_newPassword);
+
+
+                mEditText_newPasswordConfirm = new EditText(context);
+                mEditText_newPasswordConfirm.setHint("Neues Passwort bestätigen");
+                mEditText_newPasswordConfirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                final TextInputLayout textInputLayout_newPasswordConfirm = new TextInputLayout(context);
+                textInputLayout_newPasswordConfirm.addView(mEditText_newPasswordConfirm);
+
+
+                mLinearLayout = new LinearLayout(context.getApplicationContext());
+                mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                mLinearLayout.addView(textInputLayout_oldPassword);
+                mLinearLayout.addView(textInputLayout_newPassword);
+                mLinearLayout.addView(textInputLayout_newPasswordConfirm);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+
+                // Try Block
+                try {
+
+                    SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                            .setTitleText(getContext().getString(R.string.edit_value))
+                            .setConfirmClickListener(sDialog -> {
+                                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                if (imm != null) {
+                                    imm.hideSoftInputFromWindow(mEditText_oldPassword.getWindowToken(), 0);
+                                }
+
+
+                                String old_password = mEditText_oldPassword.getText().toString();
+                                String new_password = mEditText_newPassword.getText().toString();
+                                String new_password_confirm = mEditText_newPasswordConfirm.getText().toString();
+
+                                if(!new_password.equals(new_password_confirm)) {
+                                    Toasty.error(context,"Passwörter stimmen nicht überein", Toasty.LENGTH_SHORT, true).show();
+                                    return;
+                                }
+                                if(!_user.mUserRepo.changePassword(mUser.getEmail(),old_password,new_password)) {
+                                    Toasty.error(context,"Passwort wurde NICHT geändert!", Toasty.LENGTH_SHORT, true).show();
+                                    return;
+                                }
+                                Toasty.success(context,"Passwort wurde geändert!", Toasty.LENGTH_SHORT, true).show();
+
+                                sDialog.dismissWithAnimation();
+
+                            });
+
+                    dialog.setCustomView(mLinearLayout);
+                    dialog.show();
+
+
+                } catch (Exception e){
+                    Log.getStackTraceString(e);
+                }
+
+            }
+        }.execute();
+
+
     }
 
 

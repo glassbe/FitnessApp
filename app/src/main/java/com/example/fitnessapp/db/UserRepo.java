@@ -255,8 +255,4 @@ public class UserRepo implements IUser {
         }
     }
 
-    @Override
-    public boolean DeleteUser() {
-        return false;
-    }
 }
