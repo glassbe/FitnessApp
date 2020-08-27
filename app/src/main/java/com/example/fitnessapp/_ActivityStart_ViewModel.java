@@ -16,6 +16,7 @@ public class _ActivityStart_ViewModel extends ViewModel {
     public void setUser(User user) {
         this.user.setValue(user);
     }
+
     public User getUser() {
         return user.getValue();
     }
@@ -24,16 +25,17 @@ public class _ActivityStart_ViewModel extends ViewModel {
     public void setPassword(String input) {
         password.setValue(input);
     }
-    public LiveData<String> getPassword(){
+
+    public LiveData<String> getPassword() {
         return password;
     }
-
 
 
     public void setEmail(String input) {
         email.setValue(input);
     }
-    public LiveData<String> getEmail(){
+
+    public LiveData<String> getEmail() {
         return email;
     }
 

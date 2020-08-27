@@ -31,7 +31,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-
 import com.example.fitnessapp.DatePickerDialogFragment;
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.Entity.User;
@@ -62,7 +61,7 @@ public class NewProfileFragment extends SlideFragment {
     };
 
     private DatePickerDialogFragment mDateFrag = null;
-//    private MainActivity motherActivity;
+    //    private MainActivity motherActivity;
     private OnDateSetListener dateSet = new OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {

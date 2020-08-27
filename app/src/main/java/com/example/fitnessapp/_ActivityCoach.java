@@ -1,12 +1,15 @@
 package com.example.fitnessapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
@@ -14,14 +17,9 @@ import com.example.fitnessapp.ui.dashboard.DashboardFragment;
 import com.example.fitnessapp.ui.home.HomeFragment;
 import com.example.fitnessapp.ui.notifications.ProfileFragment;
 
-import eu.long1.spacetablayout.SpaceTabLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
-
 import java.util.ArrayList;
+
+import eu.long1.spacetablayout.SpaceTabLayout;
 
 public class _ActivityCoach extends AppCompatActivity {
 
@@ -29,7 +27,6 @@ public class _ActivityCoach extends AppCompatActivity {
     private UserViewModel _user;
     private User mUser = null;
     private SpaceTabLayout mSpaceTabLayout;
-
 
 
     @Override
@@ -58,7 +55,7 @@ public class _ActivityCoach extends AppCompatActivity {
 
         ViewPager viewPager = findViewById(R.id.viewPager);
         mSpaceTabLayout = findViewById(R.id.spaceTabLayout);
-        mSpaceTabLayout.initialize(viewPager, getSupportFragmentManager(), fragmentList,null);
+        mSpaceTabLayout.initialize(viewPager, getSupportFragmentManager(), fragmentList, null);
 
 
 //        BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -93,7 +90,6 @@ public class _ActivityCoach extends AppCompatActivity {
 //        window.setReenterTransition(explode);
 
 
-
 //        Slide slide = new Slide();
 //        slide.setDuration(1000);
 //        slide.setInterpolator(new LinearInterpolator());
@@ -104,7 +100,6 @@ public class _ActivityCoach extends AppCompatActivity {
 //        window.setReturnTransition(slide); //
 //        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.
 //        window.setReenterTransition(slide);
-
 
 
         Fade fade = new Fade();
@@ -118,7 +113,6 @@ public class _ActivityCoach extends AppCompatActivity {
         window.setReenterTransition(fade);
 
     }
-
 
 
 }

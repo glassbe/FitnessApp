@@ -3,19 +3,8 @@ package com.example.fitnessapp;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.transition.Fade;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,8 +33,7 @@ import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class _FragmentStartLogin extends Fragment
-{
+public class _FragmentStartLogin extends Fragment {
     //Use Services
     private UserViewModel _user;
     private User mUser = null;
@@ -110,15 +105,15 @@ public class _FragmentStartLogin extends Fragment
 
         // Set logo Adapter to make it draggable
         mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
-        view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
+        view.setOnTouchListener((v, event) -> onLogoTouch(v, event));
 
         // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged());
+        mEt_eMail.setOnFocusChangeListener((v, hasFocus) -> emailChanged());
 
         // Set password Adapter
         mEt_password = view.findViewById(R.id.et_password_text);
-        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged());
+        mEt_password.setOnFocusChangeListener((v, hasFocus) -> passwordChanged());
 
         // Set Checkbox Adapter
         mCb_passwordReminder = view.findViewById(R.id.cb_password_reminder);
@@ -184,8 +179,8 @@ public class _FragmentStartLogin extends Fragment
         // Load User, if fails = false
         Boolean UserLoggedIn = _user.mUserRepo.Login(getEmail(), getPassword(), mRememberMe);
 
-        if(!UserLoggedIn){
-            Toast.makeText(this.getActivity(),"Passwort oder E-Mail falsch",Toast.LENGTH_SHORT).show();
+        if (!UserLoggedIn) {
+            Toast.makeText(this.getActivity(), "Passwort oder E-Mail falsch", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -202,13 +197,13 @@ public class _FragmentStartLogin extends Fragment
 
     private String getPassword() {
         String output = mEt_password.getText().toString();
-        if(output == null) return "";
+        if (output == null) return "";
         return output;
     }
 
     private String getEmail() {
         String output = mEt_eMail.getText().toString();
-        if(output == null) return "";
+        if (output == null) return "";
         return output;
     }
 

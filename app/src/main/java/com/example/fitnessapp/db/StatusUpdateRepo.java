@@ -20,22 +20,24 @@ public class StatusUpdateRepo implements IStatusUpdate {
 
     private StatusUpdateDAO mStatusUpdateDAO;
 
-    public StatusUpdateRepo(Application application){
+    public StatusUpdateRepo(Application application) {
         FitnessDatabase db = FitnessDatabase.getDatabase(application);
         mStatusUpdateDAO = db.statusUpdateDAO();
     }
 
     @Override
     public void insertNewUpdate(StatusUpdate update) {
-         new insertNewUpdateAsync(mStatusUpdateDAO).execute(update);
-         return;
+        new insertNewUpdateAsync(mStatusUpdateDAO).execute(update);
+        return;
     }
 
     private static class insertNewUpdateAsync extends AsyncTask<StatusUpdate, Void, Void> {
 
         private StatusUpdateDAO dao;
 
-        insertNewUpdateAsync(StatusUpdateDAO dao){this.dao = dao;}
+        insertNewUpdateAsync(StatusUpdateDAO dao) {
+            this.dao = dao;
+        }
 
         @Override
         protected Void doInBackground(StatusUpdate... statusUpdates) {
@@ -46,18 +48,17 @@ public class StatusUpdateRepo implements IStatusUpdate {
             Date onlyDate = new Date();
 
 
-            try{
+            try {
                 DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 onlyDate = formatter.parse(formatter.format(newTimestamp));
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
                 onlyDate = newTimestamp;
             }
 
             StatusUpdate existingUpdate = dao.getStatusUpdateForUserFromUntilFirst(update.getUserMail(), onlyDate, update.getTimestamp());
             //If update already exists return null not possible to set new StatusUpdate for the day
-            if(existingUpdate != null) return null;
+            if (existingUpdate != null) return null;
 
             dao.insertStatusUpdate(update);
 
@@ -70,11 +71,13 @@ public class StatusUpdateRepo implements IStatusUpdate {
         new updateAnExistingUpdateAsync(mStatusUpdateDAO).execute(update);
     }
 
-    private static class updateAnExistingUpdateAsync extends AsyncTask<StatusUpdate, Void, Void>{
+    private static class updateAnExistingUpdateAsync extends AsyncTask<StatusUpdate, Void, Void> {
 
         private StatusUpdateDAO dao;
 
-        updateAnExistingUpdateAsync(StatusUpdateDAO dao){this.dao = dao;}
+        updateAnExistingUpdateAsync(StatusUpdateDAO dao) {
+            this.dao = dao;
+        }
 
         @Override
         protected Void doInBackground(StatusUpdate... statusUpdates) {
@@ -83,7 +86,7 @@ public class StatusUpdateRepo implements IStatusUpdate {
             StatusUpdate existingUpdate = dao.getStatusUpdateById(update.getId());
 
             //if existingUpdate is null no Update exists ERROR
-            if(existingUpdate == null) return null;
+            if (existingUpdate == null) return null;
 
             existingUpdate.setCompletedUpdate(update.isCompletedUpdate());
             existingUpdate.setEnergieLevel(update.getEnergieLevel());
@@ -126,11 +129,10 @@ public class StatusUpdateRepo implements IStatusUpdate {
     public LiveData<StatusUpdate> getUpdateForUserForOneDayAsync(String userMail, Date date) {
         Date dayBefore = new Date();
         Date dayAfter = new Date();
-        try{
+        try {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             dayBefore = formatter.parse(formatter.format(date));
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             dayBefore = date;
         }
@@ -143,11 +145,10 @@ public class StatusUpdateRepo implements IStatusUpdate {
     public StatusUpdate getUpdateForUserForOneDay(String userMail, Date date) {
         Date dayBefore = new Date();
         Date dayAfter = new Date();
-        try{
+        try {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             dayBefore = formatter.parse(formatter.format(date));
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             dayBefore = date;
         }

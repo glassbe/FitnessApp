@@ -61,16 +61,16 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         editDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         editDate.setGravity(Gravity.CENTER);
         editDate.setOnClickListener((view) -> {
-                Calendar calendar = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
 
-                calendar.setTime(DateConverter.getNewDate());
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                int month = calendar.get(Calendar.MONTH);
-                int year = calendar.get(Calendar.YEAR);
+            calendar.setTime(DateConverter.getNewDate());
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
-                dateEditView = editDate;
-                datePickerDialog.show();
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), getEditableInputViewWithDate(), year, month, day);
+            dateEditView = editDate;
+            datePickerDialog.show();
         });
 
         final EditText editText = new EditText(getContext());
@@ -91,20 +91,20 @@ public class EditableInputViewWithDate extends EditableInputView implements Date
         linearLayout.addView(editText);
 
         SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-            .setTitleText(getContext().getString(R.string.edit_value))
-            .showCancelButton(true)
-            .setCancelText(getContext().getString(R.string.global_cancel))
-            .setConfirmText(getContext().getString(R.string.AddLabel))
-            .setConfirmClickListener(sDialog -> {
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
-                setText(editText.getText().toString());
-                if (mConfirmClickListener != null)
-                    mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
-                sDialog.dismissWithAnimation();
-            });
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .showCancelButton(true)
+                .setCancelText(getContext().getString(R.string.global_cancel))
+                .setConfirmText(getContext().getString(R.string.AddLabel))
+                .setConfirmClickListener(sDialog -> {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    }
+                    setText(editText.getText().toString());
+                    if (mConfirmClickListener != null)
+                        mConfirmClickListener.onTextChanged(EditableInputViewWithDate.this);
+                    sDialog.dismissWithAnimation();
+                });
         dialog.setCustomView(linearLayout);
         dialog.show();
     }

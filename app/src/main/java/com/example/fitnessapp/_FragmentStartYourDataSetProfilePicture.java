@@ -2,7 +2,6 @@ package com.example.fitnessapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,14 +10,12 @@ import android.os.Environment;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.Gravity;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -33,9 +30,7 @@ import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.ImageUtil;
 import com.example.fitnessapp.utils.RealPathUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.dialog.MaterialDialogs;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.onurkaganaldemir.ktoastlib.KToast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -50,7 +45,7 @@ import es.dmoral.toasty.Toasty;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class _FragmentStartYourDataSetProfilePicture extends Fragment{
+public class _FragmentStartYourDataSetProfilePicture extends Fragment {
 
     //Use Services
     private UserViewModel _IUser;
@@ -183,7 +178,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     //private Functions
 
     private void clickSetProfilePic() {
-        if(mCurrentPhotoPath == null) {
+        if (mCurrentPhotoPath == null) {
             new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
 //                     Add customization options here
                     .setTitle("Ohne Profilbild fortfahren?")
@@ -217,7 +212,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("setData");
-        if(f == null){
+        if (f == null) {
             mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataSetData(), "setData");
             mFragmentTransaction.addToBackStack("setData");
         } else {
@@ -231,13 +226,13 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     private void takePicture() {
         //Get Permissions, if not granted yet
         requestPermissionForWriting(this);
-        try{
+        try {
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(getContext(),this);
-        } catch(Exception e){
+                    .start(getContext(), this);
+        } catch (Exception e) {
             Log.getStackTraceString(e);
-           Toasty.error(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
+            Toasty.error(getActivity(), "Need Camera Permissions", Toasty.LENGTH_SHORT, true).show();
         }
 
     }
@@ -266,8 +261,8 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
             case R.id.photo_round_profile:
 //                if (mUser != null) {
 //                    mUser.setProfilePicPath(mCurrentPhotoPath);
-                    mViewModel.setPhotoPath(mCurrentPhotoPath);
-                    profileToUpdate = true;
+                mViewModel.setPhotoPath(mCurrentPhotoPath);
+                profileToUpdate = true;
 //                }
                 break;
         }
@@ -275,7 +270,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
         if (profileToUpdate) {
 //            _IUser.mUserRepo.UpdateInfo(mUser);
 //            KToast.successToast(getActivity(), "Profilbild gespeichert", Gravity.BOTTOM, KToast.LENGTH_SHORT);
-            Toasty.success(getActivity(), "Profilbild gespeichert", Toasty.LENGTH_SHORT,true).show();
+            Toasty.success(getActivity(), "Profilbild gespeichert", Toasty.LENGTH_SHORT, true).show();
         }
     }
 
@@ -293,7 +288,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
 //        window.setExitTransition(slide); // The Transition to use to move Views out of the scene when calling a new Activity.
 //        window.setReenterTransition(slide);
     }
-
 
 
 }

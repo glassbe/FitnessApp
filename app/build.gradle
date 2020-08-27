@@ -157,6 +157,11 @@ dependencies {
     //input dialog
     implementation 'com.yarolegovich:lovely-dialog:1.1.1'
 
+    //Animation YoYo
+//    implementation 'com.android.support:support-compat:25.1.1'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
 // Room Database
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'

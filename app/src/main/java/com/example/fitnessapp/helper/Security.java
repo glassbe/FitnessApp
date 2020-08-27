@@ -15,26 +15,24 @@ public class Security {
     private static final String ALGORITHM = "AES";
     private static final String KEY = "1Hbfh667adfDEJ78";
 
-    public static String encrypt(String value){
+    public static String encrypt(String value) {
 
-        try{
+        try {
             Key key = generateKey();
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte [] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8"));
+            byte[] encryptedByteValue = cipher.doFinal(value.getBytes("utf-8"));
             String encryptedValue64 = Base64.encodeToString(encryptedByteValue, Base64.DEFAULT);
             return encryptedValue64;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return value;
         }
 
 
     }
 
-    private static Key generateKey()
-    {
-        Key key = new SecretKeySpec(KEY.getBytes(),ALGORITHM);
+    private static Key generateKey() {
+        Key key = new SecretKeySpec(KEY.getBytes(), ALGORITHM);
         return key;
     }
 }

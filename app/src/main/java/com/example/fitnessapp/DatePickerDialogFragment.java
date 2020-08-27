@@ -38,7 +38,7 @@ public class DatePickerDialogFragment extends DialogFragment {
 
         //Start with Year Selection
         m.getDatePicker().getTouchables().get(0).performClick();
-;
+        ;
         return m;
     }
 

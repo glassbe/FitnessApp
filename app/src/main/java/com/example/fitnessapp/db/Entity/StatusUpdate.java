@@ -43,23 +43,22 @@ public class StatusUpdate {
 
         //Check sleep quality for max values
         this.sleepQuality = sleepQuality;
-        if(sleepQuality > 100) this.sleepQuality = 100;
-        if(sleepQuality < 0)   this.sleepQuality = 0;
+        if (sleepQuality > 100) this.sleepQuality = 100;
+        if (sleepQuality < 0) this.sleepQuality = 0;
 
         //Check sleepQuantity for max Value
         this.sleepQuantity = sleepQuantity;
-        if(sleepQuantity > 24) this.sleepQuantity = 24;
-        if(sleepQuantity < 0) this.sleepQuantity = 0;
+        if (sleepQuantity > 24) this.sleepQuantity = 24;
+        if (sleepQuantity < 0) this.sleepQuantity = 0;
 
         //Check energieLevel
         this.energieLevel = energieLevel;
-        if(energieLevel > 100) this.energieLevel = 100;
-        if(energieLevel < 0) this.energieLevel = 0;
+        if (energieLevel > 100) this.energieLevel = 100;
+        if (energieLevel < 0) this.energieLevel = 0;
 
         completedUpdate = false;
 
     }
-
 
 
     public int getId() {
@@ -132,37 +131,37 @@ public class StatusUpdate {
 
     public void setSleepQuality(int sleepQuality) {
         this.sleepQuality = sleepQuality;
-        if(sleepQuality > 100) this.sleepQuality = 100;
-        if(sleepQuality < 0)   this.sleepQuality = 0;
+        if (sleepQuality > 100) this.sleepQuality = 100;
+        if (sleepQuality < 0) this.sleepQuality = 0;
     }
 
     public void setSleepQuantity(float sleepQuantity) {
         this.sleepQuantity = sleepQuantity;
-        if(sleepQuantity > 24) this.sleepQuantity = 24;
-        if(sleepQuantity < 0) this.sleepQuantity = 0;
+        if (sleepQuantity > 24) this.sleepQuantity = 24;
+        if (sleepQuantity < 0) this.sleepQuantity = 0;
     }
 
     public void setEnergieLevel(int energieLevel) {
         this.energieLevel = energieLevel;
-        if(energieLevel > 100) this.energieLevel = 100;
-        if(energieLevel < 0) this.energieLevel = 0;
+        if (energieLevel > 100) this.energieLevel = 100;
+        if (energieLevel < 0) this.energieLevel = 0;
     }
 
     public void setMotivationToTrain(int motivationToTrain) {
         this.motivationToTrain = motivationToTrain;
-        if(motivationToTrain > 100) this.motivationToTrain = 100;
-        if(motivationToTrain < 0) this.motivationToTrain = 0;
+        if (motivationToTrain > 100) this.motivationToTrain = 100;
+        if (motivationToTrain < 0) this.motivationToTrain = 0;
     }
 
     public void setSteps(int steps) {
         this.steps = steps;
-        if(steps < 0) this.steps = 0;
+        if (steps < 0) this.steps = 0;
     }
 
     public void setStressLevel(int stressLevel) {
         this.stressLevel = stressLevel;
-        if(stressLevel > 100) this.stressLevel = 100;
-        if(stressLevel < 0) this.stressLevel  = 0;
+        if (stressLevel > 100) this.stressLevel = 100;
+        if (stressLevel < 0) this.stressLevel = 0;
 
     }
 

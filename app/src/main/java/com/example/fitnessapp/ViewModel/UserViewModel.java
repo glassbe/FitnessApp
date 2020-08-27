@@ -14,7 +14,7 @@ public class UserViewModel extends AndroidViewModel {
 
     public IUser mUserRepo;
 
-    public UserViewModel(Application application){
+    public UserViewModel(Application application) {
         super(application);
         mUserRepo = new UserRepo(application);
     }
@@ -25,15 +25,18 @@ public class UserViewModel extends AndroidViewModel {
     public void setUser(User user) {
         this.user.setValue(user);
     }
+
     public User getUser() {
         return user.getValue();
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         this.user.setValue(user);
         mUserRepo.UpdateInfo(user);
     }
 
-    public LiveData<User> getLiveUser(){return user;}
+    public LiveData<User> getLiveUser() {
+        return user;
+    }
 
 }

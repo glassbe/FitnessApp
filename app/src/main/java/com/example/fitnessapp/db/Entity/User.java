@@ -1,7 +1,5 @@
 package com.example.fitnessapp.db.Entity;
 
-import android.view.animation.ScaleAnimation;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -47,8 +45,7 @@ public class User implements Serializable {
     //=======================
 
 
-
-    public User(String email, String pwHash){
+    public User(String email, String pwHash) {
         this.email = email;
         this.pwHash = pwHash;
         this.rememberMe = false;
@@ -56,61 +53,72 @@ public class User implements Serializable {
     }
 
 
+    public String getEmail() {
+        return this.email;
+    }
 
-    public String getEmail(){return this.email;}
+    public String getFirstName() {
+        return this.firstName;
+    }
 
-    public String getFirstName(){return this.firstName;}
-
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName(){return this.lastName;}
+    public String getLastName() {
+        return this.lastName;
+    }
 
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public float getHeight(){return this.height;}
-
-    public void setHeight(float height){
-        this.height = height;
-        if(height > 300) this.height = 300;
-        if(height < 50) this.height = 50;
+    public float getHeight() {
+        return this.height;
     }
 
-    public int getGender(){return this.gender;}
+    public void setHeight(float height) {
+        this.height = height;
+        if (height > 300) this.height = 300;
+        if (height < 50) this.height = 50;
+    }
 
-    public void setGender(int gender){
+    public int getGender() {
+        return this.gender;
+    }
+
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
-    public String getPwHash(){return this.pwHash;}
+    public String getPwHash() {
+        return this.pwHash;
+    }
 
-    public void setPwHash(String pwHash){
+    public void setPwHash(String pwHash) {
         this.pwHash = pwHash;
     }
 
-    public void setRememberMe(boolean b) { this.rememberMe = b; }
-
-    public boolean getRememberMe() {
-        return  rememberMe;
+    public void setRememberMe(boolean b) {
+        this.rememberMe = b;
     }
 
-    public void setLastLogIn(){
+    public boolean getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setLastLogIn() {
         this.lastLogIn.setTime(System.currentTimeMillis());
     }
 
-    public void setLastLogIn(Date t){
+    public void setLastLogIn(Date t) {
         //No direkt access to LastLogIn
         this.lastLogIn.setTime(System.currentTimeMillis());
     }
 
-    public Date getLastLogIn(){
-        return  lastLogIn;
+    public Date getLastLogIn() {
+        return lastLogIn;
     }
-
-
 
 
     //=======================

@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-
 import com.example.fitnessapp.BuildConfig;
 import com.example.fitnessapp.R;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -234,8 +233,8 @@ public class ImageUtil {
                 // Camera
                 case 0:
                     CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(mF.getContext(), mF);
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .start(mF.getContext(), mF);
                     break;
                 // Galery
                 case 1:
@@ -269,8 +268,8 @@ public class ImageUtil {
             }
             // Continue only if the File was successfully created
             Uri photoURI = FileProvider.getUriForFile(mF.getActivity(),
-                BuildConfig.APPLICATION_ID + ".provider",
-                photoFile);
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             mF.startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
@@ -308,9 +307,9 @@ public class ImageUtil {
         }
         //File storageDir = pF.getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM);
         File image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",         /* suffix */
-            storageDir      /* directory */
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -321,15 +320,15 @@ public class ImageUtil {
     private void requestPermissionForWriting(Fragment pF) {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(pF.getActivity(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
             // No explanation needed, we can request the permission.
 
             int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
             ActivityCompat.requestPermissions(pF.getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
             // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
             // app-defined int constant. The callback method gets the

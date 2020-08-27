@@ -16,6 +16,7 @@ public class Keyboard {
     public Keyboard(Activity currentActivity) {
         this.currentActivity = currentActivity;
     }
+
     public Keyboard(FragmentActivity currentActivity) {
         this.currentActivity = currentActivity;
     }

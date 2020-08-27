@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 abstract class FitnessDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
+
     public abstract StatusUpdateDAO statusUpdateDAO();
 
 
@@ -30,12 +31,10 @@ abstract class FitnessDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
 
-
-
-    public static FitnessDatabase getDatabase(final Context context){
-        if(INSTANCE == null){
-            synchronized (FitnessDatabase.class){
-                if(INSTANCE == null){
+    public static FitnessDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (FitnessDatabase.class) {
+                if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             FitnessDatabase.class, "fitness_database")
                             .fallbackToDestructiveMigration()

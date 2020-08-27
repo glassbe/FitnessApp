@@ -2,16 +2,12 @@ package com.example.fitnessapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -24,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
@@ -104,7 +99,7 @@ public class _FragmentStartRegister extends Fragment {
 
         //Set Shared Elements to its position
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(0,R.anim.animate_slide_out_left);
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(0, R.anim.animate_slide_out_left);
     }
 
     @Override
@@ -116,16 +111,16 @@ public class _FragmentStartRegister extends Fragment {
 
         // Set logo Adapter to make it draggable
         mImg_logo = view.findViewById(R.id.iv_login_logo_draggable);
-        view.setOnTouchListener((v, event) -> onLogoTouch(v,event));
+        view.setOnTouchListener((v, event) -> onLogoTouch(v, event));
 
 
         // Set email Adapter
         mEt_eMail = view.findViewById(R.id.et_e_mail_text);
-        mEt_eMail.setOnFocusChangeListener((v,hasFocus) -> emailChanged());
+        mEt_eMail.setOnFocusChangeListener((v, hasFocus) -> emailChanged());
 
         // Set password Adapter
         mEt_password = view.findViewById(R.id.et_password_text);
-        mEt_password.setOnFocusChangeListener((v,hasFocus) -> passwordChanged());
+        mEt_password.setOnFocusChangeListener((v, hasFocus) -> passwordChanged());
 
         mEt_password_repeat = view.findViewById(R.id.et_password_repeat_text);
 
@@ -150,7 +145,6 @@ public class _FragmentStartRegister extends Fragment {
         mViewModel.getPassword().observe(getActivity(), (password -> mEt_password.setText(password)));
         mViewModel.getEmail().observe(getActivity(), (email -> mEt_eMail.setText(email)));
     }
-
 
 
     // =================
@@ -190,37 +184,37 @@ public class _FragmentStartRegister extends Fragment {
         String password = getPassword();
         String passwordRepeat = getPasswordRepeat();
 
-                if (!validateEmail(mail) && registerWithoutInput) {
-                    myToast("E-Mail is not valid");
-                    return;
-                }
+        if (!validateEmail(mail) && registerWithoutInput) {
+            myToast("E-Mail is not valid");
+            return;
+        }
 
-                if (!validatePassword(password) && registerWithoutInput) {
-                    myToast("Password is invalid");
-                    return;
-                }
+        if (!validatePassword(password) && registerWithoutInput) {
+            myToast("Password is invalid");
+            return;
+        }
 
-                if (!passwordMatches(password, passwordRepeat) && registerWithoutInput) {
-                    myToast("Passwords doesn't match");
-                    return;
-                }
+        if (!passwordMatches(password, passwordRepeat) && registerWithoutInput) {
+            myToast("Passwords doesn't match");
+            return;
+        }
 
-                User m = _user.mUserRepo.getUser(mail);
-                if (((m = _user.mUserRepo.getUser(mail)) != null) && registerWithoutInput) {
-                    myToast("E-Mail already exists in Database");
-                    return;
-                }
+        User m = _user.mUserRepo.getUser(mail);
+        if (((m = _user.mUserRepo.getUser(mail)) != null) && registerWithoutInput) {
+            myToast("E-Mail already exists in Database");
+            return;
+        }
 
 
-                //Create New User in ViewModel
+        //Create New User in ViewModel
 //         _user.mUserRepo.Register(getEmail(), getPassword(), Boolean.TRUE);
-                mViewModel.setUser(new User(mail, password));
+        mViewModel.setUser(new User(mail, password));
 
-                // Store Values in ViewModel
-                emailChanged();
-                passwordChanged();
+        // Store Values in ViewModel
+        emailChanged();
+        passwordChanged();
 
-        new Thread(()-> {
+        new Thread(() -> {
             FragmentManager mFragmentManager = getFragmentManager();
             @SuppressLint("WrongConstant") FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.addSharedElement(mImg_logo, ViewCompat.getTransitionName(mImg_logo));
@@ -231,8 +225,8 @@ public class _FragmentStartRegister extends Fragment {
             Fragment f = null;
             f = mFragmentManager.findFragmentByTag("startMyData");
             if (f == null) {
-                        mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
-        //                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartCreateWorkoutPlan(), "startMyData");
+                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourDataGetStarted(), "startMyData");
+                //                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartCreateWorkoutPlan(), "startMyData");
 //                mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourGoal(), "startMyData");
                 mFragmentTransaction.addToBackStack("startMyData");
             } else {
@@ -246,14 +240,13 @@ public class _FragmentStartRegister extends Fragment {
     }
 
 
-
-    private boolean validateEmail(String emailInput){
+    private boolean validateEmail(String emailInput) {
         emailInput = getEmail().trim();
 
-        if(emailInput.isEmpty()){
+        if (emailInput.isEmpty()) {
             mEt_eMail.setError("Field can't be empty");
             return false;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
             mEt_eMail.setError("Please enter a valid email address");
             return false;
         } else {
@@ -262,13 +255,13 @@ public class _FragmentStartRegister extends Fragment {
         }
     }
 
-    private boolean validatePassword(String passwordInput){
+    private boolean validatePassword(String passwordInput) {
         passwordInput = getPassword().trim();
 
-        if(passwordInput.isEmpty()){
+        if (passwordInput.isEmpty()) {
             mEt_password.setError("Field can't be empty");
             return false;
-        } else if(!PASSWORD_PATTERN.matcher(passwordInput).matches()){
+        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
             mEt_password.setError("Password needs to include: \na-z, A-Z, 1-9, !@#$%= \nAt least 8 Character");
             return false;
         } else {
@@ -282,7 +275,7 @@ public class _FragmentStartRegister extends Fragment {
     }
 
     private void myToast(String s) {
-        Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
     }
 
     private String getPassword() {
@@ -296,7 +289,6 @@ public class _FragmentStartRegister extends Fragment {
     private String getEmail() {
         return mEt_eMail.getText().toString();
     }
-
 
 
     // Gimmig

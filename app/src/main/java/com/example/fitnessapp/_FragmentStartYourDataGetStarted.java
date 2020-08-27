@@ -1,38 +1,25 @@
 package com.example.fitnessapp;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrInterface;
-
-import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
-import at.wirecube.additiveanimations.additive_animator.view_visibility.ViewVisibilityAnimation;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class _FragmentStartYourDataGetStarted extends Fragment{
+public class _FragmentStartYourDataGetStarted extends Fragment {
 
     private Button mBtn_getStarted;
     private ImageView mImg_yourData;
-
 
 
     public _FragmentStartYourDataGetStarted() {
@@ -53,7 +40,7 @@ public class _FragmentStartYourDataGetStarted extends Fragment{
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout._fragment_start_your_data_get_started, container, false);
+        View view = inflater.inflate(R.layout._fragment_start_your_data_get_started, container, false);
 
         mBtn_getStarted = view.findViewById(R.id.btn_getStarted);
         mBtn_getStarted.setOnClickListener(v -> btn_getStartedClicked());

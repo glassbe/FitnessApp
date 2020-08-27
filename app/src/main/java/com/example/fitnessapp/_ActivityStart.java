@@ -1,5 +1,14 @@
 package com.example.fitnessapp;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.WindowManager;
+import android.widget.ImageView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
@@ -7,29 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.transition.TransitionInflater;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.LinearInterpolator;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.databinding.ActivityStartBinding;
@@ -82,24 +68,24 @@ public class _ActivityStart extends AppCompatActivity {
         try {
             mUser = _user.mUserRepo.getLastUser();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.getStackTraceString(e);
         }
 
         //Get Last User
         mUser = _user.mUserRepo.getLastUser();
-        if(mUser != null){
+        if (mUser != null) {
             //Set Email from last User
             mViewModelData.setEmail(mUser.getEmail());
 
             //Decide whather User Login or Register
-            if(mUser.getRememberMe()) userToLogin = true;
+            if (mUser.getRememberMe()) userToLogin = true;
             else userToLogin = false;
         }
 
 
         //Set Activity Layout
-        if(userToLogin)
+        if (userToLogin)
             setContentView(R.layout._activity_start_from_middle);
         else
             setContentView(R.layout._activity_start);
@@ -117,7 +103,7 @@ public class _ActivityStart extends AppCompatActivity {
 
         // Start Login Animation
         int delay;
-        if(userToLogin)
+        if (userToLogin)
             delay = animation_from_middle();
         else
             delay = animation_from_top();
@@ -127,18 +113,18 @@ public class _ActivityStart extends AppCompatActivity {
             if (savedInstanceState != null) return;
 
             //Start Login or Register Prozess with delay
-            new Handler().postDelayed(() -> loginOrRegister() , delay);
+            new Handler().postDelayed(() -> loginOrRegister(), delay);
         }
 
     }
 
 
     @Override
-    public  void onBackPressed() {
+    public void onBackPressed() {
         int count = mFragmentManager.getBackStackEntryCount();
-        if(count == 0){
+        if (count == 0) {
             super.onBackPressed();
-        } else{
+        } else {
             getSupportFragmentManager().popBackStack();
             //mFragmentTransaction.replace(R.id.start_frame,);
         }
@@ -148,14 +134,14 @@ public class _ActivityStart extends AppCompatActivity {
     // private functions
 
     private void loginOrRegister() {
-        if(mUser != null) Login();
+        if (mUser != null) Login();
         else Register();
     }
 
     private void Register() {
         //REGISTER-Layout
         mStartFrame = "register";
-        mFragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.animate_slide_out_left,R.anim.fade_in, R.anim.animate_slide_out_left);
+        mFragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.animate_slide_out_left, R.anim.fade_in, R.anim.animate_slide_out_left);
         mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartRegister(), null);
         mFragmentTransaction.commit();
     }
@@ -165,7 +151,7 @@ public class _ActivityStart extends AppCompatActivity {
         //LOGIN-Layout
         mStartFrame = "login";
 
-        if(userToLogin){
+        if (userToLogin) {
             //Login User
             long start = System.nanoTime();
             Bundle bundle = ActivityOptions
@@ -276,8 +262,8 @@ public class _ActivityStart extends AppCompatActivity {
                 .setStartDelay(duration_anim1 + duration_anim2 + duration_anim3)
                 .setDuration(duration_anim4)
                 .y(250)
-                .scaleX((float)0.5)
-                .scaleY((float)0.5)
+                .scaleX((float) 0.5)
+                .scaleY((float) 0.5)
 //                    .alpha(0)
                 .start();
 
@@ -289,17 +275,13 @@ public class _ActivityStart extends AppCompatActivity {
     //=====================
     // public functions
 
-    public static String getStartFrame(){
+    public static String getStartFrame() {
         return mStartFrame;
     }
 
 
-
-
     //=====================
     //Database Functions
-
-
 
 
 }

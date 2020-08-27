@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,56 +75,56 @@ public class _FragmentStartYourDataSetData extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-            // Inflate the layout for this fragment
-            View view = inflater.inflate(R.layout._fragment_start_your_data_set_data, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout._fragment_start_your_data_set_data, container, false);
 
-            mFirstName = view.findViewById(R.id.et_input_firstname);
-            mSurName = view.findViewById(R.id.et_input_surname);
-            mBirthdate = view.findViewById(R.id.et_input_birthdate);
-            mBirthdate.setOnClickListener(v -> showDatePickerFragment());
+        mFirstName = view.findViewById(R.id.et_input_firstname);
+        mSurName = view.findViewById(R.id.et_input_surname);
+        mBirthdate = view.findViewById(R.id.et_input_birthdate);
+        mBirthdate.setOnClickListener(v -> showDatePickerFragment());
 
-            mGender = view.findViewById(R.id.s_input_gender);
-            mWeight = view.findViewById(R.id.et_input_weight);
-            mHeight = view.findViewById(R.id.et_input_height);
-            mEnergyLevelText = view.findViewById(R.id.textview_energy_level);
-            mEnergyLevel = view.findViewById(R.id.sb_energyLevel);
-            mEnergyLevel.setOnPositionChangeListener((view1, fromUser, oldPos, newPos, oldValue, newValue) -> EnergyLevelPositionChanged(newValue));
+        mGender = view.findViewById(R.id.s_input_gender);
+        mWeight = view.findViewById(R.id.et_input_weight);
+        mHeight = view.findViewById(R.id.et_input_height);
+        mEnergyLevelText = view.findViewById(R.id.textview_energy_level);
+        mEnergyLevel = view.findViewById(R.id.sb_energyLevel);
+        mEnergyLevel.setOnPositionChangeListener((view1, fromUser, oldPos, newPos, oldValue, newValue) -> EnergyLevelPositionChanged(newValue));
 
-            mSetData = view.findViewById(R.id.btn_setData);
-            mSetData.setOnClickListener(_view -> setData(_view));
+        mSetData = view.findViewById(R.id.btn_setData);
+        mSetData.setOnClickListener(_view -> setData(_view));
 
-            // set selection of Spinner
-            String[] arraySpinner = new String[]{
+        // set selection of Spinner
+        String[] arraySpinner = new String[]{
                 getString(R.string.maleGender),
                 getString(R.string.femaleGender),
                 getString(R.string.otherGender)
-            };
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                    R.layout.spinner_item, arraySpinner);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mGender.setAdapter(adapter);
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mGender.setAdapter(adapter);
 
-            return view;
+        return view;
 
     }
 
     private void EnergyLevelPositionChanged(int newValue) {
-        final int ENERGY_STEP = mEnergyLevel.getMaxValue()/5;
+        final int ENERGY_STEP = mEnergyLevel.getMaxValue() / 5;
         final int ENERGY_LEVEL_1 = ENERGY_STEP * 1;
         final int ENERGY_LEVEL_2 = ENERGY_STEP * 2;
         final int ENERGY_LEVEL_3 = ENERGY_STEP * 3;
         final int ENERGY_LEVEL_4 = ENERGY_STEP * 4;
         final int ENERGY_LEVEL_5 = ENERGY_STEP * 5;
 
-        if(newValue <= ENERGY_LEVEL_1){
+        if (newValue <= ENERGY_LEVEL_1) {
             mEnergyLevelText.setText("Coach Potato");
-        } else if(newValue <= ENERGY_LEVEL_2){
+        } else if (newValue <= ENERGY_LEVEL_2) {
             mEnergyLevelText.setText("Motivated Potato");
-        } else if(newValue <= ENERGY_LEVEL_3){
+        } else if (newValue <= ENERGY_LEVEL_3) {
             mEnergyLevelText.setText("Worker Potato");
-        } else if(newValue <= ENERGY_LEVEL_4){
+        } else if (newValue <= ENERGY_LEVEL_4) {
             mEnergyLevelText.setText("Runner Potato");
-        } else if(newValue <= ENERGY_LEVEL_5){
+        } else if (newValue <= ENERGY_LEVEL_5) {
             mEnergyLevelText.setText("SuperHero Potato");
         }
     }
@@ -142,12 +141,12 @@ public class _FragmentStartYourDataSetData extends Fragment {
             @Override
             public void onPositiveButtonClick(Object selection) {
 
-                    mBirthdate.setText(selection.toString());
+                mBirthdate.setText(selection.toString());
 //                    mBirthdate.setText(DateConverter.dateToString(year, month + 1, day));
-                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(mBirthdate.getWindowToken(), 0);
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(mBirthdate.getWindowToken(), 0);
 
-                }
+            }
         });
 
 
@@ -204,10 +203,10 @@ public class _FragmentStartYourDataSetData extends Fragment {
     private View.OnClickListener setData(View _view) {
         //Check Inputs
         boolean ForTesting = false;
-        if(!ForTesting){
+        if (!ForTesting) {
 
-            if(InputIsFalse()) {
-                Toasty.warning(getActivity(),"Eingabe ungültig", Toasty.LENGTH_SHORT, true).show();
+            if (InputIsFalse()) {
+                Toasty.warning(getActivity(), "Eingabe ungültig", Toasty.LENGTH_SHORT, true).show();
                 return null;
             }
 
@@ -216,17 +215,16 @@ public class _FragmentStartYourDataSetData extends Fragment {
             newUser.setFirstName(mFirstName.getText().toString());
             newUser.setLastName(mSurName.getText().toString());
             newUser.setBirthdate(DateConverter.localDateStrToDate(mSurName.getText().toString(), getContext()));
-            newUser.setGender(mGender.getSelectedItemPosition()+1);
+            newUser.setGender(mGender.getSelectedItemPosition() + 1);
             newUser.setWeight(Float.parseFloat(mWeight.getText().toString()));
             newUser.setHeight(Float.parseFloat(mHeight.getText().toString()));
             newUser.setEnergyLevel(mEnergyLevel.getValue());
 
             mViewModel.setUser(newUser);
 
-            Toasty.success(getActivity(),"Daten eingetragen", Toasty.LENGTH_SHORT);
+            Toasty.success(getActivity(), "Daten eingetragen", Toasty.LENGTH_SHORT);
 
         }
-
 
 
         // Start new Fragment
@@ -237,7 +235,7 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
         Fragment f = null;
         f = mFragmentManager.findFragmentByTag("createWorkoutPlan");
-        if(f == null){
+        if (f == null) {
             mFragmentTransaction.replace(R.id.start_frame, new _FragmentStartYourGoal(), "createWorkoutPlan");
             mFragmentTransaction.addToBackStack("createWorkoutPlan");
         } else {
@@ -252,18 +250,15 @@ public class _FragmentStartYourDataSetData extends Fragment {
 
     private boolean InputIsFalse() {
 
-        if(mFirstName.getText().toString().length() == 0) return true;
-        if(mSurName.getText().toString().length() == 0) return true;
-        if(mBirthdate.getText().toString().length() == 0) return true;
+        if (mFirstName.getText().toString().length() == 0) return true;
+        if (mSurName.getText().toString().length() == 0) return true;
+        if (mBirthdate.getText().toString().length() == 0) return true;
 //        if(mGender.getSelectedItemPosition() == "") return true;
-        if(mWeight.getText().toString().length() == 0) return true;
-        if(mHeight.getText().toString().length() == 0) return true;
+        if (mWeight.getText().toString().length() == 0) return true;
+        if (mHeight.getText().toString().length() == 0) return true;
 //        if(mEnergyLevel.getText().toString() == "") return true;
         return false;
     }
-
-
-
 
 
 }

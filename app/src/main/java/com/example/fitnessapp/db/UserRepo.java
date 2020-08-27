@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import com.example.fitnessapp.Interface.IUser;
 import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.db.FitnessDatabase;
 import com.example.fitnessapp.helper.Security;
 
 import java.util.Date;
@@ -19,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class UserRepo implements IUser {
 
     private UserDAO mUserDAO;
-    public UserRepo(Application application){
+
+    public UserRepo(Application application) {
         FitnessDatabase db = FitnessDatabase.getDatabase(application);
         mUserDAO = db.userDAO();
     }
@@ -42,13 +42,13 @@ public class UserRepo implements IUser {
 
         User requestedUser = mUserDAO.getUserByMail(email);
 
-        if(requestedUser == null){
+        if (requestedUser == null) {
             //Email not found
             return Boolean.FALSE;
         }
 
         //Check the oldPassword
-        if(Security.encrypt(oldPassword).equals(requestedUser.getPwHash())){
+        if (Security.encrypt(oldPassword).equals(requestedUser.getPwHash())) {
             //Password is correct
 
             //Set New Timestamp
@@ -89,13 +89,13 @@ public class UserRepo implements IUser {
 
         User requestedUser = mUserDAO.getUserByMail(email);
 
-        if(requestedUser == null){
+        if (requestedUser == null) {
             //Email not found
             return Boolean.FALSE;
         }
 
         //Check the entered Password
-        if(Security.encrypt(password).equals(requestedUser.getPwHash())){
+        if (Security.encrypt(password).equals(requestedUser.getPwHash())) {
             //Password is correct
 
             //Set New Timestamp
@@ -113,7 +113,7 @@ public class UserRepo implements IUser {
     @Override
     public void Logout(User user) {
 
-        if(user != null){
+        if (user != null) {
             //Set rememberMe to false so autologin is disabled
             user.setRememberMe(false);
 
@@ -127,10 +127,9 @@ public class UserRepo implements IUser {
         //Check if User exists
         User existingUser = mUserDAO.getUserByMail(email);
 
-        if(existingUser != null){
+        if (existingUser != null) {
             return false;
         }
-
 
 
         //Hash password
@@ -142,13 +141,12 @@ public class UserRepo implements IUser {
         //Insert User in DB async
         AsyncTask<User, Void, Void> insert = new insertAsyncTask(mUserDAO).execute(newUser);
 
-        try{
+        try {
             insert.get(1000, TimeUnit.MILLISECONDS);
 
             return Boolean.TRUE;
-        }
-        catch (Exception e){
-            Log.e("Data Access",e.getMessage());
+        } catch (Exception e) {
+            Log.e("Data Access", e.getMessage());
 
             return Boolean.FALSE;
         }
@@ -156,27 +154,27 @@ public class UserRepo implements IUser {
 
     }
 
-    public Boolean UpdateInfo(User user){
+    public Boolean UpdateInfo(User user) {
         /*
-        * Only change non-critical values
-        * Email, Id and pwHash remain unchanged.
-        */
+         * Only change non-critical values
+         * Email, Id and pwHash remain unchanged.
+         */
 
 
         //Get User from DB
         User userFromDB = mUserDAO.getUserByMail(user.getEmail());
 
-        if(userFromDB == null){
+        if (userFromDB == null) {
             return Boolean.FALSE;
         }
 
         //Set firstName if input is valid
-        if(user.getFirstName() != null && !(user.getFirstName().equals(""))){
+        if (user.getFirstName() != null && !(user.getFirstName().equals(""))) {
             userFromDB.setFirstName(user.getFirstName());
         }
 
         //Set lastName if input is valid
-        if(user.getLastName() != null && !(user.getLastName().equals(""))){
+        if (user.getLastName() != null && !(user.getLastName().equals(""))) {
             userFromDB.setLastName(user.getLastName());
         }
 
@@ -207,14 +205,13 @@ public class UserRepo implements IUser {
         return Boolean.TRUE;
 
 
-
     }
 
     private static class insertAsyncTask extends AsyncTask<User, Void, Void> {
 
         private UserDAO mAsyncTaskDao;
 
-        insertAsyncTask(UserDAO dao){
+        insertAsyncTask(UserDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -229,7 +226,7 @@ public class UserRepo implements IUser {
 
         private UserDAO mAsyncTaskDao;
 
-        deleteAsyncTask(UserDAO dao){
+        deleteAsyncTask(UserDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -240,11 +237,11 @@ public class UserRepo implements IUser {
         }
     }
 
-    private static class updateAsyncTask extends AsyncTask<User, Void, Void>{
+    private static class updateAsyncTask extends AsyncTask<User, Void, Void> {
 
         private UserDAO mAsyncTaskDAO;
 
-        updateAsyncTask(UserDAO dao){
+        updateAsyncTask(UserDAO dao) {
             mAsyncTaskDAO = dao;
         }
 

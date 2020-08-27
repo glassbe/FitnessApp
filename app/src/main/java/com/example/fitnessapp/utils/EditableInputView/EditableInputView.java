@@ -65,9 +65,9 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
 
         if (attrs != null) {
             TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.editableinput_view,
-                0, 0);
+                    attrs,
+                    R.styleable.editableinput_view,
+                    0, 0);
             try {
                 valueTextView.setText(a.getString(R.styleable.editableinput_view_android_text));
                 valueTextView.setGravity(a.getInt(R.styleable.editableinput_view_android_gravity, 0));
@@ -104,7 +104,7 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 int year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    getContext(), this, year, month, day);
+                        getContext(), this, year, month, day);
                 datePickerDialog.show();
             } else {
                 final EditText editText = new EditText(context);
@@ -117,17 +117,17 @@ public class EditableInputView extends RelativeLayout implements DatePickerDialo
                 linearLayout.addView(editText);
 
                 final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText(getContext().getString(R.string.edit_value))
-                    .setConfirmClickListener(sDialog -> {
-                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                        }
-                        setText(editText.getText().toString());
-                        sDialog.dismissWithAnimation();
-                        if (mConfirmClickListener != null)
-                            mConfirmClickListener.onTextChanged(EditableInputView.this);
-                    });
+                        .setTitleText(getContext().getString(R.string.edit_value))
+                        .setConfirmClickListener(sDialog -> {
+                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                            }
+                            setText(editText.getText().toString());
+                            sDialog.dismissWithAnimation();
+                            if (mConfirmClickListener != null)
+                                mConfirmClickListener.onTextChanged(EditableInputView.this);
+                        });
                 dialog.setCustomView(linearLayout);
                 dialog.show();
             }

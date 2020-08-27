@@ -2,7 +2,6 @@ package com.example.fitnessapp.ui.notifications;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Looper;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -27,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,13 +32,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.fitnessapp.DatePickerDialogFragment;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp._ActivityStart;
-import com.example.fitnessapp._Activity_CoachViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachProfileBinding;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.DateConverter;
@@ -67,7 +62,7 @@ public class ProfileFragment extends Fragment {
     //Use Services
     private UserViewModel _user;
     private User mUser = null;
-    
+
     private FragmentCoachProfileBinding binding;
 
     private ImageUtil imgUtil = null;
@@ -76,10 +71,8 @@ public class ProfileFragment extends Fragment {
     private InputFilter filter = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            for (int i = start; i < end; ++i)
-            {
-                if (!Pattern.compile("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890]*").matcher(String.valueOf(source.charAt(i))).matches())
-                {
+            for (int i = start; i < end; ++i) {
+                if (!Pattern.compile("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890]*").matcher(String.valueOf(source.charAt(i))).matches()) {
                     return "";
                 }
             }
@@ -106,13 +99,13 @@ public class ProfileFragment extends Fragment {
             mUser = _user.getUser();
 
             //set Observer
-            _user.getLiveUser().observe(getActivity(), user ->  {
+            _user.getLiveUser().observe(getActivity(), user -> {
                 mUser = user;
 
                 binding.firstnameInput.setText(mUser.getFirstName());
                 binding.lastnameInput.setText(mUser.getLastName());
                 String gender = null;
-                switch(mUser.getGender()){
+                switch (mUser.getGender()) {
                     case 1:
                         gender = getString(R.string.maleGender);
                         break;
@@ -122,27 +115,21 @@ public class ProfileFragment extends Fragment {
                     case 3:
                         gender = getString(R.string.otherGender);
                         break;
-                    default :
+                    default:
                         gender = "";
                 }
                 binding.genderInput.setText(gender);
-                if(mUser.getBirthdate() != null)
-                    binding.birthdateInput.setText(DateConverter.dateToLocalDateStr(mUser.getBirthdate(),getContext()));
+                if (mUser.getBirthdate() != null)
+                    binding.birthdateInput.setText(DateConverter.dateToLocalDateStr(mUser.getBirthdate(), getContext()));
                 binding.heightInput.setText(String.valueOf(mUser.getHeight()) + " cm");
 
                 mCurrentPhotoPath = mUser.getProfilePicPath();
-//                if(mUser.getProfilePicPath() != null){
-//                    ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
-//                    ImageUtil.saveThumb(mCurrentPhotoPath);
-//                }
 
                 binding.emailInput.setText(mUser.getEmail());
             });
         }
 
 
-
-        
         binding.photoRoundProfile.setOnClickListener(v -> ClickProfilePhoto());
 
         binding.firstnameInput.setOnClickListener(v -> ClickOnFirstName((TextView) v));
@@ -163,8 +150,6 @@ public class ProfileFragment extends Fragment {
         imgUtil = new ImageUtil(binding.photoRoundProfile);
 
 
-
-
         return view;
     }
 
@@ -172,7 +157,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageView iv= binding.photoRoundProfile;
+        ImageView iv = binding.photoRoundProfile;
         ViewTreeObserver vto = iv.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -181,12 +166,12 @@ public class ProfileFragment extends Fragment {
 
             public boolean onPreDraw() {
 
-                if(mFinalHeight != 0 || mFinalWidth != 0)
+                if (mFinalHeight != 0 || mFinalWidth != 0)
                     return true;
 
                 mFinalHeight = iv.getHeight();
                 mFinalWidth = iv.getWidth();
-                Log.d("hilength","Height: " + mFinalHeight + " Width: " + mFinalWidth);
+                Log.d("hilength", "Height: " + mFinalHeight + " Width: " + mFinalWidth);
 
 
                 ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
@@ -262,7 +247,7 @@ public class ProfileFragment extends Fragment {
                 break;
 
         }
-        if(mCurrentPhotoPath != "") {
+        if (mCurrentPhotoPath != "") {
             mUser.setProfilePicPath(mCurrentPhotoPath);
             _user.updateUser(mUser);
         }
@@ -271,11 +256,9 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     private void ClickProfilePhoto() {
         takePicture();
     }
-
 
 
     private void ClickOnFirstName(TextView v) {
@@ -286,7 +269,7 @@ public class ProfileFragment extends Fragment {
         EditTextDialog(v);
     }
 
-    private void ClickOnBirthdate(View v){
+    private void ClickOnBirthdate(View v) {
         showDatePickerFragment();
     }
 
@@ -330,16 +313,13 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
-
     private void ClickEmail() {
-        Toasty.error(getActivity().getWindow().getContext(),"E-Mail kann nicht geändert werden",Toasty.LENGTH_SHORT,true).show();
+        Toasty.error(getActivity().getWindow().getContext(), "E-Mail kann nicht geändert werden", Toasty.LENGTH_SHORT, true).show();
     }
 
     private void ClickOnPassword(View v) {
         EditPasswordDialog((TextView) v);
     }
-
 
 
     private void ClickDeleteAccount(View v) {
@@ -350,14 +330,15 @@ public class ProfileFragment extends Fragment {
                 .setIcon(android.R.drawable.ic_delete)
                 .setPositiveButton("Löschen", (dialog, which) -> {
                     _user.mUserRepo.DeleteUser(mUser);
-                    Toasty.success(getContext(),"User gelöscht",Toasty.LENGTH_SHORT,true).show();
+                    Toasty.success(getContext(), "User gelöscht", Toasty.LENGTH_SHORT, true).show();
                     startActivity(new Intent(getActivity(), _ActivityStart.class));
                     getActivity().finish();
 
 
                 })
                 .setNegativeButton("Logout", ((dialog, which) -> ClickLogout()))
-                .setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {
+                })
                 .show();
     }
 
@@ -367,36 +348,36 @@ public class ProfileFragment extends Fragment {
                 .setTitle("Willst du dich wirklich ausloggen?")
                 .setPositiveButton("Logout", (dialog, which) -> {
                     _user.mUserRepo.Logout(mUser);
-                    Toasty.success(getContext(),"Ausgeloggt",Toasty.LENGTH_SHORT,true).show();
+                    Toasty.success(getContext(), "Ausgeloggt", Toasty.LENGTH_SHORT, true).show();
                     startActivity(new Intent(getActivity(), _ActivityStart.class));
                     getActivity().finish();
                 })
-                .setNeutralButton(R.string.cancel, (dialog, which) -> {})
+                .setNeutralButton(R.string.cancel, (dialog, which) -> {
+                })
                 .show();
 
     }
 
 
-
     private void updateUser() {
 
-                mUser.setFirstName(binding.firstnameInput.getText().toString());
-                mUser.setLastName(binding.lastnameInput.getText().toString());
-                mUser.setBirthdate(DateConverter.localDateStrToDate(binding.birthdateInput.getText().toString(),getContext()));
-                String gender = binding.genderInput.getText().toString();
-                int result = 0;
-                if(gender == getString(R.string.maleGender))
-                    result = 1;
-                else if(gender == getString(R.string.femaleGender))
-                    result = 2;
-                else if(gender == getString(R.string.otherGender))
-                    result = 3;
-                mUser.setGender(result);
-                mUser.setFirstName(binding.firstnameInput.getText().toString());
-                mUser.setHeight(Float.parseFloat(binding.heightInput.getText().toString().replaceAll(" cm","")));
+        mUser.setFirstName(binding.firstnameInput.getText().toString());
+        mUser.setLastName(binding.lastnameInput.getText().toString());
+        mUser.setBirthdate(DateConverter.localDateStrToDate(binding.birthdateInput.getText().toString(), getContext()));
+        String gender = binding.genderInput.getText().toString();
+        int result = 0;
+        if (gender == getString(R.string.maleGender))
+            result = 1;
+        else if (gender == getString(R.string.femaleGender))
+            result = 2;
+        else if (gender == getString(R.string.otherGender))
+            result = 3;
+        mUser.setGender(result);
+        mUser.setFirstName(binding.firstnameInput.getText().toString());
+        mUser.setHeight(Float.parseFloat(binding.heightInput.getText().toString().replaceAll(" cm", "")));
 
 
-        new AsyncTask <Void,Void,Void>() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
 
@@ -404,7 +385,7 @@ public class ProfileFragment extends Fragment {
                 try {
                     _user.updateUser(mUser);
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.getStackTraceString(e);
                 }
 //        _user.mUserRepo.UpdateInfo(mUser);
@@ -417,8 +398,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
-    private void EditTextDialog(TextView editTextView){
+    private void EditTextDialog(TextView editTextView) {
         Context context = getContext();
 
         final EditText editText = new EditText(context);
@@ -448,10 +428,10 @@ public class ProfileFragment extends Fragment {
         dialog.show();
     }
 
-    private void EditNumberDialog(TextView editTextView){
+    private void EditNumberDialog(TextView editTextView) {
         Context context = getContext();
 
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
 
             private LinearLayout mLinearLayout;
@@ -463,7 +443,7 @@ public class ProfileFragment extends Fragment {
                 mEditText = new EditText(context);
                 mEditText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
                 mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                mEditText.setFilters(new InputFilter[]{filter,new InputFilter.LengthFilter(6)});
+                mEditText.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(6)});
                 mEditText.requestFocus();
 
                 mLinearLayout = new LinearLayout(context.getApplicationContext());
@@ -498,11 +478,11 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void EditPasswordDialog(TextView editTextView){
+    private void EditPasswordDialog(TextView editTextView) {
         Context context = getContext();
 
 
-         AsyncTask a = new AsyncTask<Void, Void, Void>() {
+        AsyncTask a = new AsyncTask<Void, Void, Void>() {
 
             private EditText mEditText_newPasswordConfirm;
             private EditText mEditText_newPassword;
@@ -511,13 +491,13 @@ public class ProfileFragment extends Fragment {
 
             private WeakReference<ProfileFragment> mFragmentWeakReference;
 
-             @Override
-             protected void onPreExecute() {
-                 super.onPreExecute();
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
 
-             }
+            }
 
-             @Override
+            @Override
             protected Void doInBackground(Void... voids) {
 
                 mEditText_oldPassword = new EditText(context);
@@ -576,15 +556,15 @@ public class ProfileFragment extends Fragment {
                                 String new_password = mEditText_newPassword.getText().toString();
                                 String new_password_confirm = mEditText_newPasswordConfirm.getText().toString();
 
-                                if(!new_password.equals(new_password_confirm)) {
-                                    Toasty.error(context,"Passwörter stimmen nicht überein", Toasty.LENGTH_SHORT, true).show();
+                                if (!new_password.equals(new_password_confirm)) {
+                                    Toasty.error(context, "Passwörter stimmen nicht überein", Toasty.LENGTH_SHORT, true).show();
                                     return;
                                 }
-                                if(!_user.mUserRepo.changePassword(mUser.getEmail(),old_password,new_password)) {
-                                    Toasty.error(context,"Passwort wurde NICHT geändert!", Toasty.LENGTH_SHORT, true).show();
+                                if (!_user.mUserRepo.changePassword(mUser.getEmail(), old_password, new_password)) {
+                                    Toasty.error(context, "Passwort wurde NICHT geändert!", Toasty.LENGTH_SHORT, true).show();
                                     return;
                                 }
-                                Toasty.success(context,"Passwort wurde geändert!", Toasty.LENGTH_SHORT, true).show();
+                                Toasty.success(context, "Passwort wurde geändert!", Toasty.LENGTH_SHORT, true).show();
 
                                 sDialog.dismissWithAnimation();
 
@@ -594,7 +574,7 @@ public class ProfileFragment extends Fragment {
                     dialog.show();
 
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     Log.getStackTraceString(e);
                 }
 
@@ -605,19 +585,16 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
-
-
     private void takePicture() {
         //Get Permissions, if not granted yet
         requestPermissionForWriting(this);
-        try{
+        try {
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(getContext(),this);
-        } catch(Exception e){
+                    .start(getContext(), this);
+        } catch (Exception e) {
             Log.getStackTraceString(e);
-            Toasty.error(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
+            Toasty.error(getActivity(), "Need Camera Permissions", Toasty.LENGTH_SHORT, true).show();
         }
     }
 
@@ -638,7 +615,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     private void showDatePickerFragment() {
         if (mDateFrag == null) {
             mDateFrag = DatePickerDialogFragment.newInstance(dateSet);
@@ -654,7 +630,6 @@ public class ProfileFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(binding.birthdateInput.getWindowToken(), 0);
         updateUser();
     }
-
 
 
 }

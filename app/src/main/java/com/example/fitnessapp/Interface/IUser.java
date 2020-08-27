@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.fitnessapp.db.Entity.User;
 
-import java.util.List;
-
 public interface IUser {
 
     // Functions Implemented

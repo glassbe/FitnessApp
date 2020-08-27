@@ -1,45 +1,30 @@
 package com.example.fitnessapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.SystemClock;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.databinding.FragmentStartCreateWorkoutPlanBinding;
-import com.example.fitnessapp.databinding.FragmentStartYourGoalBinding;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.utils.EditableInputView.EditableInputView;
-import com.onurkaganaldemir.ktoastlib.KToast;
-
 
 import java.lang.ref.WeakReference;
 
-import at.wirecube.additiveanimations.additive_animator.AdditiveAnimator;
 import es.dmoral.toasty.Toasty;
 
-
 import static android.content.ContentValues.TAG;
-import static at.wirecube.additiveanimations.additive_animator.AdditiveAnimator.animate;
-import static com.example.fitnessapp._FragmentStartYourGoal.START_ANIMATION_TIME;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,7 +42,7 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
     protected FragmentStartCreateWorkoutPlanBinding binding;
 
 
-    private LooperThread mLooperThread= new LooperThread();
+    private LooperThread mLooperThread = new LooperThread();
     private Thread mTextUpdate;
     private int mTextLength;
 
@@ -112,7 +97,7 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                             try {
                                 String newString;
                                 binding.createWorkoutTextview.append(".");
-                                if (binding.createWorkoutTextview.getText().toString().length() >= mTextLength+4) {
+                                if (binding.createWorkoutTextview.getText().toString().length() >= mTextLength + 4) {
                                     newString = binding.createWorkoutTextview.getText().toString().substring(0, binding.createWorkoutTextview.getText().toString().length() - 4);
                                     binding.createWorkoutTextview.setText(newString);
                                 }
@@ -126,18 +111,18 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                     Log.d(TAG, "Thread sleep");
                     SystemClock.sleep(500);
                 }
-                handler.post(()->{
+                handler.post(() -> {
                     binding.createWorkoutTextview.setText("Trainingsplan wird erstellt");
                     mTextLength = binding.createWorkoutTextview.getText().toString().length();
                 });
-                while(!WorkoutIsCreated){
+                while (!WorkoutIsCreated) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 String newString;
                                 binding.createWorkoutTextview.append(".");
-                                if (binding.createWorkoutTextview.getText().toString().length() >= mTextLength+4) {
+                                if (binding.createWorkoutTextview.getText().toString().length() >= mTextLength + 4) {
                                     newString = binding.createWorkoutTextview.getText().toString().substring(0, binding.createWorkoutTextview.getText().toString().length() - 4);
                                     binding.createWorkoutTextview.setText(newString);
                                 }
@@ -155,21 +140,19 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
         });
         mTextUpdate.start();
 
-        new Thread(()->{
+        new Thread(() -> {
             Handler handler = new Handler(Looper.getMainLooper());
             User user = mViewModel.getUser();
-            _user.mUserRepo.Register(user.getEmail(),user.getPwHash(), true);
+            _user.mUserRepo.Register(user.getEmail(), user.getPwHash(), true);
             _user.mUserRepo.UpdateInfo(user);
-            handler.post(()->{
-                Toasty.success(getActivity(),"Benutzer angelegt", Toasty.LENGTH_SHORT, true).show();
+            handler.post(() -> {
+                Toasty.success(getActivity(), "Benutzer angelegt", Toasty.LENGTH_SHORT, true).show();
                 UserIsCreated = true;
             });
         }).start();
 
 
-        binding.createWorkoutLogoSquare.setAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.anim_try));
-
-
+        binding.createWorkoutLogoSquare.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_try));
 
 
     }
@@ -182,12 +165,12 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
     }
 
 
-    static class LooperThread extends Thread{
+    static class LooperThread extends Thread {
 
         public Looper looper;
         public Handler handler;
 
-        LooperThread(){
+        LooperThread() {
         }
 
         @Override
@@ -212,17 +195,17 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
             mThreadHandler = new Handler(Looper.getMainLooper());
             Looper.prepare();
 
-                try {
+            try {
 
-                    mThreadHandler.post(() -> {
+                mThreadHandler.post(() -> {
 
-                        Log.d(TAG, "Thread sleep");
-                        SystemClock.sleep(100);
+                    Log.d(TAG, "Thread sleep");
+                    SystemClock.sleep(100);
 
-                    });
-                } catch (Exception e) {
-                    Log.getStackTraceString(e);
-                }
+                });
+            } catch (Exception e) {
+                Log.getStackTraceString(e);
+            }
             Looper.loop();
 
 
@@ -241,7 +224,7 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
         private WeakReference<_FragmentStartCreateWorkoutPlan> fragmentWeakReference;
         private Handler mThreadHandler;
 
-        MyAsyncTask(_FragmentStartCreateWorkoutPlan fragment){
+        MyAsyncTask(_FragmentStartCreateWorkoutPlan fragment) {
             fragmentWeakReference = new WeakReference<_FragmentStartCreateWorkoutPlan>(fragment);
         }
 
@@ -250,7 +233,7 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
             super.onPreExecute();
 
             _FragmentStartCreateWorkoutPlan fragment = fragmentWeakReference.get();
-            if(fragment == null)
+            if (fragment == null)
                 return;
 
             mThreadHandler = new Handler(Looper.getMainLooper());
@@ -259,9 +242,9 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try{
+            try {
                 _FragmentStartCreateWorkoutPlan fragment = fragmentWeakReference.get();
-                if(fragment == null) return null;
+                if (fragment == null) return null;
 
 
 //                Looper.prepare();
@@ -274,12 +257,11 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                 });
 
 
-
 //                Looper.loop();
 
                 return null;
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 Log.getStackTraceString(e);
                 return null;
             }
