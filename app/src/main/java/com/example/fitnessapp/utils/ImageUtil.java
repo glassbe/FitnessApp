@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class ImageUtil {
 
@@ -85,7 +87,9 @@ public class ImageUtil {
         }
     }
 
+
     static public String saveThumb(String pPath) {
+
         if (pPath == null || pPath.isEmpty()) return null;
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
@@ -129,42 +133,107 @@ public class ImageUtil {
     }
 
     static public void setPic(ImageView mImageView, String pPath) {
-        try {
-            if (pPath == null) return;
-            File f = new File(pPath);
-            if (!f.exists() || f.isDirectory()) return;
 
-            // Get the dimensions of the View
-            int targetW = mImageView.getWidth();
-            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
-            int targetH = mImageView.getHeight();
-            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
+        new AsyncTask<String, Void, Void>() {
 
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(pPath, bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
+            private Bitmap mOrientedBitmap;
+            private int mTargetW;
 
-            // Determine how much to scale down the image
-            int scaleFactor = photoW / targetW; //Math.min(photoW/targetW, photoH/targetH);
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
 
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
+                // Get the dimensions of the View
+                mTargetW = mImageView.getWidth();
+                if (mTargetW == 0) mTargetW = mImageView.getMeasuredWidth();
+                int targetH = mImageView.getHeight();
+                if (targetH == 0) targetH = mImageView.getMeasuredHeight();
+            }
 
-            Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
-            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
-            mImageView.setImageBitmap(orientedBitmap);
+            @Override
+            protected Void doInBackground(String... strings) {
+                String pPatch = strings[0];
 
-            //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            mImageView.setAdjustViewBounds(true);
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                if (pPath == null) return null;
+                File f = new File(pPath);
+                if (!f.exists() || f.isDirectory()) return null;
+                // Get the dimensions of the bitmap
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                bmOptions.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(pPath, bmOptions);
+                int photoW = bmOptions.outWidth;
+                int photoH = bmOptions.outHeight;
+
+                // Determine how much to scale down the image
+                int scaleFactor = photoW / mTargetW; //Math.min(photoW/targetW, photoH/targetH);
+
+                // Decode the image file into a Bitmap sized to fill the View
+                bmOptions.inJustDecodeBounds = false;
+                bmOptions.inSampleSize = scaleFactor;
+                bmOptions.inPurgeable = true;
+
+                Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+                mOrientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                // Try Block
+                try {
+                    mImageView.setImageBitmap(mOrientedBitmap);
+
+                    //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    //mImageView.setAdjustViewBounds(true);
+                    mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                } catch (Exception e) {
+                    Log.getStackTraceString(e);
+                }
+
+
+            }
+        }.execute(pPath);
+
+//        try {
+//            if (pPath == null) return;
+//            File f = new File(pPath);
+//            if (!f.exists() || f.isDirectory()) return;
+//
+//            // Get the dimensions of the View
+//            int targetW = mImageView.getWidth();
+//            if (targetW == 0) targetW = mImageView.getMeasuredWidth();
+//            int targetH = mImageView.getHeight();
+//            if (targetH == 0) targetH = mImageView.getMeasuredHeight();
+//
+//            // Get the dimensions of the bitmap
+//            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//            bmOptions.inJustDecodeBounds = true;
+//            BitmapFactory.decodeFile(pPath, bmOptions);
+//            int photoW = bmOptions.outWidth;
+//            int photoH = bmOptions.outHeight;
+//
+//            // Determine how much to scale down the image
+//            int scaleFactor = photoW / targetW; //Math.min(photoW/targetW, photoH/targetH);
+//
+//            // Decode the image file into a Bitmap sized to fill the View
+//            bmOptions.inJustDecodeBounds = false;
+//            bmOptions.inSampleSize = scaleFactor;
+//            bmOptions.inPurgeable = true;
+//
+//            Bitmap bitmap = BitmapFactory.decodeFile(pPath, bmOptions);
+//            Bitmap orientedBitmap = ExifUtil.rotateBitmap(pPath, bitmap);
+//            mImageView.setImageBitmap(orientedBitmap);
+//
+//            //mImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+////            mImageView.setAdjustViewBounds(true);
+//            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public ImageView getView() {

@@ -13,9 +13,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.ui.dashboard.DashboardFragment;
-import com.example.fitnessapp.ui.home.HomeFragment;
-import com.example.fitnessapp.ui.notifications.ProfileFragment;
+import com.example.fitnessapp.ui.exercises.ExercisesFragment;
+import com.example.fitnessapp.ui.coach.CoachFragment;
+import com.example.fitnessapp.ui.profile.ProfileFragment;
 
 import java.util.ArrayList;
 
@@ -49,8 +49,8 @@ public class _ActivityCoach extends AppCompatActivity {
         _user.setUser(mUser);
 
         ArrayList<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new DashboardFragment());
-        fragmentList.add(new HomeFragment());
+        fragmentList.add(new ExercisesFragment());
+        fragmentList.add(new CoachFragment());
         fragmentList.add(new ProfileFragment());
 
         ViewPager viewPager = findViewById(R.id.viewPager);
