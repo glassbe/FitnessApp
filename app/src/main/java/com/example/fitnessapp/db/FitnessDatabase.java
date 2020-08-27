@@ -9,15 +9,20 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.fitnessapp.db.DAO.ExerciseDAO;
 import com.example.fitnessapp.db.DAO.StatusUpdateDAO;
 import com.example.fitnessapp.db.DAO.UserDAO;
+import com.example.fitnessapp.db.Entity.Exercise;
+import com.example.fitnessapp.db.Entity.Program;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.db.Entity.Workout;
+import com.example.fitnessapp.db.Entity.WorkoutExerciseJoin;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, StatusUpdate.class}, version = 8)
+@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 8)
 @TypeConverters({Converters.class})
 abstract class FitnessDatabase extends RoomDatabase {
 
@@ -25,6 +30,7 @@ abstract class FitnessDatabase extends RoomDatabase {
 
     public abstract StatusUpdateDAO statusUpdateDAO();
 
+    public abstract ExerciseDAO exerciseDAO();
 
     private static volatile FitnessDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
