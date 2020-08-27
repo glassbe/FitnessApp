@@ -229,7 +229,6 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
     }
 
     private void takePicture() {
-
         //Get Permissions, if not granted yet
         requestPermissionForWriting(this);
         try{
@@ -238,7 +237,7 @@ public class _FragmentStartYourDataSetProfilePicture extends Fragment{
                     .start(getContext(),this);
         } catch(Exception e){
             Log.getStackTraceString(e);
-           Toasty.info(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
+           Toasty.error(getActivity(), "Need Camera Permissions",Toasty.LENGTH_SHORT, true).show();
         }
 
     }

@@ -5,11 +5,23 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="._FragmentStartYourGoal"
-    android:background="@drawable/img_background_your_data">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_background_your_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
@@ -78,7 +90,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:src="@drawable/heading_your_goal" />
+                        android:src="@drawable/img_heading_your_goal" />
 
                     <LinearLayout
                         android:id="@+id/your_goal_image_holder"
@@ -91,7 +103,7 @@
                             android:id="@+id/your_goal_image"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/blank_goad_view" />
+                            android:src="@drawable/img_blank_goal_view" />
 
                         <TextView
                             android:id="@+id/textView3"
@@ -133,7 +145,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="100dp"
                                     android:gravity="center"
-                                    android:src="@drawable/gain_muscles_pic" />
+                                    android:src="@drawable/img_gain_muscles_pic" />
 
                                 <Space
                                     android:layout_width="match_parent"
@@ -163,7 +175,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="100dp"
                                     android:gravity="center"
-                                    android:src="@drawable/loose_weight_pic" />
+                                    android:src="@drawable/img_loose_weight_pic" />
 
                                 <Space
                                     android:layout_width="match_parent"
@@ -194,7 +206,7 @@
                                     android:layout_height="100dp"
 
                                     android:gravity="center"
-                                    android:src="@drawable/become_fitter_pic" />
+                                    android:src="@drawable/img_become_fitter_pic" />
 
                                 <Space
                                     android:layout_width="match_parent"

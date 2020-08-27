@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.notifications.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_fragment_profile_background_img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35000002" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/photo_round_profile"
+                    android:layout_width="215dp"
+                    android:layout_height="215dp"
+
+                    android:layout_marginTop="40dp"
+                    android:elevation="2dp"
+                    android:hapticFeedbackEnabled="false"
+                    android:isScrollContainer="false"
+                    android:maxHeight="215dp"
+                    android:minHeight="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icn_profile_pic"
+                    android:textAlignment="center"
+                    app:civ_background_color="@color/gray"
+                    app:civ_border_color="@color/gray"
+                    app:civ_border_width="0dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="@color/gray"
+                    app:civ_shadow_radius="10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/background_fragment_profile_data_holder_background"
+                    android:elevation="1dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="45dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="15dp"
+                    android:translationY="-55dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/photo_round_profile">
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Vorname:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/firstname_input"
+                        app:layout_constraintEnd_toStartOf="@+id/firstname_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/firstname_input"
+                        app:layout_constraintVertical_bias="0.30"
+
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/firstname_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/textView4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Vorname"
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Nachname:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/lastname_input"
+                        app:layout_constraintEnd_toEndOf="@+id/textView4"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+                        app:layout_constraintVertical_bias="0.3"
+                        app:layout_constraintVertical_weight="1" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/lastname_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/firstname_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/firstname_input"
+                        app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Nachname"
+
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView42"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Geburtstag:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/birthdate_input"
+                        app:layout_constraintEnd_toEndOf="@+id/textView4"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/lastname_input"
+                        app:layout_constraintVertical_bias="0.3" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/birthdate_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/lastname_input"
+                        app:layout_constraintStart_toStartOf="@+id/lastname_input"
+                        app:layout_constraintTop_toBottomOf="@+id/lastname_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="TT.MM.JJJJ"
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView43"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Geschlecht:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/gender_input"
+                        app:layout_constraintEnd_toEndOf="@+id/textView4"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
+                        app:layout_constraintVertical_bias="0.3" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/gender_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/birthdate_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/birthdate_input"
+                        app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Als was du dich fühlst"
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Größe:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/height_input"
+                        app:layout_constraintEnd_toEndOf="@+id/textView4"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/textView4"
+                        app:layout_constraintTop_toBottomOf="@+id/gender_input"
+                        app:layout_constraintVertical_bias="0.3" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/height_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/gender_input"
+                        app:layout_constraintTop_toBottomOf="@+id/gender_input"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="XXX cm"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/background_fragment_profile_data_holder_background"
+                    android:elevation="1dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="15dp"
+                    android:translationY="-30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="E-Mail:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/email_input"
+                        app:layout_constraintEnd_toStartOf="@+id/email_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/email_input"
+                        app:layout_constraintVertical_bias="0.30"
+
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/email_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/textView11"
+                        app:layout_constraintTop_toTopOf="parent"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="Email@mail.com"
+                        />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/textView81"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Passwort:"
+                        android:textSize="22dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/password_input"
+                        app:layout_constraintEnd_toEndOf="@+id/textView11"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="@+id/textView11"
+                        app:layout_constraintTop_toBottomOf="@+id/email_input"
+                        app:layout_constraintVertical_bias="0.3"
+                        app:layout_constraintVertical_weight="1" />
+
+                    <com.rey.material.widget.TextView
+                        android:id="@+id/password_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_fragment_profile_input_text_background"
+                        android:paddingRight="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/email_input"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/email_input"
+                        app:layout_constraintTop_toBottomOf="@+id/email_input"
+
+                        android:inputType="textPassword"
+
+                        android:gravity="start"
+                        android:paddingTop="13dp"
+                        android:textStyle="normal"
+                        android:textSize="18dp"
+                        android:paddingLeft="25dp"
+                        android:text="oooooooooooo"
+
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+
+                    <Button
+                        android:id="@+id/btn_delete_account"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/shape_btn_default_gray"
+                        android:text="Konto Löschen"
+                        android:textColor="@color/mywhite"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btn_logout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/shape_btn_default_red"
+                        android:text="Logout"
+                        android:textColor="@color/mywhite"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_delete_account" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--                <Button-->
+<!--                    android:id="@+id/floatingActionButton"-->
+<!--                    style="@android:style/MediaButton"-->
+<!--                    android:elevation="3dp"-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:clickable="true"-->
+<!--                    android:src="@drawable/icn_feather_camera"-->
+<!--                    android:background="@drawable/icn_feather_camera"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/photo_round_profile"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/photo_round_profile" />-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

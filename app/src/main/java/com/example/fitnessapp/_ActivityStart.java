@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
@@ -39,6 +40,7 @@ import at.wirecube.additiveanimations.additive_animator.view_visibility.ViewVisi
 
 
 public class _ActivityStart extends AppCompatActivity {
+    private static final String TAG = "_ActivityStart";
     //Binding to Layout
     private ActivityStartBinding binding;
 
@@ -158,12 +160,14 @@ public class _ActivityStart extends AppCompatActivity {
         mFragmentTransaction.commit();
     }
 
+
     private void Login() {
         //LOGIN-Layout
         mStartFrame = "login";
 
         if(userToLogin){
             //Login User
+            long start = System.nanoTime();
             Bundle bundle = ActivityOptions
                     .makeSceneTransitionAnimation(this, mImg_logo, ViewCompat.getTransitionName(mImg_logo))
 //                        .makeSceneTransitionAnimation(this)
@@ -171,6 +175,9 @@ public class _ActivityStart extends AppCompatActivity {
             Intent intent = new Intent(this, _ActivityCoach.class);
             intent.putExtra("ARG_USER_MAIL", mUser.getEmail());
             startActivity(intent, bundle);
+            long end = System.nanoTime();
+            long result = end - start;
+            Log.d(TAG, "Time to start Activity: " + result);
         } else {
             //Set Login Fragment
             Fragment LoginFragment = _FragmentStartLogin.newInstance();

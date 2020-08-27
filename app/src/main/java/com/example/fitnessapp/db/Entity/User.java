@@ -24,7 +24,7 @@ public class User implements Serializable {
 
     private float height;
 
-    private int gender;
+    private int gender; // 1|Mann, 2|Frau, 3|Divers
 
     private boolean rememberMe;
 

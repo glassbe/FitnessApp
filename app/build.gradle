@@ -154,6 +154,9 @@ dependencies {
     //Intent Animation
     implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
 
+    //input dialog
+    implementation 'com.yarolegovich:lovely-dialog:1.1.1'
+
 // Room Database
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'

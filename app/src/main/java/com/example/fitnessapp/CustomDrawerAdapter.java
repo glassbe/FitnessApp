@@ -74,9 +74,9 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
             List<SpinnerItem> userList = new ArrayList<>();
 
-            userList.add(new SpinnerItem(R.drawable.profilebw, "bloop",
+            userList.add(new SpinnerItem(R.drawable.ic_profilebw, "bloop",
                 "bloop@gmail.com"));
-            userList.add(new SpinnerItem(R.drawable.profilebw, "blip",
+            userList.add(new SpinnerItem(R.drawable.ic_profilebw, "blip",
                 "blip@gmail.com"));
 
             CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(context, R.layout.custom_spinner_item, userList);

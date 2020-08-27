@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
-import android.view.MotionEvent;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.ui.dashboard.DashboardFragment;
 import com.example.fitnessapp.ui.home.HomeFragment;
-import com.example.fitnessapp.ui.notifications.NotificationsFragment;
+import com.example.fitnessapp.ui.notifications.ProfileFragment;
 
 import eu.long1.spacetablayout.SpaceTabLayout;
 
@@ -29,7 +28,7 @@ public class _ActivityCoach extends AppCompatActivity {
     //Use Services
     private UserViewModel _user;
     private User mUser = null;
-    SpaceTabLayout mSpaceTabLayout;
+    private SpaceTabLayout mSpaceTabLayout;
 
 
 
@@ -48,14 +47,14 @@ public class _ActivityCoach extends AppCompatActivity {
         //Start Service
         _user = new ViewModelProvider(this).get(UserViewModel.class);
 
-
         //get User by Id, from other Activity
         mUser = _user.mUserRepo.getUser(getIntent().getStringExtra("ARG_USER_MAIL"));
+        _user.setUser(mUser);
 
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new DashboardFragment());
         fragmentList.add(new HomeFragment());
-        fragmentList.add(new NotificationsFragment());
+        fragmentList.add(new ProfileFragment());
 
         ViewPager viewPager = findViewById(R.id.viewPager);
         mSpaceTabLayout = findViewById(R.id.spaceTabLayout);
@@ -72,9 +71,6 @@ public class _ActivityCoach extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(_ActivityCoach.this, navController, appBarConfiguration);
 //        NavigationUI.setupWithNavController(navView, navController);
 
-
-        Button continue_button = findViewById(R.id.button);
-        continue_button.setOnClickListener(v -> ClickLogout());
     }
 
 
@@ -123,12 +119,6 @@ public class _ActivityCoach extends AppCompatActivity {
 
     }
 
-    private void ClickLogout(){
-//        mUser.setRememberMe(false);
-        _user.mUserRepo.Logout(mUser);
 
-        startActivity(new Intent(_ActivityCoach.this, _ActivityStart.class));
-        finish();
-    }
 
 }

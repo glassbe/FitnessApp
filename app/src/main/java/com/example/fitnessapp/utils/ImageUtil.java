@@ -221,7 +221,7 @@ public class ImageUtil {
 
         String[] optionListArray = new String[3];
         optionListArray[0] = mF.getResources().getString(R.string.camera);
-        optionListArray[1] = mF.getResources().getString(R.string.gallery);
+//        optionListArray[1] = mF.getResources().getString(R.string.gallery);
         optionListArray[2] = "Remove Image";
 
         requestPermissionForWriting(pF);
@@ -231,15 +231,15 @@ public class ImageUtil {
             ListView lv = ((AlertDialog) dialog).getListView();
 
             switch (which) {
-                // Galery
-                case 1:
-                    getGaleryPict(mF);
-                    break;
                 // Camera
                 case 0:
                     CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .start(mF.getContext(), mF);
+                    break;
+                // Galery
+                case 1:
+                    getGaleryPict(mF);
                     break;
                 case 2: // Delete picture
                     if (mDeleteImageListener != null)
