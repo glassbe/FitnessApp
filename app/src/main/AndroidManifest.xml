@@ -55,10 +55,11 @@
 <!--            android:theme="@style/AppTheme.SlidrActivityTheme"-->
 
 
-        //Activity for Kamera
+        //Activity for Camera
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:theme="@style/Base.Theme.AppCompat"
+            />
 
 
 

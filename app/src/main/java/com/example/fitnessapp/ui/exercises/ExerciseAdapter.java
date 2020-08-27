@@ -59,10 +59,16 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
         Exercise currentExercise = getItem(position);
         holder.textViewTitle.setText(currentExercise.getTitle());
         holder.textViewDescription.setText(currentExercise.getDescription());
+        boolean firstTime = true;
         for(String muscle : currentExercise.getMuscleGroups()){
-            muscleString += "| muscle";
+            if(firstTime){
+                muscleString = muscle;
+                firstTime = false;
+            }
+            else
+                muscleString += "| " + muscle;
         }
-        muscleString = muscleString.substring(3);
+//        muscleString = muscleString.substring(2);
         holder.textViewPriority.setText(muscleString);
 
         Glide.with(holder.itemView.getContext())

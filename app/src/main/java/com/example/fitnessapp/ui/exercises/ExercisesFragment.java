@@ -1,5 +1,6 @@
 package com.example.fitnessapp.ui.exercises;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +39,8 @@ public class ExercisesFragment extends Fragment {
     private ExerciseAdapter mExerciseAdapter;
 
     private List<Exercise> mExerciseList = new ArrayList<>();
-//    private List<com.example.fitnessapp.db.Entity.Exercise> m;
+    private ExercisesViewModel _exercise;
+    //    private List<com.example.fitnessapp.db.Entity.Exercise> m;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mExercisesViewModel = ViewModelProviders.of(this).get(ExercisesViewModel.class);
@@ -58,17 +60,41 @@ public class ExercisesFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
 
-        //Set Adapter
-        mExerciseAdapter = new ExerciseAdapter();
-        mRecyclerView.setAdapter(mExerciseAdapter);
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
 
+                //Set Adapter async
+                mExerciseAdapter = new ExerciseAdapter();
 
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                mRecyclerView.setAdapter(mExerciseAdapter);
+            }
+        }.execute();
 
 
         //Set ViewModel (getting Data)
-        ExercisesViewModel _exercise = new ViewModelProvider(this).get(ExercisesViewModel.class);
-        mExerciseList = _exercise.mExerciseRepo.getAllExercises();
-        mExerciseAdapter.submitList(mExerciseList);
+        _exercise = new ViewModelProvider(ExercisesFragment.this).get(ExercisesViewModel.class);
+
+        //Fill List with Data from Database
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                mExerciseList = _exercise.mExerciseRepo.getAllExercises();
+                mExerciseAdapter.submitList(mExerciseList);
+
+                return null;
+            }
+        }.execute();
+
+
+
 
         binding.button.setOnClickListener(v -> {
         // Try Block

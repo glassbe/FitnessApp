@@ -36,6 +36,7 @@ import es.dmoral.toasty.Toasty;
 public class _FragmentStartYourDataSetData extends Fragment {
 
     private static final String TAG = "_FragmentStartYourDataSetData";
+
     //Use Services
     private UserViewModel _user;
     private User mUser = null;

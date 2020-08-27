@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.example.fitnessapp.Interface.IExercise;
 import com.example.fitnessapp.db.DAO.ExerciseDAO;
+import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.Exercise;
+import com.example.fitnessapp.db.Entity.User;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -27,15 +29,7 @@ public class ExerciseRepo implements IExercise {
     @Override
     public boolean InsertExercise(Exercise exercise) {
         //Insert User in DB async
-        AsyncTask<Exercise, Void, Void> insert = new AsyncTask <Exercise, Void, Void>(){
-            @Override
-            protected Void doInBackground(Exercise... exercises) {
-                mExerciseDAO.insertExercise(exercises[0]);
-                return null;
-            }
-        };
-
-//        insert.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, exercise);
+        AsyncTask<Exercise, Void, Void> insert = new insertAsyncTask(mExerciseDAO).execute(exercise);
 
         try {
             insert.get(1000, TimeUnit.MILLISECONDS);
@@ -60,11 +54,29 @@ public class ExerciseRepo implements IExercise {
 
     @Override
     public List<Exercise> getAllExercises() {
+
         List<Exercise> exercises = mExerciseDAO.getAllExercise();
 
-        if(exercises.isEmpty())
+        if (exercises.isEmpty())
             return null;
 
         return exercises;
+    }
+
+
+
+    private static class insertAsyncTask extends AsyncTask<Exercise, Void, Void> {
+
+        private ExerciseDAO mAsyncTaskDao;
+
+        insertAsyncTask(ExerciseDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Exercise... exercises) {
+            mAsyncTaskDao.insertExercise(exercises[0]);
+            return null;
+        }
     }
 }
