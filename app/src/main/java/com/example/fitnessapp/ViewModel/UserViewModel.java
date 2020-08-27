@@ -20,6 +20,8 @@ public class UserViewModel extends AndroidViewModel {
     }
 
 
+
+
     private MutableLiveData<User> user = new MutableLiveData<>();
 
     public void setUser(User user) {

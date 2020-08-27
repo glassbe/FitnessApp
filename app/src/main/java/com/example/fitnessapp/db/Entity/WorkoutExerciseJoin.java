@@ -3,6 +3,7 @@ package com.example.fitnessapp.db.Entity;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 @Entity(primaryKeys = {"workoutId", "exerciseId"},
         foreignKeys = {
@@ -12,7 +13,8 @@ import androidx.room.ForeignKey;
                 @ForeignKey(entity = Exercise.class,
                             parentColumns = "id",
                             childColumns = "exerciseId")
-        })
+        },
+        indices = {@Index("exerciseId")})
 public class WorkoutExerciseJoin {
     private int workoutId;
     private int exerciseId;
