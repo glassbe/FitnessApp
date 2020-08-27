@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/exercise_scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -62,7 +62,20 @@
                     android:layout_height="match_parent"
                     tools:listitem="@layout/item_excersise"
                     />
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exercises_progress_bar"
+                    android:layout_marginTop="8dp"
+                    />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.fitnessapp.db.Entity;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -9,7 +10,9 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(foreignKeys = @ForeignKey(entity = Program.class,
                                     parentColumns = "id",
                                     childColumns = "planId",
-                                    onDelete = CASCADE))
+                                    onDelete = CASCADE),
+        indices = {@Index("planId")}
+        )
 public class Workout {
     @PrimaryKey(autoGenerate = true)
     private int id;
