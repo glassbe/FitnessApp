@@ -2,8 +2,17 @@ package com.example.fitnessapp.db.Entity;
 
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
-@Entity
+@Entity(primaryKeys = {"workoutId", "exerciseId"},
+        foreignKeys = {
+                @ForeignKey(entity = Workout.class,
+                            parentColumns = "id",
+                            childColumns = "workoutId"),
+                @ForeignKey(entity = Exercise.class,
+                            parentColumns = "id",
+                            childColumns = "exerciseId")
+        })
 public class WorkoutExerciseJoin {
     private int workoutId;
     private int exerciseId;
