@@ -21,8 +21,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.example.fitnessapp.BuildConfig;
+//import com.example.fitnessapp.BuildConfig;
 import com.example.fitnessapp.R;
+import com.theartofdev.edmodo.cropper.BuildConfig;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 

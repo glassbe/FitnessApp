@@ -63,19 +63,19 @@ public class ExerciseJSON {
     }
 }
 
-{
-        "id":827,
-        "license_author":"test+++",
-        "status":"1",
-        "description":"Pentru brate mari si tari Sa dai in cap la dusmani Sa nu ai mila de niciunu Sa lovesti mai rau ca tunu",
-        "name":"",
-        "name_original":"",
-        "creation_date":"2020-08-12",
-        "uuid":"f685333b-4c27-4942-8245-c575ea25fac6",
-        "license":2,
-        "category":9,
-        "language":2,
-        "muscles":[],
-        "muscles_secondary":[],
-        "equipment":[]
-        }
+//{
+//        "id":827,
+//        "license_author":"test+++",
+//        "status":"1",
+//        "description":"Pentru brate mari si tari Sa dai in cap la dusmani Sa nu ai mila de niciunu Sa lovesti mai rau ca tunu",
+//        "name":"",
+//        "name_original":"",
+//        "creation_date":"2020-08-12",
+//        "uuid":"f685333b-4c27-4942-8245-c575ea25fac6",
+//        "license":2,
+//        "category":9,
+//        "language":2,
+//        "muscles":[],
+//        "muscles_secondary":[],
+//        "equipment":[]
+//        }

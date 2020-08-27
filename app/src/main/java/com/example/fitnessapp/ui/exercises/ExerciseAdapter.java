@@ -28,9 +28,9 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 
         @Override
         public boolean areContentsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle()) &&
-                    oldItem.getDescription().equals(newItem.getDescription()) &&
-                    (oldItem.getPriority() == newItem.getPriority());
+            return oldItem.getTitle().equals(newItem.getTitle())
+                    && oldItem.getDescription().equals(newItem.getDescription());
+//                  && (oldItem.getPriority() == newItem.getPriority());
         }
     };
 
@@ -48,7 +48,7 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
         Exercise currentNote = getItem(position);
         holder.textViewTitle.setText(currentNote.getTitle());
         holder.textViewDescription.setText(currentNote.getDescription());
-        holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));
+//        holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));
     }
 
     public Exercise getExerciseAt(int position) {
