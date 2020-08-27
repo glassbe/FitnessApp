@@ -19,6 +19,7 @@ import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.db.Entity.Workout;
 import com.example.fitnessapp.db.Entity.WorkoutExerciseJoin;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -58,6 +59,52 @@ abstract class FitnessDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
+            
+            Executors.newSingleThreadExecutor().execute(new Runnable() {
+                @Override
+                public void run() {
+                    //Seed Exercises
+                    ExerciseDAO exerciseDAO = INSTANCE.exerciseDAO();
+                    List<Exercise> basicExercises = new Seed().getExercises();
+
+                    for (Exercise exer: basicExercises) {
+
+                        Exercise fromDB = exerciseDAO.getExerciseByJsonId(exer.getJsonId());
+
+                        if(fromDB != null){
+                            boolean update = false;
+
+                            if(fromDB.getName() != exer.getName()){
+                                fromDB.setName(exer.getName());
+                                update = true;
+                            }
+
+                            if(fromDB.getDescription() != exer.getDescription()){
+                                fromDB.setDescription(exer.getDescription());
+                                update = true;
+                            }
+
+                            if(fromDB.getPicturePath() != exer.getPicturePath()){
+                                fromDB.setPicturePath(exer.getPicturePath());
+                                update = true;
+                            }
+
+
+
+                            if(update) {
+                                exerciseDAO.updateExercise(fromDB);
+                            }
+                        }
+                        else{
+                            exerciseDAO.insertExercise(exer);
+                        }
+                    }
+
+
+
+
+                }
+            });
 
         }
     };
