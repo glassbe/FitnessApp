@@ -1,5 +1,6 @@
 package com.example.fitnessapp.ui.exercises;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,23 +13,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fitnessapp.ExerciseDetailsFragment;
+import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.ExercisesViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachExercisesBinding;
 import com.example.fitnessapp.db.Entity.Exercise;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static android.content.ContentValues.TAG;
 
@@ -36,8 +35,6 @@ public class ExercisesFragment extends Fragment {
 
     private FragmentCoachExercisesBinding binding;
 
-
-    private ExercisesViewModel mExercisesViewModel;
 
     private RecyclerView mRecyclerView;
     private NestedScrollView mNestedScrollView;
@@ -49,24 +46,26 @@ public class ExercisesFragment extends Fragment {
     private ExercisesViewModel _exercise;
     //    private List<com.example.fitnessapp.db.Entity.Exercise> m;
 
+    @Override
+    @SuppressLint("StaticFieldLeak")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mExercisesViewModel = ViewModelProviders.of(this).get(ExercisesViewModel.class);
 
         binding = FragmentCoachExercisesBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        //Set ViewModel (getting Data)
+        _exercise = new ViewModelProvider(getActivity()).get(ExercisesViewModel.class);
+
         //Set NestedScrollView
         mNestedScrollView = binding.exerciseScrollView;
 
-        //Set ProgressBar
-        mProgressBar = binding.exercisesProgressBar;
 
         // Set Recycler
         mRecyclerView = binding.exerciseRecyclerView;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
 
-
+        //Set Adapter async
         new AsyncTask<Void,Void,Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
@@ -85,26 +84,77 @@ public class ExercisesFragment extends Fragment {
         }.execute();
 
 
-        //Set ViewModel (getting Data)
-        _exercise = new ViewModelProvider(ExercisesFragment.this).get(ExercisesViewModel.class);
 
         //Fill List with Data from Database
         new AsyncTask<Void,Void,Void>(){
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
 
                 mExerciseList = _exercise.mExerciseRepo.getAllExercises();
                 mExerciseAdapter.submitList(mExerciseList);
 
+                //Set OnclickListener
+                mExerciseAdapter.setOnItemClickListener(new ExerciseAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Exercise exercise) {
+                        _exercise.setExerciseToView(exercise);
+
+                        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+                        // Try Block
+                        try {
+
+
+                        // New Fragment Block
+                        Fragment f = null;
+                        f = mFragmentManager.findFragmentByTag(exercise.getName());
+                        if(f == null){
+                            mFragmentTransaction.replace(R.id.coach_fullview_frame, new ExerciseDetailsFragment(), exercise.getName());
+                            mFragmentTransaction.addToBackStack(exercise.getName());
+                        } else {
+                            mFragmentManager.popBackStack();
+                            mFragmentManager.popBackStack(exercise.getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
+
+                        mFragmentTransaction.commit();
+
+                        } catch (Exception e){
+                            Log.getStackTraceString(e);
+                        }
+
+//                Intent intent = new Intent(this, AddEditNoteActivity.class);
+//                intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
+//                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
+//                intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
+//                intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
+////                startActivityForResult(intent, EDIT_NOTE_REQUEST);
+//                startActivity(intent);
+                    }
+                });
+
                 return null;
             }
         }.execute();
 
 
+//        //Set TouchHelper
+//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+////                _.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
+//                Toast.makeText(getContext(), "Note deleted", Toast.LENGTH_SHORT).show();
+//            }
+//        }).attachToRecyclerView(mRecyclerView);
 
-        binding.button.setOnClickListener(v -> {
-            Log.d(TAG, "onCreateView: Hello I am clicked");
-        });
+
 
 
         return view;

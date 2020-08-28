@@ -16,11 +16,15 @@
         <attr name="android:lines" format="integer" />
         <attr name="android:maxLines" format="integer" />
         <attr name="android:textSize" />
-<!--        <attr name="text" />-->
+        <!--        <attr name="text" />-->
         <attr name="iconVisible" format="boolean" />
     </declare-styleable>
 
     <item name="match_parent" type="dimen">-1</item>
     <item name="wrap_content" type="dimen">-2</item>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
 
 </resources>

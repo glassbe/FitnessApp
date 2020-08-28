@@ -8,6 +8,7 @@ import android.view.animation.LinearInterpolator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
@@ -27,6 +28,9 @@ public class _ActivityCoach extends AppCompatActivity {
     private UserViewModel _user;
     private User mUser = null;
     private SpaceTabLayout mSpaceTabLayout;
+
+    private FragmentManager mFragmentManager = getSupportFragmentManager();
+
 
 
     @Override
@@ -71,11 +75,6 @@ public class _ActivityCoach extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
-
 
     private void setupWindowAnimations() {
         Window window = getWindow();
@@ -113,6 +112,24 @@ public class _ActivityCoach extends AppCompatActivity {
         window.setReenterTransition(fade);
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        int count = mFragmentManager.getBackStackEntryCount();
+        if (count == 0) {
+            moveTaskToBack(true);
+//            super.onBackPressed();
+        } else {
+            getSupportFragmentManager().popBackStack();
+            //mFragmentTransaction.replace(R.id.start_frame,);
+        }
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        moveTaskToBack(true);
+//    }
 
 
 }
