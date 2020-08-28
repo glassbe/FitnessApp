@@ -15,7 +15,8 @@ import java.util.List;
 
 public class Seed {
 
-    private String jsonFile = "{\"exercises\":[{\"exercise\":{\"jsonId\":\"1\",\"name\":\"Bicep-Curl\",\"picturePath\":[\"app/src/main/assets/exercises/Bicep-curl-1.png\",\"app/src/main/assets/exercises/Bicep-curl-2.png\"],\"description\":\"\"}},{\"exercise\":{\"jsonId\":\"2\",\"name\":\"Hammer Curl\",\"picturePath\":[\"app/src/main/assets/exercises/Alternate-hammer-curl-1.png\",\"app/src/main/assets/exercises/Alternate-hammer-curl-2.png\"],\"description\":\"\"}}]}";
+//    private String jsonFile = "{\"exercises\":[{\"exercise\":{\"jsonId\":\"1\",\"name\":\"Bicep-Curl\",\"picturePath\":[\"app/src/main/assets/exercises/Bicep-curl-1.png\",\"app/src/main/assets/exercises/Bicep-curl-2.png\"],\"description\":\"\"}},{\"exercise\":{\"jsonId\":\"2\",\"name\":\"Hammer Curl\",\"picturePath\":[\"app/src/main/assets/exercises/Alternate-hammer-curl-1.png\",\"app/src/main/assets/exercises/Alternate-hammer-curl-2.png\"],\"description\":\"\"}}]}";
+    private String jsonFile = "{\"exercises\":[{\"exercise\":{\"jsonId\":\"1\",\"name\":\"Bicep-Curl\",\"picturePath\":[\"exercises/Bicep-curl-1.png\",\"exercises/Bicep-curl-2.png\"],\"description\":\"\"}},{\"exercise\":{\"jsonId\":\"2\",\"name\":\"Hammer Curl\",\"picturePath\":[\"exercises/Alternate-hammer-curl-1.png\",\"exercises/Alternate-hammer-curl-2.png\"],\"description\":\"\"}}]}";
 
     public Seed() {
 

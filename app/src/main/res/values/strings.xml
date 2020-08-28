@@ -349,6 +349,8 @@
     <string name="decline">Abbrechen</string>
     <string name="accept">Ok</string>
     <string name="my_current_status"><u>Mein Aktueller Status</u></string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
 

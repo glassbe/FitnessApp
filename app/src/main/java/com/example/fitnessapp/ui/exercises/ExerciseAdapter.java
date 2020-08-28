@@ -1,5 +1,6 @@
 package com.example.fitnessapp.ui.exercises;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.db.Entity.Exercise;
 
@@ -71,8 +73,10 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 //        holder.textViewPriority.setText(muscleString);
 
         Glide.with(holder.itemView.getContext())
-                .load(currentExercise.getPicturePath().get(0))
-                .centerCrop()
+                .load(Uri.parse("file:///android_asset/"+currentExercise.getPicturePath().get(0)))
+//                .centerCrop()
+//                .apply(new RequestOptions().override(50, 50))
+                .fitCenter()
                 .placeholder(R.drawable.placeholder_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.mImageViewPhoto);
