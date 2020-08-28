@@ -92,6 +92,7 @@ public class ExercisesFragment extends Fragment {
                 mExerciseAdapter.setOnItemClickListener(new ExerciseAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Exercise exercise) {
+                        //Set Current Exercise
                         _exercise.setExerciseToView(exercise);
 
                         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();

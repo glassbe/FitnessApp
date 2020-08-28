@@ -18,12 +18,13 @@ public class ExercisesViewModel extends AndroidViewModel {
     public ExercisesViewModel(Application application) {
         super(application);
         mExerciseRepo = new ExerciseRepo(application);
-
-
-//        mText = new MutableLiveData<>();
-//        mText.setValue("This is dashboard fragment");
     }
 
+
+
+
+    //====================================================================
+    //====================================================================
     //====================================================================
 
     private MutableLiveData<Exercise> mExerciseToView = new MutableLiveData<>();

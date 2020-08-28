@@ -20,8 +20,6 @@ import com.example.fitnessapp.db.Entity.Exercise;
 public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {
 
     private OnItemClickListener listener;
-//    View view;
-//    private Context mContext = view.getContext();
 
     protected ExerciseAdapter() {
         super(DIFF_CALLBACK);
@@ -89,6 +87,9 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
     }
 
 
+    //==================================================
+    //================= Holder Class ===================
+    //==================================================
     class ExerciseHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
         private final TextView textViewDescription;
