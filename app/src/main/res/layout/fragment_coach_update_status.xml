@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExerciseDetailsFragment"
+    tools:context=".ui.exercises.ExerciseDetailsFragment"
     android:background="@color/mygray"
     >
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_height="0dp"
             android:layout_margin="30dp"
             android:background="@drawable/shape_recycler_view_background"
-            app:layout_constraintBottom_toTopOf="@+id/exercise_detailed_backbuttonbottom"
+            app:layout_constraintBottom_toTopOf="@+id/status_days_backbuttonbottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
 
@@ -35,9 +36,9 @@
                 android:id="@+id/linearLayout_1234"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-
                 android:background="@drawable/shape_recycler_view_background"
+
+                android:orientation="vertical"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,13 +49,12 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    >
+                    android:layout_height="180dp">
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardCornerRadius="25dp"
-                        >
+                        app:cardCornerRadius="25dp">
 
                         <ImageView
                             android:id="@+id/status_days_picture_today"
@@ -69,44 +69,321 @@
                             android:layout_height="match_parent"
                             android:background="#A622292C" />
 
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:text="DD.MM.YYYY / Status Update"
+                            android:textColor="@color/mywhite"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+
+
+                            />
+
 
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
-                    android:id="@+id/btn_status_update_graph_analysis"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="-25dp"
+
+                    android:background="@drawable/icn_feather_camera"
+
+                    android:elevation="5dp"
+
+                    android:translationY="-35dp" />
+
+
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent">
 
-                    android:layout_margin="15dp"
-
-                    android:background="@drawable/shape_btn_default_gray"
-
-                    android:drawableRight="@drawable/ic_arrow_forward_right_white"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-
-                    android:text="Grafikauswertung"
-                    android:textAllCaps="false"
-                    android:textColor="@color/mywhite"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    />
-
-
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/status_days_recycler_view"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="15dp"
 
-                        tools:listitem="@layout/item_status_day"
-                        tools:itemCount="4"
-                        />
+                        android:layout_marginLeft="10dp"
 
+                        android:layout_marginRight="10dp"
+                        android:elevation="1dp">
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Gewicht:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/firstname_input"
+                            app:layout_constraintEnd_toStartOf="@+id/firstname_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/firstname_input"
+                            app:layout_constraintVertical_bias="0.30"
+
+                            />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/firstname_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="90dp"
+
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+
+                            android:paddingRight="20dp"
+                            android:text="--  kg"
+                            android:textSize="18sp"
+
+                            android:textStyle="normal"
+
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/textView4"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView41"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Energie:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/lastname_input"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+                            app:layout_constraintVertical_bias="0.3"
+                            app:layout_constraintVertical_weight="1" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/lastname_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+
+                            android:text="-- / 100"
+
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/firstname_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="@+id/firstname_input"
+                            app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+
+                            />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView42"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Schritte:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/birthdate_input"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/lastname_input"
+                            app:layout_constraintVertical_bias="0.3" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/birthdate_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+
+                            android:text="-- "
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/lastname_input"
+                            app:layout_constraintStart_toStartOf="@+id/lastname_input"
+                            app:layout_constraintTop_toBottomOf="@+id/lastname_input" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView43"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Stresslevel:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/gender_input"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
+                            app:layout_constraintVertical_bias="0.3" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/gender_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+                            android:text="-- / 100"
+
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/birthdate_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="@+id/birthdate_input"
+                            app:layout_constraintTop_toBottomOf="@+id/birthdate_input" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView44"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Schlafqualität:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/stress_level_input"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/gender_input"
+                            app:layout_constraintVertical_bias="0.3" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/stress_level_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+                            android:text="-- / 100"
+
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="@+id/gender_input"
+                            app:layout_constraintTop_toBottomOf="@+id/gender_input" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView441"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Schlafquantität:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/sleep_quantity"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/stress_level_input"
+                            app:layout_constraintVertical_bias="0.3" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/sleep_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+                            android:text="-- Std."
+
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="@+id/gender_input"
+                            app:layout_constraintTop_toBottomOf="@+id/stress_level_input" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/textView442"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="Lust zu Trainieren:"
+                            android:textColor="@color/myblack"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/textView4"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="spread_inside"
+                            app:layout_constraintStart_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toBottomOf="@+id/sleep_quantity"
+                            app:layout_constraintVertical_bias="0.294" />
+
+                        <com.rey.material.widget.TextView
+                            android:id="@+id/height_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_fragment_profile_input_text_background"
+                            android:gravity="end"
+                            android:paddingLeft="25dp"
+                            android:paddingTop="13dp"
+                            android:paddingRight="20dp"
+                            android:text="-- / 100"
+
+                            android:textSize="18dp"
+                            android:textStyle="normal"
+                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="@+id/gender_input"
+                            app:layout_constraintTop_toBottomOf="@+id/sleep_quantity" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </ScrollView>
 
 
             </LinearLayout>
@@ -114,11 +391,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/exercise_detailed_backbuttonbottom"
-            android:layout_width="match_parent"
+            android:id="@+id/status_days_backbuttonbottom"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_margin="30dp"
+            android:layout_marginBottom="32dp"
 
             android:background="@drawable/shape_btn_default_red"
 
@@ -126,15 +403,39 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
 
-            android:text="Zurück zur Übersicht"
+            android:text="Abbrechen"
+            android:textColor="@color/mywhite"
+            android:textSize="18dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/status_days_savebuttonbottom"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/status_days_savebuttonbottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="32dp"
+
+            android:background="@drawable/shape_btn_default"
+
+            android:drawableRight="@drawable/ic_save_black_24dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+
+            android:text="Sichern  "
             android:textColor="@color/mywhite"
             android:textSize="18dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/status_days_backbuttonbottom" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>

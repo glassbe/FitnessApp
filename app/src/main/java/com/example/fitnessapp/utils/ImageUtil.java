@@ -205,7 +205,7 @@ public class ImageUtil {
         Glide.with(mImageView.getContext())
                 .load(pPath)
                 .centerCrop()
-                .placeholder(R.drawable.placeholder_exercise)
+                .placeholder(R.drawable.avatar_status_picture_my_blue)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mImageView);
 

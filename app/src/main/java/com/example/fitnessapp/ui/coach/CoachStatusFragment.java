@@ -16,20 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fitnessapp.ExerciseDetailsFragment;
+import com.example.fitnessapp.ui.exercises.ExerciseDetailsFragment;
 import com.example.fitnessapp.R;
-import com.example.fitnessapp.ViewModel.ExercisesViewModel;
 import com.example.fitnessapp.ViewModel.StatusUpdateViewModel;
 import com.example.fitnessapp.ViewModel.UserViewModel;
-import com.example.fitnessapp.databinding.FragmentCoachExercisesBinding;
 import com.example.fitnessapp.databinding.FragmentCoachStatusBinding;
-import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.ui.exercises.ExerciseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class CoachStatusFragment extends Fragment {
@@ -121,6 +119,8 @@ public class CoachStatusFragment extends Fragment {
                 mStatusUpdateAdapter.setOnItemClickListener(new StatusUpdateAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(StatusUpdate status) {
+
+                        //Set Status that StatusUpdateFragment can use the selected one
                         _status.setSelectedStatus(status);
 
                         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
@@ -129,17 +129,11 @@ public class CoachStatusFragment extends Fragment {
                         // Try Block
                         try {
 
+                            mFragmentManager.findFragmentByTag(status.getTimestamp() + status.getUserMail() + "StatusUpdate");
 
-                            // New Fragment Block
-                            Fragment f = null;
-                            f = mFragmentManager.findFragmentByTag(status.getTimestamp() + status.getUserMail() + "StatusUpdate");
-                            if(f == null){
-                                mFragmentTransaction.replace(R.id.coach_fullview_frame, new ExerciseDetailsFragment(), status.getTimestamp() + status.getUserMail() + "StatusUpdate");
-                                mFragmentTransaction.addToBackStack(status.getTimestamp() + status.getUserMail() + "StatusUpdate");
-                            } else {
-                                mFragmentManager.popBackStack();
-                                mFragmentManager.popBackStack(status.getTimestamp() + status.getUserMail() + "StatusUpdate", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            }
+                            mFragmentTransaction.replace(R.id.coach_fullview_frame, new StatusUpdateFragment(), status.getTimestamp() + status.getUserMail() + "StatusUpdate");
+                            mFragmentTransaction.addToBackStack(status.getTimestamp() + status.getUserMail() + "StatusUpdate");
+
 
                             mFragmentTransaction.commit();
 
@@ -164,9 +158,22 @@ public class CoachStatusFragment extends Fragment {
 
 
 
+        //SetOnClickListeners for bindings
+        binding.btnStatusUpdateGraphAnalysis.setOnClickListener(v -> ClickGraphAnalysis());
+        binding.statusDaysBackbuttonbottom.setOnClickListener(v -> getActivity().onBackPressed());
+
+
+
+
+
+
 
 
 
         return view;
+    }
+
+    private void ClickGraphAnalysis() {
+        Toasty.info(getContext(),"Function will be implemented soon.", Toasty.LENGTH_SHORT, true).show();
     }
 }

@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     >
 
+
+
     <eu.long1.spacetablayout.SpaceTabLayout
         android:id="@+id/spaceTabLayout"
         android:layout_width="wrap_content"
@@ -38,9 +40,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"
-        android:elevation="1dp">
+        android:elevation="2dp">
 
     </androidx.viewpager.widget.ViewPager>
+
+
 
     <ImageView
         android:id="@+id/iv_login_logo_draggable"

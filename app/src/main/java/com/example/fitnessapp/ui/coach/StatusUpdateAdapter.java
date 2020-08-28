@@ -19,6 +19,11 @@ import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.ui.exercises.ExerciseAdapter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateAdapter.StatusHolder> {
 
     private StatusUpdateAdapter.OnItemClickListener listener;
@@ -58,10 +63,12 @@ public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateA
 
     @Override
     public void onBindViewHolder(@NonNull StatusUpdateAdapter.StatusHolder holder, int position) {
-        String muscleString = "";
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         StatusUpdate selectedStatus = getItem(position);
-        holder.textViewDate.setText(selectedStatus.getTimestamp().toString());
+
+        String date = formatter.format(selectedStatus.getTimestamp());
+        holder.textViewDate.setText(date);
         holder.textViewWeight.setText("Weight: " + String.valueOf(selectedStatus.getWeight()) + " kg");
         holder.textViewEnergyLevel.setText("Energy: " + String.valueOf(selectedStatus.getEnergieLevel()) + " / 100");
 
@@ -70,9 +77,9 @@ public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateA
 //                .centerCrop()
 //                .apply(new RequestOptions().override(50, 50))
                 .fitCenter()
-                .placeholder(R.drawable.placeholder_exercise)
+                .placeholder(R.drawable.avatar_status_picture_my_blue)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.img_error_no_pic_exercise)
+                .error(R.drawable.avatar_status_picture_my_blue)
                 .into(holder.mImageViewPhoto);
 
     }

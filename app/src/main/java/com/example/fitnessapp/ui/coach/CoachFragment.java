@@ -1,5 +1,6 @@
 package com.example.fitnessapp.ui.coach;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,19 +8,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.fitnessapp.ExerciseDetailsFragment;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.emredavarci.noty.Noty;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.StatusUpdateViewModel;
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachHomeBinding;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
+import com.example.fitnessapp.ui.exercises.ExerciseDetailsFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,12 +56,29 @@ public class CoachFragment extends Fragment {
         mUser = _user.getUser();
         mStatus = getStatusOfToday();
 
+        //SetOnClickListeners
+        binding.btnCoachStatusMyStats.setOnClickListener(v -> OnClickMyStatus());
+        binding.btnCoachStatusUpdateStatus.setOnClickListener(v -> OnClickStatusUpdate());
+
+        //Set Data
+        int energieLevel = mStatus.getEnergieLevel();
+        float weight = mStatus.getWeight();
+
+        binding.coachHomeTextInputEnergyLevel.setText(String.valueOf(energieLevel));
+        binding.coachHomeTextInputWeight.setText(String.valueOf(weight));
+        Glide.with(getContext())
+                .load(Uri.parse("file:///android_asset/"+ mStatus.getPicturePath()))
+                .centerCrop()
+                .placeholder(R.drawable.avatar_status_picture_my_blue)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.avatar_status_picture_my_blue)
+                .into(binding.coachHomeAvatarImg);
 
 
 
-
-
-        binding.btnCoachStatusMyStats.setOnClickListener(v -> ClickOnMyStats());
+        //set Dialog if User isnt UpToDate
+        if(!mStatus.isCompletedUpdate())
+            dialogForTodaysUpdate();
 
 
 
@@ -76,29 +98,76 @@ public class CoachFragment extends Fragment {
         StatusUpdate statusOfToday;
         Date today = Calendar.getInstance().getTime();
 
-        statusOfToday = _status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(), today);
-        if(statusOfToday == null)
-             _status.mStatusRepo.insertNewUpdate(new StatusUpdate(mUser.getEmail(),"",(float) 0,0,(float) 0, 0));
 
         statusOfToday = _status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(), today);
-        if(statusOfToday == null){
-            Toasty.error(getContext(),"Status of today couldn't get loaded",Toasty.LENGTH_SHORT, true).show();
-            return null;
+        if (statusOfToday != null) {
+
+            Toasty.success(getContext(), "Status is loaded for today");
+
+            _status.setStatusOfToday(statusOfToday);
+
+            return statusOfToday;
         }
 
-        Toasty.success(getContext(),"Status is loaded for today");
+        //Create empty Status
+        _status.mStatusRepo.insertNewUpdate(new StatusUpdate(mUser.getEmail(), "", (float) 0, 0, (float) 0, 0));
+
+        //shows Dialog to Update for Today
+        dialogForTodaysUpdate();
+
+        statusOfToday = _status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(), today);
+
+        _status.setStatusOfToday(statusOfToday);
+
         return statusOfToday;
     }
 
-    private void ClickOnMyStats() {
+    private void dialogForTodaysUpdate() {
+        Noty.init(getContext(), "Update your Status daily!", binding.getRoot(), Noty.WarningStyle.ACTION)
+                .setActionText("Update Now!")
+                .setWarningBoxBgColor("#159BD1")
+                .setWarningTappedColor("#FFFFFF")
+                .setWarningBoxPosition(Noty.WarningPos.TOP)
 
+                .setWarningBoxMargins(5,5,5,5)
+                .setWarningInset(0, 0, 0, 0)
+                .setWarningBoxRadius(0, 0, 0, 0)
+                .setAnimation(Noty.RevealAnim.SLIDE_DOWN, Noty.DismissAnim.BACK_TO_TOP, 400, 400)
+                .setClickListener(new Noty.ClickListener() {
+                    @Override
+                    public void onClick(Noty warning) {
+                        Toasty.info(getContext(), "Function will be implemented soon.", Toasty.LENGTH_SHORT, true).show();
+                    }
+                })
+                .show();
+    }
+
+    private void OnClickStatusUpdate() {
+
+        //Set Status that StatusUpdateFragment can use the selected one
+        _status.setSelectedStatus(_status.getStatusOfToday());
+
+        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+
+        mFragmentManager.findFragmentByTag(mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
+
+        mFragmentTransaction.replace(R.id.coach_fullview_frame, new StatusUpdateFragment(), mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
+        mFragmentTransaction.addToBackStack(mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
+
+
+        mFragmentTransaction.commit();
+
+    }
+
+
+    private void OnClickMyStatus() {
 
         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
         // Try Block
         try {
-
 
             // New Fragment Block
             Fragment f = null;

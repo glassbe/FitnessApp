@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExerciseDetailsFragment"
+    tools:context=".ui.exercises.ExerciseDetailsFragment"
     android:background="@color/mygray"
     >
 
@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_margin="30dp"
             android:background="@drawable/shape_recycler_view_background"
-            app:layout_constraintBottom_toTopOf="@+id/exercise_detailed_backbuttonbottom"
+            app:layout_constraintBottom_toTopOf="@+id/status_days_backbuttonbottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
 
@@ -114,7 +114,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/exercise_detailed_backbuttonbottom"
+            android:id="@+id/status_days_backbuttonbottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

@@ -7,20 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fitnessapp.ExerciseDetailsFragment;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.ExercisesViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachExercisesBinding;
@@ -28,8 +24,6 @@ import com.example.fitnessapp.db.Entity.Exercise;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class ExercisesFragment extends Fragment {
 
