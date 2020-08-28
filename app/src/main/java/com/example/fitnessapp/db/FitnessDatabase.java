@@ -1,6 +1,7 @@
 package com.example.fitnessapp.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -67,25 +68,26 @@ abstract class FitnessDatabase extends RoomDatabase {
                     ExerciseDAO exerciseDAO = INSTANCE.exerciseDAO();
                     List<Exercise> basicExercises = new Seed().getExercises();
 
-                    for (Exercise exer: basicExercises) {
 
-                        Exercise fromDB = exerciseDAO.getExerciseByJsonId(exer.getJsonId());
+                    for (Exercise exercise: basicExercises) {
+
+                        Exercise fromDB = exerciseDAO.getExerciseByJsonId(exercise.getJsonId());
 
                         if(fromDB != null){
                             boolean update = false;
 
-                            if(fromDB.getName() != exer.getName()){
-                                fromDB.setName(exer.getName());
+                            if(fromDB.getName() != exercise.getName()){
+                                fromDB.setName(exercise.getName());
                                 update = true;
                             }
 
-                            if(fromDB.getDescription() != exer.getDescription()){
-                                fromDB.setDescription(exer.getDescription());
+                            if(fromDB.getDescription() != exercise.getDescription()){
+                                fromDB.setDescription(exercise.getDescription());
                                 update = true;
                             }
 
-                            if(fromDB.getPicturePath() != exer.getPicturePath()){
-                                fromDB.setPicturePath(exer.getPicturePath());
+                            if(fromDB.getPicturePath() != exercise.getPicturePath()){
+                                fromDB.setPicturePath(exercise.getPicturePath());
                                 update = true;
                             }
 
@@ -96,10 +98,9 @@ abstract class FitnessDatabase extends RoomDatabase {
                             }
                         }
                         else{
-                            exerciseDAO.insertExercise(exer);
+                            exerciseDAO.insertExercise(exercise);
                         }
                     }
-
 
 
 
