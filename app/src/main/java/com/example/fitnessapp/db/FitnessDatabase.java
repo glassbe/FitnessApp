@@ -11,8 +11,10 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.fitnessapp.db.DAO.ExerciseDAO;
+import com.example.fitnessapp.db.DAO.ProgramDAO;
 import com.example.fitnessapp.db.DAO.StatusUpdateDAO;
 import com.example.fitnessapp.db.DAO.UserDAO;
+import com.example.fitnessapp.db.DAO.WorkoutDAO;
 import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.Program;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 14)
+@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 16)
 @TypeConverters({Converters.class})
 abstract class FitnessDatabase extends RoomDatabase {
 
@@ -33,6 +35,10 @@ abstract class FitnessDatabase extends RoomDatabase {
     public abstract StatusUpdateDAO statusUpdateDAO();
 
     public abstract ExerciseDAO exerciseDAO();
+
+    public abstract ProgramDAO programDAO();
+
+    public abstract WorkoutDAO workoutDAO();
 
     private static volatile FitnessDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -66,8 +72,12 @@ abstract class FitnessDatabase extends RoomDatabase {
                 public void run() {
                     //Seed Exercises
                     ExerciseDAO exerciseDAO = INSTANCE.exerciseDAO();
-                    List<Exercise> basicExercises = new Seed().getExercises();
+                    ProgramDAO programDAO = INSTANCE.programDAO();
+                    WorkoutDAO workoutDAO = INSTANCE.workoutDAO();
 
+                    List<Exercise> basicExercises = new Seed().getExercises();
+                    List<Program> basicProgram = new Seed().getProgram();
+                    List<Workout> basicWorkouts = new Seed().getWorkouts();
 
                     for (Exercise exercise: basicExercises) {
 
@@ -91,8 +101,6 @@ abstract class FitnessDatabase extends RoomDatabase {
                                 update = true;
                             }
 
-
-
                             if(update) {
                                 exerciseDAO.updateExercise(fromDB);
                             }
@@ -102,7 +110,77 @@ abstract class FitnessDatabase extends RoomDatabase {
                         }
                     }
 
+                    for(Program program: basicProgram){
+                        Program fromDB = programDAO.getProgramByJsonId(program.getJsonId());
 
+                        if(fromDB != null){
+                            boolean update = false;
+
+                            if(fromDB.getName() != program.getName()){
+                                fromDB.setName(program.getName());
+                                update = true;
+                            }
+
+                            if(fromDB.getDescription() != program.getDescription()){
+                                fromDB.setDescription(program.getDescription());
+                                update = true;
+                            }
+
+                            if(fromDB.getPicturePath() != program.getPicturePath()){
+                                fromDB.setPicturePath(program.getPicturePath());
+                                update = true;
+                            }
+
+                            if(fromDB.getRequiredFitnessLevel() != program.getRequiredFitnessLevel()){
+                                fromDB.setRequiredFitnessLevel(program.getRequiredFitnessLevel());
+                                update = true;
+                            }
+
+                            if(update){
+                                programDAO.updateProgram(fromDB);
+                            }
+                        }
+                        else{
+                            programDAO.insertProgram(program);
+                        }
+
+                    }
+
+                    for(Workout workout : basicWorkouts){
+                        Workout fromDB = workoutDAO.getWorkoutByJsonId(workout.getJsonId());
+
+                        if(fromDB != null){
+
+                                boolean update = false;
+
+                                if(fromDB.getName() != workout.getName()){
+                                    fromDB.setName(workout.getName());
+                                    update = true;
+                                }
+                                if(fromDB.getDescription() != workout.getDescription()){
+                                    fromDB.setDescription(workout.getDescription());
+                                    update = true;
+                                }
+                                if(fromDB.getPicturePath() != workout.getPicturePath()){
+                                    fromDB.setPicturePath(workout.getPicturePath());
+                                    update = true;
+                                }
+
+                                if(update){
+                                    workoutDAO.updateWorkout(fromDB);
+                                }
+
+                        }else {
+                            Program existingProgram = programDAO.getProgramByJsonId(workout.getPlanId());
+
+                            if(existingProgram != null){
+                                workout.setPlanId(existingProgram.getId());
+                                workoutDAO.insertWorkout(workout);
+                            }
+                        }
+
+
+                    }
 
                 }
             });
