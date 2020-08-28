@@ -36,7 +36,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
-                android:id="@+id/text_view_title"
+                android:id="@+id/text_view_weekday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -50,7 +50,7 @@
                 android:id="@+id/text_view_muscle_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_title"
+                android:layout_below="@+id/text_view_weekday"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="Muscle1 | Muscle2" />

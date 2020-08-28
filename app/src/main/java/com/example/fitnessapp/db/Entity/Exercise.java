@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.fitnessapp.db.Typeconverters.MyTypeConverters;
+import com.example.fitnessapp.db.Converters;
 
 import java.util.List;
 
@@ -63,13 +63,6 @@ import java.util.List;
 //}
 
 
-
-
-
-
-
-
-
 @Entity
 public class Exercise {
 
@@ -80,10 +73,10 @@ public class Exercise {
 
     private String description;
 
-    @TypeConverters(MyTypeConverters.class)
+    @TypeConverters(Converters.class)
     private List<String> pictures;
 
-    @TypeConverters(MyTypeConverters.class)
+    @TypeConverters(Converters.class)
     private List<String> muscleGroups;
 
 

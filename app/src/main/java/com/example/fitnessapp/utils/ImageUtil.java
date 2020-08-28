@@ -22,6 +22,8 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 //import com.example.fitnessapp.BuildConfig;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.fitnessapp.R;
 import com.theartofdev.edmodo.cropper.BuildConfig;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -134,7 +136,7 @@ public class ImageUtil {
     }
 
     static public void setPic(ImageView mImageView, String pPath) {
-
+        /*
         new AsyncTask<String, Void, Void>() {
 
             private Bitmap mOrientedBitmap;
@@ -198,6 +200,14 @@ public class ImageUtil {
 
             }
         }.execute(pPath);
+        */
+
+        Glide.with(mImageView.getContext())
+                .load(pPath)
+                .centerCrop()
+                .placeholder(R.drawable.placeholder_exercise)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mImageView);
 
 //        try {
 //            if (pPath == null) return;

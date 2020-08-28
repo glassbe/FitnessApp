@@ -4,32 +4,37 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.R;
+import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp.db.Entity.User;
 
 public class CoachFragment extends Fragment {
 
-    private CoachViewModel mCoachViewModel;
+    private UserViewModel _user;
+    private User mUser;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        mCoachViewModel =
-                ViewModelProviders.of(this).get(CoachViewModel.class);
+        _user = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+
+
         View root = inflater.inflate(R.layout._fragment_coach_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        mCoachViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+
+
+        _user.getLiveUser().observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(User user) {
+                mUser = user;
             }
         });
+
+
         return root;
     }
 }

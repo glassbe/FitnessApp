@@ -21,9 +21,16 @@ import com.example.fitnessapp.ViewModel.ExercisesViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachExercisesBinding;
 import com.example.fitnessapp.db.Entity.Exercise;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import static android.content.ContentValues.TAG;
 
 public class ExercisesFragment extends Fragment {
 
@@ -95,23 +102,8 @@ public class ExercisesFragment extends Fragment {
 
 
 
-
         binding.button.setOnClickListener(v -> {
-        // Try Block
-        try {
-            List<String> ex1_pics = Arrays.asList("https://wger.de/media/exercise-images/172/Push-ups-1.png.800x800_q90.png","https://wger.de/media/exercise-images/172/Push-ups-2.png.800x800_q90.png");
-            List<String> ex1_muscles = Arrays.asList("Anterior deltoid",
-                    "Biceps brachii",
-                    "Pectoralis major",
-                    "Quadriceps femoris",
-                    "Rectus abdominis",
-                    "Serratus anterior");
-
-            _exercise.mExerciseRepo.InsertExercise(new Exercise("Test Uebung1", "Das ist eine Testbeschreibung fuer diese Uebung. Wir werden sehen, was am Ende dabei herauskommt.", ex1_pics, ex1_muscles));
-            _exercise.mExerciseRepo.InsertExercise(new Exercise("Test Uebung2", "Das ist eine Testbeschreibung fuer diese Uebung. Wir werden sehen, was am Ende dabei herauskommt.", ex1_pics, ex1_muscles));
-        } catch (Exception e){
-                Log.getStackTraceString(e);
-            }
+            Log.d(TAG, "onCreateView: Hello I am clicked");
         });
 
 

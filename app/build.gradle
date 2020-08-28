@@ -179,6 +179,9 @@ dependencies {
     //Retrofit for requesting Websites
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
+    //Shadow on elevatioin
+    implementation 'com.sdsmdg.harjot:materialshadows:1.2.5'
+
 
 
 

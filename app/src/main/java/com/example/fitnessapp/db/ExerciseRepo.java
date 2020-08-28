@@ -7,11 +7,8 @@ import android.util.Log;
 
 import com.example.fitnessapp.Interface.IExercise;
 import com.example.fitnessapp.db.DAO.ExerciseDAO;
-import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.Entity.Exercise;
-import com.example.fitnessapp.db.Entity.User;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 

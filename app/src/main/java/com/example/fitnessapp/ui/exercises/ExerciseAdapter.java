@@ -1,6 +1,5 @@
 package com.example.fitnessapp.ui.exercises;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +77,6 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.mImageViewPhoto);
 
-//        Picasso.get()
-//                .load(currentExercise.getPictures().get(0))
-//                .resize(50, 50)
-//                .centerCrop()
-//                .into(holder.mImageViewPhoto);
-
 
     }
 
@@ -100,7 +93,7 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 
         public ExerciseHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.text_view_title);
+            textViewTitle = itemView.findViewById(R.id.text_view_weekday);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
             mImageViewPhoto = itemView.findViewById(R.id.img_view_photo);

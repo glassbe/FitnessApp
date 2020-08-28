@@ -98,6 +98,7 @@ public class ProfileFragment extends Fragment {
             //Get User
             mUser = _user.getUser();
 
+
             //set Observer
             _user.getLiveUser().observe(getActivity(), user -> {
                 mUser = user;
@@ -130,6 +131,7 @@ public class ProfileFragment extends Fragment {
         }
 
 
+        //Set all OnClickListeners
         binding.photoRoundProfile.setOnClickListener(v -> ClickProfilePhoto());
 
         binding.firstnameInput.setOnClickListener(v -> ClickOnFirstName((TextView) v));
@@ -155,11 +157,6 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
 
     private void loadProfilePicListener() {
         ImageView iv = binding.photoRoundProfile;
@@ -435,51 +432,34 @@ public class ProfileFragment extends Fragment {
 
     private void EditNumberDialog(TextView editTextView) {
         Context context = getContext();
+        EditText mEditText;
+        LinearLayout mLinearLayout;
 
-        new AsyncTask<Void, Void, Void>() {
+        mEditText = new EditText(context);
+        mEditText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
+        mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mEditText.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(6)});
+        mEditText.requestFocus();
 
+        mLinearLayout = new LinearLayout(context.getApplicationContext());
+        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        mLinearLayout.addView(mEditText);
 
-            private LinearLayout mLinearLayout;
-            private EditText mEditText;
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                mEditText = new EditText(context);
-                mEditText.setText(editTextView.getText().toString().replaceAll(" cm", ""));
-                mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                mEditText.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(6)});
-                mEditText.requestFocus();
-
-                mLinearLayout = new LinearLayout(context.getApplicationContext());
-                mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-                mLinearLayout.addView(mEditText);
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText(getContext().getString(R.string.edit_value))
-                        .setConfirmClickListener(sDialog -> {
-                            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            if (imm != null) {
-                                imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
-                            }
-                            editTextView.setText(mEditText.getText().toString() + " cm");
-                            sDialog.dismissWithAnimation();
-                            updateUser();
+        final SweetAlertDialog dialog = new SweetAlertDialog(context, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getContext().getString(R.string.edit_value))
+                .setConfirmClickListener(sDialog -> {
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+                    }
+                    editTextView.setText(mEditText.getText().toString() + " cm");
+                    sDialog.dismissWithAnimation();
+                    updateUser();
 //                    if (mConfirmClickListener != null)
 //                        mConfirmClickListener.onTextChanged(EditableInputView.this);
-                        });
-                dialog.setCustomView(mLinearLayout);
-                dialog.show();
-
-            }
-        }.execute();
+                });
+        dialog.setCustomView(mLinearLayout);
+        dialog.show();
 
     }
 
