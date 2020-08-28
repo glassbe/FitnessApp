@@ -1,0 +1,1012 @@
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExercisesViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.ui.exercises;\r\n\r\nimport androidx.lifecycle.LiveData;\r\nimport androidx.lifecycle.MutableLiveData;\r\nimport androidx.lifecycle.ViewModel;\r\n\r\npublic class ExercisesViewModel extends ViewModel {\r\n\r\n    private MutableLiveData<String> mText;\r\n\r\n    public ExercisesViewModel() {\r\n        mText = new MutableLiveData<>();\r\n        mText.setValue(\"This is dashboard fragment\");\r\n    }\r\n\r\n    public LiveData<String> getText() {\r\n        return mText;\r\n    }\r\n}
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExercisesViewModel.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ViewModel/ExercisesViewModel.java	(date 1598536919219)
+@@ -1,14 +1,26 @@
+-package com.example.fitnessapp.ui.exercises;
++package com.example.fitnessapp.ViewModel;
+ 
++import android.app.Application;
++
++import androidx.lifecycle.AndroidViewModel;
+ import androidx.lifecycle.LiveData;
+ import androidx.lifecycle.MutableLiveData;
+ import androidx.lifecycle.ViewModel;
+ 
+-public class ExercisesViewModel extends ViewModel {
++import com.example.fitnessapp.Interface.IUser;
++import com.example.fitnessapp.db.UserRepo;
++
++public class ExercisesViewModel extends AndroidViewModel {
++
++    public IUser mExerciseRepo;
+ 
+     private MutableLiveData<String> mText;
+ 
+-    public ExercisesViewModel() {
++    public ExercisesViewModel(Application application) {
++        super(application);
++        mExerciseRepo = new ExerciseRepo(application);
++
++
+         mText = new MutableLiveData<>();
+         mText.setValue("This is dashboard fragment");
+     }
+Index: app/src/main/java/com/example/fitnessapp/db/Entity/Exercise.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.db.Entity;\r\n\r\nimport androidx.room.Entity;\r\nimport androidx.room.PrimaryKey;\r\n\r\n@Entity\r\npublic class Exercise {\r\n\r\n    @PrimaryKey(autoGenerate = true)\r\n    private int id;\r\n\r\n    private String name;\r\n\r\n    private String picturePath;\r\n\r\n    private String description;\r\n\r\n    public Exercise(String name, String picturePath, String description){\r\n        this.name = name;\r\n        this.picturePath = picturePath;\r\n        this.description = description;\r\n    }\r\n\r\n    //GETTER\r\n    public int getId() {\r\n        return id;\r\n    }\r\n\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public String getPicturePath() {\r\n        return picturePath;\r\n    }\r\n\r\n    public String getDescription() {\r\n        return description;\r\n    }\r\n\r\n\r\n    //SETTER\r\n    public void setId(int id) {}\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public void setPicturePath(String picturePath) {\r\n        this.picturePath = picturePath;\r\n    }\r\n\r\n    public void setDescription(String description) {\r\n        this.description = description;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/db/Entity/Exercise.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/db/Entity/Exercise.java	(date 1598536919195)
+@@ -3,54 +3,117 @@
+ import androidx.room.Entity;
+ import androidx.room.PrimaryKey;
+ 
+-@Entity
++import java.util.List;
++
++// My Entity is Down Below
++
++//@Entity
++//public class Exercise {
++//
++//    @PrimaryKey(autoGenerate = true)
++//    private int id;
++//
++//    private String name;
++//
++//    private String picturePath;
++//
++//    private String description;
++//
++//    public Exercise(String name, String picturePath, String description){
++//        this.name = name;
++//        this.picturePath = picturePath;
++//        this.description = description;
++//    }
++//
++//    //GETTER
++//    public int getId() {
++//        return id;
++//    }
++//
++//    public String getName() {
++//        return name;
++//    }
++//
++//    public String getPicturePath() {
++//        return picturePath;
++//    }
++//
++//    public String getDescription() {
++//        return description;
++//    }
++//
++//
++//    //SETTER
++//    public void setId(int id) {}
++//
++//    public void setName(String name) {
++//        this.name = name;
++//    }
++//
++//    public void setPicturePath(String picturePath) {
++//        this.picturePath = picturePath;
++//    }
++//
++//    public void setDescription(String description) {
++//        this.description = description;
++//    }
++//}
++
++
++
++
++
++
++
++
++
++@Entity(tableName = "exercise_table")
+ public class Exercise {
+ 
+     @PrimaryKey(autoGenerate = true)
+     private int id;
+ 
+-    private String name;
+-
+-    private String picturePath;
++    private String title;
+ 
+     private String description;
+ 
+-    public Exercise(String name, String picturePath, String description){
+-        this.name = name;
+-        this.picturePath = picturePath;
++    private List<String> pictures;
++
++    private List<String> muscleGroups;
++
++
++    //Constructor
++    public Exercise(String title, String description, List<String> pictures, List<String> muscleGroups) {
++        this.title = title;
+         this.description = description;
++        this.pictures = pictures;
++        this.muscleGroups = muscleGroups;
+     }
+ 
+-    //GETTER
++
++    //Setter
++    public void setId(int id) {
++        this.id = id;
++    }
++
++    //Getter
+     public int getId() {
+         return id;
+     }
+ 
+-    public String getName() {
+-        return name;
+-    }
+-
+-    public String getPicturePath() {
+-        return picturePath;
++    public String getTitle() {
++        return title;
+     }
+ 
+     public String getDescription() {
+         return description;
+     }
+ 
+-
+-    //SETTER
+-    public void setId(int id) {}
+-
+-    public void setName(String name) {
+-        this.name = name;
+-    }
+-
+-    public void setPicturePath(String picturePath) {
+-        this.picturePath = picturePath;
++    public List<String> getPictures() {
++        return pictures;
+     }
+ 
+-    public void setDescription(String description) {
+-        this.description = description;
++    public List<String> getMuscleGroups() {
++        return muscleGroups;
+     }
+ }
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/Exercise.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.ui.exercises;\r\n\r\nimport androidx.room.Entity;\r\nimport androidx.room.PrimaryKey;\r\n\r\n@Entity(tableName = \"note_table\")\r\npublic class Exercise {\r\n\r\n    @PrimaryKey(autoGenerate = true)\r\n    private int id;\r\n\r\n    private String title;\r\n\r\n    private String description;\r\n\r\n    private String[] pictures;\r\n\r\n    private String[] muscleGroups;\r\n\r\n\r\n    //Constructor\r\n    public Exercise(String title, String description, String[] pictures, String[] muscleGroups) {\r\n        this.title = title;\r\n        this.description = description;\r\n        this.pictures = pictures;\r\n        this.muscleGroups = muscleGroups;\r\n    }\r\n\r\n\r\n    //Setter\r\n    public void setId(int id) {\r\n        this.id = id;\r\n    }\r\n\r\n    //Getter\r\n    public int getId() {\r\n        return id;\r\n    }\r\n\r\n    public String getTitle() {\r\n        return title;\r\n    }\r\n\r\n    public String getDescription() {\r\n        return description;\r\n    }\r\n\r\n    public String[] getPictures() {\r\n        return pictures;\r\n    }\r\n\r\n    public String[] getMuscleGroups() {\r\n        return muscleGroups;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/Exercise.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/Exercise.java	(date 1598530650552)
+@@ -3,7 +3,9 @@
+ import androidx.room.Entity;
+ import androidx.room.PrimaryKey;
+ 
+-@Entity(tableName = "note_table")
++import java.util.List;
++
++@Entity(tableName = "exercise_table")
+ public class Exercise {
+ 
+     @PrimaryKey(autoGenerate = true)
+@@ -13,13 +15,13 @@
+ 
+     private String description;
+ 
+-    private String[] pictures;
++    private List<String> pictures;
+ 
+-    private String[] muscleGroups;
++    private List<String> muscleGroups;
+ 
+ 
+     //Constructor
+-    public Exercise(String title, String description, String[] pictures, String[] muscleGroups) {
++    public Exercise(String title, String description, List<String> pictures, List<String> muscleGroups) {
+         this.title = title;
+         this.description = description;
+         this.pictures = pictures;
+@@ -45,11 +47,11 @@
+         return description;
+     }
+ 
+-    public String[] getPictures() {
++    public List<String> getPictures() {
+         return pictures;
+     }
+ 
+-    public String[] getMuscleGroups() {
++    public List<String> getMuscleGroups() {
+         return muscleGroups;
+     }
+ }
+Index: app/src/main/java/com/example/fitnessapp/db/FitnessDatabase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.db;\r\n\r\nimport android.content.Context;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.room.Database;\r\nimport androidx.room.Room;\r\nimport androidx.room.RoomDatabase;\r\nimport androidx.room.TypeConverters;\r\nimport androidx.sqlite.db.SupportSQLiteDatabase;\r\n\r\nimport com.example.fitnessapp.db.DAO.StatusUpdateDAO;\r\nimport com.example.fitnessapp.db.DAO.UserDAO;\r\nimport com.example.fitnessapp.db.Entity.StatusUpdate;\r\nimport com.example.fitnessapp.db.Entity.User;\r\n\r\nimport java.util.concurrent.ExecutorService;\r\nimport java.util.concurrent.Executors;\r\n\r\n@Database(entities = {User.class, StatusUpdate.class}, version = 8)\r\n@TypeConverters({Converters.class})\r\nabstract class FitnessDatabase extends RoomDatabase {\r\n\r\n    public abstract UserDAO userDAO();\r\n\r\n    public abstract StatusUpdateDAO statusUpdateDAO();\r\n\r\n\r\n    private static volatile FitnessDatabase INSTANCE;\r\n    private static final int NUMBER_OF_THREADS = 4;\r\n    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);\r\n\r\n\r\n    public static FitnessDatabase getDatabase(final Context context) {\r\n        if (INSTANCE == null) {\r\n            synchronized (FitnessDatabase.class) {\r\n                if (INSTANCE == null) {\r\n                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),\r\n                            FitnessDatabase.class, \"fitness_database\")\r\n                            .fallbackToDestructiveMigration()\r\n                            .addCallback(sRoomDatabaseCallback)\r\n                            .allowMainThreadQueries()\r\n                            .build();\r\n                }\r\n            }\r\n        }\r\n        return INSTANCE;\r\n    }\r\n\r\n\r\n    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {\r\n        @Override\r\n        public void onOpen(@NonNull SupportSQLiteDatabase db) {\r\n            super.onOpen(db);\r\n\r\n        }\r\n    };\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/db/FitnessDatabase.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/db/FitnessDatabase.java	(date 1598536919226)
+@@ -9,15 +9,17 @@
+ import androidx.room.TypeConverters;
+ import androidx.sqlite.db.SupportSQLiteDatabase;
+ 
++import com.example.fitnessapp.db.DAO.ExerciseDAO;
+ import com.example.fitnessapp.db.DAO.StatusUpdateDAO;
+ import com.example.fitnessapp.db.DAO.UserDAO;
++import com.example.fitnessapp.db.Entity.Exercise;
+ import com.example.fitnessapp.db.Entity.StatusUpdate;
+ import com.example.fitnessapp.db.Entity.User;
+ 
+ import java.util.concurrent.ExecutorService;
+ import java.util.concurrent.Executors;
+ 
+-@Database(entities = {User.class, StatusUpdate.class}, version = 8)
++@Database(entities = {User.class, StatusUpdate.class, Exercise.class}, version = 9)
+ @TypeConverters({Converters.class})
+ abstract class FitnessDatabase extends RoomDatabase {
+ 
+@@ -25,6 +27,8 @@
+ 
+     public abstract StatusUpdateDAO statusUpdateDAO();
+ 
++    public abstract ExerciseDAO exerciseDAO();
++
+ 
+     private static volatile FitnessDatabase INSTANCE;
+     private static final int NUMBER_OF_THREADS = 4;
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseFetcherJSON.java
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseFetcherJSON.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseFetcherJSON.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
+@@ -1,14 +0,0 @@
+-package com.example.fitnessapp.ui.exercises;
+-
+-import com.google.gson.Gson;
+-
+-public class ExerciseFetcherJSON {
+-
+-    Gson gson = new Gson();
+-
+-//    ExerciseJSON mExerciseJSON = new ExerciseJSON("John", 30, "john@gmail.com");
+-//    String json = gson.toJson(mExerciseJSON);
+-
+-    String json = "{\"age\": 30,\"name\": \"John\", \"email\": \"john@gmail.com\"}";
+-    ExerciseJSON mExerciseJSON = gson.fromJson(json, ExerciseJSON.class);
+-}
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSON.java
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSON.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSON.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
+@@ -1,81 +0,0 @@
+-package com.example.fitnessapp.ui.exercises;
+-
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-public class ExerciseJSON {
+-
+-    private int id;
+-    private String license_author;
+-    private String status;
+-    private String description;
+-    private String name;
+-    private String name_original;
+-    private String creation_date;
+-    private String uuid;
+-    private int license;
+-    private int category;
+-    private int language;
+-    private List<String> muscles;
+-    private List<String> muscles_secondary;
+-    private List<String> equipment;
+-
+-//    private String firstName;
+-//    private int age;
+-//    private String mail;
+-
+-//    public ExerciseJSON(String firstName, int age, String mail) {
+-//        this.firstName = firstName;
+-//        this.age = age;
+-//        this.mail = mail;
+-//    }
+-
+-
+-    public ExerciseJSON(
+-            int id,
+-            String license_author,
+-            String status,
+-            String description,
+-            String name,
+-            String name_original,
+-            String creation_date,
+-            String uuid,
+-            int license,
+-            int category,
+-            int language,
+-            List<String> muscles,
+-            List<String> muscles_secondary,
+-            List<String> equipment) {
+-        this.id = id;
+-        this.license_author = license_author;
+-        this.status = status;
+-        this.description = description;
+-        this.name = name;
+-        this.name_original = name_original;
+-        this.creation_date = creation_date;
+-        this.uuid = uuid;
+-        this.license = license;
+-        this.category = category;
+-        this.language = language;
+-        this.muscles = muscles;
+-        this.muscles_secondary = muscles_secondary;
+-        this.equipment = equipment;
+-    }
+-}
+-
+-//{
+-//        "id":827,
+-//        "license_author":"test+++",
+-//        "status":"1",
+-//        "description":"Pentru brate mari si tari Sa dai in cap la dusmani Sa nu ai mila de niciunu Sa lovesti mai rau ca tunu",
+-//        "name":"",
+-//        "name_original":"",
+-//        "creation_date":"2020-08-12",
+-//        "uuid":"f685333b-4c27-4942-8245-c575ea25fac6",
+-//        "license":2,
+-//        "category":9,
+-//        "language":2,
+-//        "muscles":[],
+-//        "muscles_secondary":[],
+-//        "equipment":[]
+-//        }
+\ No newline at end of file
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSNO.json
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSNO.json	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseJSNO.json	(revision 732a53f27e626858657da75e5f334e210962cb77)
+@@ -1,5 +0,0 @@
+-{
+-  "age": 30,
+-  "name": "John",
+-  "email": "john@gmail.com"
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExercisesFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.ui.exercises;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.lifecycle.ViewModelProviders;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.fitnessapp.R;\r\nimport com.example.fitnessapp.databinding.FragmentCoachDashboardBinding;\r\nimport com.example.fitnessapp.databinding.FragmentCoachProfileBinding;\r\n\r\npublic class ExercisesFragment extends Fragment {\r\n\r\n    private FragmentCoachDashboardBinding binding;\r\n\r\n\r\n    private ExercisesViewModel mExercisesViewModel;\r\n\r\n    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n        mExercisesViewModel = ViewModelProviders.of(this).get(ExercisesViewModel.class);\r\n\r\n        binding = FragmentCoachDashboardBinding.inflate(inflater, container, false);\r\n        View view = binding.getRoot();\r\n\r\n        // Set Recycler\r\n        RecyclerView recyclerView = binding.exerciseRecyclerView;\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));\r\n        recyclerView.setHasFixedSize(true);\r\n\r\n\r\n        return view;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExercisesFragment.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/ExercisesFragment.java	(date 1598536919145)
+@@ -4,35 +4,63 @@
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.ProgressBar;
+ 
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
++import androidx.core.widget.NestedScrollView;
+ import androidx.fragment.app.Fragment;
++import androidx.lifecycle.ViewModelProvider;
+ import androidx.lifecycle.ViewModelProviders;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
+-import com.example.fitnessapp.R;
+-import com.example.fitnessapp.databinding.FragmentCoachDashboardBinding;
+-import com.example.fitnessapp.databinding.FragmentCoachProfileBinding;
++import com.example.fitnessapp.ViewModel.ExercisesViewModel;
++import com.example.fitnessapp.databinding.FragmentCoachExercisesBinding;
++
++import java.util.ArrayList;
++import java.util.List;
+ 
+ public class ExercisesFragment extends Fragment {
+ 
+-    private FragmentCoachDashboardBinding binding;
++    private FragmentCoachExercisesBinding binding;
+ 
+ 
+     private ExercisesViewModel mExercisesViewModel;
+ 
++    private RecyclerView mRecyclerView;
++    private NestedScrollView mNestedScrollView;
++    private ProgressBar mProgressBar;
++
++    private ExerciseAdapter mExerciseAdapter;
++
++    private List<Exercise> mExerciseList = new ArrayList<>();
++
+     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+         mExercisesViewModel = ViewModelProviders.of(this).get(ExercisesViewModel.class);
+ 
+-        binding = FragmentCoachDashboardBinding.inflate(inflater, container, false);
++        binding = FragmentCoachExercisesBinding.inflate(inflater, container, false);
+         View view = binding.getRoot();
+ 
++        //Set NestedScrollView
++        mNestedScrollView = binding.exerciseScrollView;
++
++        //Set ProgressBar
++        mProgressBar = binding.exercisesProgressBar;
++
+         // Set Recycler
+-        RecyclerView recyclerView = binding.exerciseRecyclerView;
+-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+-        recyclerView.setHasFixedSize(true);
++        mRecyclerView = binding.exerciseRecyclerView;
++        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
++        mRecyclerView.setHasFixedSize(true);
++
++        //Set Adapter
++        mExerciseAdapter = new ExerciseAdapter();
++        mRecyclerView.setAdapter(mExerciseAdapter);
++
++        //Set ViewModel (getting Data)
++        ExercisesViewModel _exercise = new ViewModelProvider(this).get(ExercisesViewModel.class);
++        mExerciseList = _exercise.ExerciseRepo.getAllExercises();
++        mExerciseAdapter.submitList(mExerciseList);
+ 
+ 
+         return view;
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    package=\"com.example.fitnessapp\">\r\n\r\n    <uses-permission android:name=\"android.permission.VIBRATE\" />\r\n    <uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n    <uses-permission android:name=\"android.permission.ACTION_HEADSET_PLUG\" />\r\n    <uses-permission android:name=\"android.permission.CAMERA\" />\r\n\r\n    <uses-feature\r\n        android:name=\"android.hardware.camera\"\r\n        android:required=\"false\" />\r\n    <uses-feature\r\n        android:name=\"android.hardware.camera.autofocus\"\r\n        android:required=\"false\" />\r\n    <uses-feature\r\n        android:name=\"android.hardware.camera.flash\"\r\n        android:required=\"false\" />\r\n\r\n    <uses-permission android:name=\"ANDROID.PERMISSION.CAMERA\" />\r\n    <uses-permission android:name=\"ANDROID.PERMISSION.READ_EXTERNAL_STORAGE\"/>\r\n    <uses-permission android:name=\"ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE\"/>\r\n\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n\r\n        <activity\r\n            android:name=\"._ActivityStart\"\r\n            android:label=\"@string/app_name\"\r\n            android:screenOrientation=\"portrait\"\r\n            android:windowSoftInputMode=\"stateUnchanged\"\r\n            android:configChanges=\"orientation|screenSize\"\r\n\r\n            >\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n\r\n        <activity\r\n            android:name=\"._ActivityCoach\"\r\n            android:screenOrientation=\"portrait\"\r\n            />\r\n<!--            android:theme=\"@style/AppTheme.SlidrActivityTheme\"-->\r\n\r\n\r\n        //Activity for Kamera\r\n        <activity\r\n            android:name=\"com.theartofdev.edmodo.cropper.CropImageActivity\"\r\n            android:theme=\"@style/Base.Theme.AppCompat\" />\r\n\r\n\r\n<!-- FROM FastNFitness-->\r\n\r\n<!--        <meta-data-->\r\n<!--            android:name=\"firebase_crash_collection_enabled\"-->\r\n<!--            android:value=\"@bool/FIREBASE_CRASH_ENABLED\" />-->\r\n\r\n<!--        <provider-->\r\n<!--            android:name=\"androidx.core.content.FileProvider\"-->\r\n<!--            android:authorities=\"${applicationId}.provider\"-->\r\n<!--            android:exported=\"false\"-->\r\n<!--            android:grantUriPermissions=\"true\">-->\r\n<!--            <meta-data-->\r\n<!--                android:name=\"android.support.FILE_PROVIDER_PATHS\"-->\r\n<!--                android:resource=\"@xml/provider_paths\" />-->\r\n<!--        </provider>-->\r\n\r\n<!--        <receiver-->\r\n<!--            android:name=\".utils.AlarmReceiver\"-->\r\n<!--            android:process=\":remote\" />-->\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/AndroidManifest.xml	(date 1598534249908)
+@@ -8,6 +8,8 @@
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG" />
+     <uses-permission android:name="android.permission.CAMERA" />
++    <uses-permission android:name="android.permission.INTERNET" />
++
+ 
+     <uses-feature
+         android:name="android.hardware.camera"
+Index: app/proguard-rules.pro
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Add project specific ProGuard rules here.\r\n# You can control the set of applied configuration files using the\r\n# proguardFiles setting in build.gradle.\r\n#\r\n# For more details, see\r\n#   http://developer.android.com/guide/developing/tools/proguard.html\r\n\r\n# If your project uses WebView with JS, uncomment the following\r\n# and specify the fully qualified class name to the JavaScript interface\r\n# class:\r\n#-keepclassmembers class fqcn.of.javascript.interface.for.webview {\r\n#   public *;\r\n#}\r\n\r\n# Uncomment this to preserve the line number information for\r\n# debugging stack traces.\r\n#-keepattributes SourceFile,LineNumberTable\r\n\r\n# If you keep the line number information, uncomment this to\r\n# hide the original source file name.\r\n#-renamesourcefileattribute SourceFile\r\n\r\n-keep class androidx.appcompat.widget.** { *; }
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/proguard-rules.pro	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/proguard-rules.pro	(date 1598533445418)
+@@ -20,4 +20,17 @@
+ # hide the original source file name.
+ #-renamesourcefileattribute SourceFile
+ 
+--keep class androidx.appcompat.widget.** { *; }
+\ No newline at end of file
++-keep class androidx.appcompat.widget.** { *; }
++
++
++-keep public class * implements com.bumptech.glide.module.GlideModule
++-keep class * extends com.bumptech.glide.module.AppGlideModule {
++ <init>(...);
++}
++-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
++  **[] $VALUES;
++  public *;
++}
++-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
++  *** rewind();
++}
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.fitnessapp\"\r\n        minSdkVersion 21\r\n        targetSdkVersion 28\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n        // added from open source project\r\n        vectorDrawables.useSupportLibrary = true\r\n    }\r\n\r\n    //===============================\r\n    // added from open source project\r\n\r\n    signingConfigs {\r\n        if (rootProject.file('release.properties').exists()) {\r\n            def props = new Properties()\r\n            props.load(new FileInputStream(rootProject.file('release.properties')))\r\n            release {\r\n                storeFile file(props.keyStore)\r\n                storePassword props.keyStorePassword\r\n                keyAlias props.keyAlias\r\n                keyPassword props.keyAliasPassword\r\n            }\r\n        }\r\n        if (rootProject.file('debug.properties').exists()) {\r\n            def props2 = new Properties()\r\n            props2.load(new FileInputStream(rootProject.file('debug.properties')))\r\n            debug {\r\n                storeFile file(props2.keyStore)\r\n                storePassword props2.keyStorePassword\r\n                keyAlias props2.keyAlias\r\n                keyPassword props2.keyAliasPassword\r\n            }\r\n        }\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\r\n            resValue(\"bool\", \"FIREBASE_CRASH_ENABLED\", \"true\")\r\n            if (rootProject.file('release.properties').exists()) {\r\n                signingConfig signingConfigs.release\r\n            }\r\n        }\r\n        debug {\r\n            resValue(\"bool\", \"FIREBASE_CRASH_ENABLED\", \"false\")\r\n            if (rootProject.file('debug.properties').exists()) {\r\n                signingConfig signingConfigs.debug\r\n            }\r\n        }\r\n    }\r\n\r\n    dataBinding {\r\n        enabled = true\r\n    }\r\n\r\n    compileOptions {\r\n        encoding = 'UTF-8'\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n\r\n    lintOptions {\r\n        disable 'GoogleAppIndexingWarning'\r\n    }\r\n\r\n    //===============================\r\n\r\n    buildFeatures {\r\n        viewBinding true\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n//    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n//\r\n//    implementation 'androidx.appcompat:appcompat:1.1.0'\r\n//    implementation 'com.google.android.material:material:1.1.0'\r\n//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\r\n//    implementation 'androidx.navigation:navigation-fragment:2.2.2'\r\n//    implementation 'androidx.navigation:navigation-ui:2.2.2'\r\n//    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n//    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n//    testImplementation 'junit:junit:4.12'\r\n//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\r\n//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\r\n\r\n\r\n// ===============================\r\n// added from open source project\r\n    implementation files('libs/javacsv-2.1.jar')\r\n\r\n// Support\r\n    implementation 'androidx.annotation:annotation:1.0.2'\r\n    implementation 'androidx.appcompat:appcompat:1.0.2'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'\r\n    implementation 'androidx.core:core:1.0.1'\r\n    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'\r\n    implementation 'androidx.exifinterface:exifinterface:1.0.0'\r\n    implementation 'androidx.fragment:fragment:1.0.0'\r\n    implementation 'androidx.preference:preference:1.0.0'\r\n    implementation 'androidx.viewpager:viewpager:1.0.0'\r\n    implementation 'com.google.android.material:material:1.0.0'\r\n    implementation 'androidx.recyclerview:recyclerview:1.0.0'\r\n\r\n// Firebase\r\n    //implementation 'com.google.firebase:firebase-core:16.0.8'\r\n    //implementation 'com.google.firebase:firebase-crash:16.2.1'\r\n\r\n// Other\r\n    implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3' //2.0.0\r\n    implementation 'com.github.hannesa2:MPAndroidChart:3.0.7'\r\n    //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'\r\n    implementation 'com.astuetz:pagerslidingtabstrip:1.0.1' //DEPRECATED\r\n    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'\r\n    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'\r\n    implementation 'com.github.lzyzsd:circleprogress:1.2.1'\r\n    implementation 'com.heinrichreimersoftware:material-intro:1.6' //1.6.2\r\n    implementation 'com.mikhaellopez:circularimageview:3.2.0' //3.2.0\r\n    implementation 'com.github.f0ris.sweetalert:library:1.5.6'\r\n    implementation 'com.github.onurkagan:ktoast:1.0.3'\r\n    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'\r\n    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'\r\n\r\n// End of open Source App Code\r\n\r\n    //Animations\r\n    implementation \"at.wirecube:additive_animations:1.7.5\"\r\n    implementation \"eu.long1:spacetablayout:1.0.4\"\r\n\r\n    //MaterialDesign\r\n    implementation 'com.google.android.material:material:<version>'\r\n    implementation 'com.github.rey5137:material:1.3.1'\r\n\r\n    //Slider for Activities\r\n    implementation 'com.r0adkll:slidableactivity:2.1.0'\r\n\r\n    //Noty & Toasty\r\n    implementation 'com.emredavarci:noty:1.0.3'\r\n    implementation 'com.github.GrenderG:Toasty:1.5.0'\r\n\r\n    //Intent Animation\r\n    implementation 'com.github.hajiyevelnur92:intentanimation:1.0'\r\n\r\n    //input dialog\r\n    implementation 'com.yarolegovich:lovely-dialog:1.1.1'\r\n\r\n    //Animation YoYo\r\n//    implementation 'com.android.support:support-compat:25.1.1'\r\n    implementation 'com.daimajia.easing:library:2.0@aar'\r\n    implementation 'com.daimajia.androidanimations:library:2.3@aar'\r\n\r\n    //Picasso Picture\r\n    implementation 'com.squareup.picasso:picasso:2.71828'\r\n\r\n    //Gson Lib\r\n    implementation 'com.google.code.gson:gson:2.8.6'\r\n\r\n    //Retrofit for requesting Websites\r\n    implementation 'com.squareup.retrofit2:retrofit:2.9.0'\r\n\r\n\r\n\r\n\r\n\r\n// Room Database\r\n    implementation 'androidx.appcompat:appcompat:1.1.0'\r\n    implementation 'com.google.android.material:material:1.1.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\r\n    implementation 'androidx.navigation:navigation-fragment:2.2.2'\r\n    implementation 'androidx.navigation:navigation-ui:2.2.2'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\r\n\r\n//    implementation 'androidx.appcompat:appcompat:1.0.0'\r\n//    implementation 'androidx.cardview:cardview:1.0.0'\r\n\r\n\r\n    //Roo\r\n    def room_version = \"2.2.5\"\r\n\r\n    implementation \"androidx.room:room-runtime:$room_version\"\r\n    annotationProcessor \"androidx.room:room-compiler:$room_version\"\r\n    androidTestImplementation \"androidx.room:room-testing:$room_version\"\r\n\r\n\r\n\r\n//===============================\r\n\r\n\r\n    //Circle Image View\r\n    implementation 'de.hdodenhof:circleimageview:2.1.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.0'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n// compile changed to implementation\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/build.gradle	(date 1598533328203)
+@@ -162,10 +162,14 @@
+     implementation 'com.daimajia.easing:library:2.0@aar'
+     implementation 'com.daimajia.androidanimations:library:2.3@aar'
+ 
+-    //Picasso Picture
++    //Picasso Picture - Loading async
+     implementation 'com.squareup.picasso:picasso:2.71828'
+ 
+-    //Gson Lib
++    //Glide Picture - Loading async
++    implementation 'com.github.bumptech.glide:glide:4.11.0'
++    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
++
++    //Gson Lib - for JSON Parsing
+     implementation 'com.google.code.gson:gson:2.8.6'
+ 
+     //Retrofit for requesting Websites
+@@ -175,6 +179,8 @@
+ 
+ 
+ 
++
++
+ // Room Database
+     implementation 'androidx.appcompat:appcompat:1.1.0'
+     implementation 'com.google.android.material:material:1.1.0'
+Index: app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.fitnessapp.ui.exercises;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.DiffUtil;\r\nimport androidx.recyclerview.widget.ListAdapter;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.fitnessapp.R;\r\n\r\npublic class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {\r\n\r\n    private OnItemClickListener listener;\r\n\r\n    protected ExerciseAdapter() {\r\n        super(DIFF_CALLBACK);\r\n    }\r\n\r\n    private static final DiffUtil.ItemCallback<Exercise> DIFF_CALLBACK = new DiffUtil.ItemCallback<Exercise>() {\r\n        @Override\r\n        public boolean areItemsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {\r\n            return oldItem.getId() == newItem.getId();\r\n        }\r\n\r\n        @Override\r\n        public boolean areContentsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {\r\n            return oldItem.getTitle().equals(newItem.getTitle())\r\n                    && oldItem.getDescription().equals(newItem.getDescription());\r\n//                  && (oldItem.getPriority() == newItem.getPriority());\r\n        }\r\n    };\r\n\r\n\r\n    @NonNull\r\n    @Override\r\n    public ExerciseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View itemView = LayoutInflater.from(parent.getContext())\r\n                .inflate(R.layout.item_excersise, parent, false);\r\n        return new ExerciseHolder(itemView);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {\r\n        Exercise currentNote = getItem(position);\r\n        holder.textViewTitle.setText(currentNote.getTitle());\r\n        holder.textViewDescription.setText(currentNote.getDescription());\r\n//        holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));\r\n    }\r\n\r\n    public Exercise getExerciseAt(int position) {\r\n        return getItem(position);\r\n    }\r\n\r\n\r\n    class ExerciseHolder extends RecyclerView.ViewHolder {\r\n        private TextView textViewTitle;\r\n        private TextView textViewDescription;\r\n        private TextView textViewPriority;\r\n\r\n        public ExerciseHolder(View itemView) {\r\n            super(itemView);\r\n            textViewTitle = itemView.findViewById(R.id.text_view_title);\r\n            textViewDescription = itemView.findViewById(R.id.text_view_description);\r\n            textViewPriority = itemView.findViewById(R.id.text_view_priority);\r\n\r\n            itemView.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View v) {\r\n                    int position = getAdapterPosition();\r\n                    if (listener != null && position != RecyclerView.NO_POSITION) {\r\n                        listener.onItemClick(getItem(position));\r\n                    }\r\n                }\r\n            });\r\n        }\r\n    }\r\n\r\n    public interface OnItemClickListener {\r\n        void onItemClick(Exercise exercise);\r\n    }\r\n\r\n    public void setOnItemClickListener(OnItemClickListener listener) {\r\n        this.listener = listener;\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseAdapter.java	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/java/com/example/fitnessapp/ui/exercises/ExerciseAdapter.java	(date 1598534222125)
+@@ -1,8 +1,10 @@
+ package com.example.fitnessapp.ui.exercises;
+ 
++import android.content.Context;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.widget.ImageView;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -10,11 +12,16 @@
+ import androidx.recyclerview.widget.ListAdapter;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.bumptech.glide.Glide;
++import com.bumptech.glide.load.engine.DiskCacheStrategy;
+ import com.example.fitnessapp.R;
++import com.squareup.picasso.Picasso;
+ 
+ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.ExerciseHolder> {
+ 
+     private OnItemClickListener listener;
++    View view;
++    private Context mContext = view.getContext();
+ 
+     protected ExerciseAdapter() {
+         super(DIFF_CALLBACK);
+@@ -28,9 +35,10 @@
+ 
+         @Override
+         public boolean areContentsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {
+-            return oldItem.getTitle().equals(newItem.getTitle())
+-                    && oldItem.getDescription().equals(newItem.getDescription());
+-//                  && (oldItem.getPriority() == newItem.getPriority());
++            return oldItem.getTitle().equals(newItem.getTitle())                        //Compare String
++                    && oldItem.getDescription().equals(newItem.getDescription())        //Compare String
++                    && oldItem.getPictures().equals(newItem.getPictures())              //Compare List
++                    && oldItem.getMuscleGroups().equals(newItem.getMuscleGroups());     //Compare List
+         }
+     };
+ 
+@@ -45,10 +53,31 @@
+ 
+     @Override
+     public void onBindViewHolder(@NonNull ExerciseHolder holder, int position) {
+-        Exercise currentNote = getItem(position);
+-        holder.textViewTitle.setText(currentNote.getTitle());
+-        holder.textViewDescription.setText(currentNote.getDescription());
+-//        holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));
++        String muscleString = "";
++
++        Exercise currentExercise = getItem(position);
++        holder.textViewTitle.setText(currentExercise.getTitle());
++        holder.textViewDescription.setText(currentExercise.getDescription());
++        for(String muscle : currentExercise.getMuscleGroups()){
++            muscleString += "| muscle";
++        }
++        muscleString = muscleString.substring(3);
++        holder.textViewPriority.setText(muscleString);
++
++        Glide.with(mContext)
++                .load(currentExercise.getPictures().get(0))
++                .centerCrop()
++                .placeholder(R.drawable.placeholder_exercise)
++                .diskCacheStrategy(DiskCacheStrategy.ALL)
++                .into(holder.mImageViewPhoto);
++
++//        Picasso.get()
++//                .load(currentExercise.getPictures().get(0))
++//                .resize(50, 50)
++//                .centerCrop()
++//                .into(holder.mImageViewPhoto);
++
++
+     }
+ 
+     public Exercise getExerciseAt(int position) {
+@@ -57,15 +86,17 @@
+ 
+ 
+     class ExerciseHolder extends RecyclerView.ViewHolder {
+-        private TextView textViewTitle;
+-        private TextView textViewDescription;
+-        private TextView textViewPriority;
++        private final TextView textViewTitle;
++        private final TextView textViewDescription;
++        private final TextView textViewPriority;
++        private final ImageView mImageViewPhoto;
+ 
+         public ExerciseHolder(View itemView) {
+             super(itemView);
+             textViewTitle = itemView.findViewById(R.id.text_view_title);
+             textViewDescription = itemView.findViewById(R.id.text_view_description);
+             textViewPriority = itemView.findViewById(R.id.text_view_priority);
++            mImageViewPhoto = itemView.findViewById(R.id.img_view_photo);
+ 
+             itemView.setOnClickListener(new View.OnClickListener() {
+                 @Override
+Index: app/src/main/res/layout/_fragment_coach_dashboard.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".ui.exercises.ExercisesFragment\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imageView\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:src=\"@drawable/background_fragment_excersises_background_img\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.5\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        android:scaleType=\"centerCrop\"\r\n        />\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/textView5\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"32sp\"\r\n            android:text=\"Übungen\"\r\n            android:textColor=\"@color/mywhite\"\r\n            android:textSize=\"48sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.0\" />\r\n\r\n        <ScrollView\r\n            android:id=\"@+id/exercise_scroll_view\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"0dp\"\r\n            android:layout_margin=\"15dp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/textView5\"\r\n            >\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:orientation=\"vertical\" >\r\n\r\n                <androidx.recyclerview.widget.RecyclerView\r\n                    android:id=\"@+id/exercise_recycler_view\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    tools:listitem=\"@layout/item_excersise\"\r\n                    />\r\n            </LinearLayout>\r\n        </ScrollView>\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+===================================================================
+--- app/src/main/res/layout/_fragment_coach_dashboard.xml	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/res/layout/_fragment_coach_exercises.xml	(date 1598535033895)
+@@ -39,7 +39,7 @@
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintVertical_bias="0.0" />
+ 
+-        <ScrollView
++        <androidx.core.widget.NestedScrollView
+             android:id="@+id/exercise_scroll_view"
+             android:layout_width="0dp"
+             android:layout_height="0dp"
+@@ -62,7 +62,14 @@
+                     android:layout_height="match_parent"
+                     tools:listitem="@layout/item_excersise"
+                     />
++
++                <ProgressBar
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:id="@+id/exercises_progress_bar"
++                    android:layout_marginTop="8dp"
++                    />
+             </LinearLayout>
+-        </ScrollView>
++        </androidx.core.widget.NestedScrollView>
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/item_excersise.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.cardview.widget.CardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    android:layout_marginEnd=\"8dp\"\r\n    android:layout_marginStart=\"8dp\"\r\n    android:layout_marginTop=\"8dp\"\r\n    >\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:orientation=\"horizontal\">\r\n\r\n        <ImageView\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"50dp\"\r\n            android:layout_margin=\"8dp\"\r\n            android:layout_gravity=\"top\"\r\n            />\r\n\r\n        <RelativeLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:padding=\"8dp\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/text_view_priority\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_alignParentEnd=\"true\"\r\n                android:text=\"\"\r\n                android:textAppearance=\"@style/TextAppearance.AppCompat.Large\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/text_view_title\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_alignParentStart=\"true\"\r\n                android:layout_toStartOf=\"@id/text_view_priority\"\r\n                android:ellipsize=\"end\"\r\n                android:maxLines=\"1\"\r\n                android:text=\"Title\"\r\n                android:textAppearance=\"@style/TextAppearance.AppCompat.Large\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/text_view_description\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_below=\"@+id/text_view_title\"\r\n                android:ellipsize=\"end\"\r\n                android:maxLines=\"3\"\r\n                android:text=\"Discription\" />\r\n\r\n\r\n        </RelativeLayout>\r\n    </LinearLayout>\r\n\r\n</androidx.cardview.widget.CardView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/item_excersise.xml	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/res/layout/item_excersise.xml	(date 1598534832259)
+@@ -2,10 +2,11 @@
+ <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_marginEnd="8dp"
+     android:layout_marginStart="8dp"
+     android:layout_marginTop="8dp"
+-    >
++    app:cardCornerRadius="5dp">
+ 
+     <LinearLayout
+         android:layout_width="match_parent"
+@@ -13,10 +14,12 @@
+         android:orientation="horizontal">
+ 
+         <ImageView
++            android:id="@+id/img_view_photo"
+             android:layout_width="50dp"
+             android:layout_height="50dp"
+             android:layout_margin="8dp"
+             android:layout_gravity="top"
++            android:scaleType="centerCrop"
+             />
+ 
+         <RelativeLayout
+@@ -43,14 +46,26 @@
+                 android:text="Title"
+                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+ 
++            <TextView
++                android:id="@+id/text_view_muscle_group"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_below="@+id/text_view_title"
++                android:ellipsize="end"
++                android:maxLines="3"
++                android:text="Muscle1 | Muscle2" />
++
+             <TextView
+                 android:id="@+id/text_view_description"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+-                android:layout_below="@+id/text_view_title"
++                android:layout_below="@+id/text_view_muscle_group"
++                android:layout_marginTop="4dp"
+                 android:ellipsize="end"
+                 android:maxLines="3"
+-                android:text="Discription" />
++                android:textSize="12dp"
++                android:text="Discription..." />
++
+ 
+ 
+         </RelativeLayout>
+Index: app/src/main/java/com/example/fitnessapp/Interface/IExercise.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/Interface/IExercise.java	(date 1598536919214)
++++ app/src/main/java/com/example/fitnessapp/Interface/IExercise.java	(date 1598536919214)
+@@ -0,0 +1,23 @@
++package com.example.fitnessapp.Interface;
++
++import androidx.lifecycle.LiveData;
++
++import com.example.fitnessapp.db.Entity.Exercise;
++import com.example.fitnessapp.db.Entity.User;
++
++import java.util.List;
++
++public interface IExercise {
++
++    // Functions Implemented
++
++
++    void InsertExercise(Exercise exercise);
++
++    void UpdateExercise(Exercise exercise);
++
++    void DeleteExercise(Exercise exercise);
++
++    List<Exercise> getAllExercises();
++
++}
+Index: app/src/main/java/com/example/fitnessapp/db/ExerciseRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/db/ExerciseRepo.java	(date 1598538952320)
++++ app/src/main/java/com/example/fitnessapp/db/ExerciseRepo.java	(date 1598538952320)
+@@ -0,0 +1,92 @@
++package com.example.fitnessapp.db;
++
++import android.app.Application;
++import android.content.Context;
++import android.os.AsyncTask;
++import android.util.Log;
++
++import com.example.fitnessapp.Interface.IExercise;
++import com.example.fitnessapp.db.DAO.ExerciseDAO;
++import com.example.fitnessapp.db.Entity.Exercise;
++
++import java.lang.ref.WeakReference;
++import java.util.List;
++import java.util.concurrent.TimeUnit;
++
++public class ExerciseRepo implements IExercise {
++
++    private ExerciseDAO mExerciseDAO;
++
++    public ExerciseRepo(Application application) {
++        FitnessDatabase db = FitnessDatabase.getDatabase(application);
++        mExerciseDAO = db.exerciseDAO();
++    }
++
++    static private class insertAsync extends AsyncTask<ExerciseDAO, Void, Void>{
++
++        private final WeakReference<ExerciseRepo> mRepoRef;
++
++        @Override
++        protected Void doInBackground(ExerciseDAO... exerciseDAOS) {
++            return null;
++        }
++
++        public insertAsync(ExerciseDAO mExerciseDAO, WeakReference<ExerciseRepo> activityRef) {
++            super();
++            mRepoRef = activityRef;
++        }
++    }
++
++    @Override
++    public void InsertExercise(Exercise exercise) {
++        //Insert User in DB async
++        AsyncTask<Exercise, Void, Void> insert = new AsyncTask <Exercise, Void, Void>(){
++            private Exercise mExercise;
++            private WeakReference<ExerciseRepo> mRepoWeakReference;
++
++            public AsyncTask setRQ(Context context){
++                mExercise = exercise;
++                return this;
++            }
++
++            @Override
++            protected Void doInBackground(Exercise... exercises) {
++                mExerciseDAO.insertExercise(exercises[0]);
++                return null;
++            }
++
++        };
++
++        insert.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, exercise);
++
++        try {
++            insert.get(1000, TimeUnit.MILLISECONDS);
++
++            return Boolean.TRUE;
++        } catch (Exception e) {
++            Log.e("Data Access", e.getMessage());
++
++            return Boolean.FALSE;
++        }
++    }
++
++    @Override
++    public void UpdateExercise(Exercise exercise) {
++
++    }
++
++    @Override
++    public void DeleteExercise(Exercise exercise) {
++
++    }
++
++    @Override
++    public List<Exercise> getAllExercises() {
++        List<Exercise> exercises = mExerciseDAO.getAllExercise();
++
++        if(exercises.isEmpty())
++            return null;
++
++        return exercises;
++    }
++}
+Index: app/src/main/res/navigation/mobile_navigation.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/mobile_navigation\"\r\n    app:startDestination=\"@+id/navigation_home\">\r\n\r\n    <fragment\r\n        android:id=\"@+id/navigation_home\"\r\n        android:name=\"com.example.fitnessapp.ui.coach.CoachFragment\"\r\n        android:label=\"@string/title_home\"\r\n        tools:layout=\"@layout/_fragment_coach_home\" />\r\n\r\n    <fragment\r\n        android:id=\"@+id/navigation_dashboard\"\r\n        android:name=\"com.example.fitnessapp.ui.exercises.ExercisesFragment\"\r\n        android:label=\"@string/title_dashboard\"\r\n        tools:layout=\"@layout/_fragment_coach_dashboard\" />\r\n\r\n    <fragment\r\n        android:id=\"@+id/navigation_notifications\"\r\n        android:name=\"com.example.fitnessapp.ui.profile.ProfileFragment\"\r\n        android:label=\"@string/title_notifications\"\r\n        tools:layout=\"@layout/_fragment_coach_profile\" />\r\n</navigation>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/navigation/mobile_navigation.xml	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/res/navigation/mobile_navigation.xml	(date 1598534719697)
+@@ -15,7 +15,7 @@
+         android:id="@+id/navigation_dashboard"
+         android:name="com.example.fitnessapp.ui.exercises.ExercisesFragment"
+         android:label="@string/title_dashboard"
+-        tools:layout="@layout/_fragment_coach_dashboard" />
++        tools:layout="@layout/_fragment_coach_exercises" />
+ 
+     <fragment
+         android:id="@+id/navigation_notifications"
+Index: app/src/main/res/drawable/placeholder_exercise.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/placeholder_exercise.xml	(date 1598534125467)
++++ app/src/main/res/drawable/placeholder_exercise.xml	(date 1598534125467)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
++    android:drawable="@drawable/img_true_fitness_logo_nontransparent_square"
++    android:pivotX="50%"
++    android:pivotY="50%"
++    >
++
++</animated-rotate>
+\ No newline at end of file
+Index: app/src/main/java/com/example/fitnessapp/db/DAO/ExerciseDAO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/fitnessapp/db/DAO/ExerciseDAO.java	(date 1598536919165)
++++ app/src/main/java/com/example/fitnessapp/db/DAO/ExerciseDAO.java	(date 1598536919165)
+@@ -0,0 +1,56 @@
++package com.example.fitnessapp.db.DAO;
++
++
++import androidx.lifecycle.LiveData;
++import androidx.room.Dao;
++import androidx.room.Delete;
++import androidx.room.Insert;
++import androidx.room.OnConflictStrategy;
++import androidx.room.Query;
++import androidx.room.Update;
++
++import com.example.fitnessapp.db.Entity.Exercise;
++import com.example.fitnessapp.db.Entity.User;
++
++import java.util.List;
++
++@Dao
++public interface ExerciseDAO {
++
++//    @Insert(onConflict = OnConflictStrategy.REPLACE)
++//    public void insertUser(User user);
++//
++//    @Update
++//    public void updateUser(User user);
++//
++//    @Delete
++//    public void deleteUser(User user);
++
++//    @Query("SELECT * FROM User WHERE email LIKE :mail LIMIT 1")
++//    public LiveData<User> getUserByMailAsync(String mail);
++//
++//    @Query("SELECT * FROM User WHERE email LIKE :mail LIMIT 1")
++//    public User getUserByMail(String mail);
++//
++//    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User)")
++//    public LiveData<User> getLatestLoginAsync();
++//
++//    @Query("SELECT * FROM User WHERE lastLogIn = (SELECT MAX(lastLogIn) FROM User)")
++//    public User getLatestLogin();
++//
++//    @Query("SELECT * FROM User")
++//    public LiveData<List<User>> getAllUserAsync();
++
++    @Insert(onConflict = OnConflictStrategy.REPLACE)
++    public void insertExercise(Exercise exercise);
++
++    @Update
++    public void updateExercise(Exercise exercise);
++
++    @Delete
++    public void deleteExercise(Exercise exercise);
++
++    @Query("SELECT * FROM exercise_table")
++    public List<Exercise> getAllExercise();
++
++}
+Index: app/src/main/res/layout/_fragment_start_create_workout_plan.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<FrameLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\"._FragmentStartCreateWorkoutPlan\"\r\n    >\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\">\r\n\r\n        <ImageView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:adjustViewBounds=\"true\"\r\n            android:scaleType=\"centerCrop\"\r\n            android:src=\"@drawable/img_background_your_data\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"#AA000000\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/linearLayout2\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n\r\n            <ImageView\r\n                android:id=\"@+id/create_workout_logo_square\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:src=\"@drawable/img_truefitness_nontransparent_square\" />\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/linearLayout2\"\r\n            app:layout_constraintVertical_bias=\"0.19999999\"\r\n            android:gravity=\"center\"\r\n\r\n            >\r\n\r\n            <TextView\r\n                android:id=\"@+id/create_workout_textview\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center_horizontal\"\r\n                android:text=\"\"\r\n                android:textColor=\"@color/mywhite\"\r\n                android:textSize=\"24dp\"\r\n                android:textStyle=\"bold\"\r\n                />\r\n        </LinearLayout>\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n</FrameLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/_fragment_start_create_workout_plan.xml	(revision 732a53f27e626858657da75e5f334e210962cb77)
++++ app/src/main/res/layout/_fragment_start_create_workout_plan.xml	(date 1598534016159)
+@@ -46,7 +46,7 @@
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center_horizontal"
+-                android:src="@drawable/img_truefitness_nontransparent_square" />
++                android:src="@drawable/img_true_fitness_logo_nontransparent_square" />
+         </LinearLayout>
+ 
+         <LinearLayout

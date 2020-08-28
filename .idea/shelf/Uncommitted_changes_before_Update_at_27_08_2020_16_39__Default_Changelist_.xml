@@ -1,0 +1,44 @@
+<changelist name="Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]" date="1598539206170" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 27.08.2020 16:39 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-mdpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-mdpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-ldpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-ldpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square1.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-xhdpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-xhdpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square2.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable/img_true_fitness_logo_pic.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable/img_true_fitness_logo_pic_nontransparent.png" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-xxxhdpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-xxxhdpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square3.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-xxhdpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-xxhdpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square4.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-hdpi/img_truefitness_nontransparent_square.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-hdpi/img_true_fitness_logo_nontransparent_square.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_08_2020_16_39_[Default_Changelist]/img_true_fitness_logo_nontransparent_square5.png" />
+  </binary>
+</changelist>
