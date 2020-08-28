@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.db.Entity.Exercise;
 
@@ -79,6 +78,7 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
                 .fitCenter()
                 .placeholder(R.drawable.placeholder_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.img_error_no_pic_exercise)
                 .into(holder.mImageViewPhoto);
 
 
@@ -97,7 +97,7 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 
         public ExerciseHolder(View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.text_view_weekday);
+            textViewTitle = itemView.findViewById(R.id.status_day_text_view_date);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
             mImageViewPhoto = itemView.findViewById(R.id.img_view_photo);

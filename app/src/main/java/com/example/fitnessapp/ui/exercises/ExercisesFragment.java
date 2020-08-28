@@ -37,9 +37,6 @@ public class ExercisesFragment extends Fragment {
 
 
     private RecyclerView mRecyclerView;
-    private NestedScrollView mNestedScrollView;
-    private ProgressBar mProgressBar;
-
     private ExerciseAdapter mExerciseAdapter;
 
     private List<Exercise> mExerciseList = new ArrayList<>();
@@ -55,9 +52,6 @@ public class ExercisesFragment extends Fragment {
 
         //Set ViewModel (getting Data)
         _exercise = new ViewModelProvider(getActivity()).get(ExercisesViewModel.class);
-
-        //Set NestedScrollView
-        mNestedScrollView = binding.exerciseScrollView;
 
 
         // Set Recycler

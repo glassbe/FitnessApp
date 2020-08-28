@@ -126,10 +126,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/imageView4"
                         android:layout_width="215dp"
                         android:layout_height="215dp"
+
+                        app:cardCornerRadius="25dp"
 
                         android:layout_marginTop="25dp"
                         android:layout_marginBottom="25dp"
@@ -139,13 +142,23 @@
                         android:isScrollContainer="false"
                         android:maxHeight="215dp"
                         android:minHeight="60dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/avatar_status_picture"
-                        android:textAlignment="center"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" >
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:scaleType="centerCrop"
+                            android:textAlignment="center"
+                            android:src="@drawable/avatar_status_picture_my_blue"
+                            />
+
+                    </androidx.cardview.widget.CardView>
+
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,7 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="25dp"
-                        android:background="@drawable/shape_coach_constraint_background"
+                        android:background="@drawable/shape_constraint_background_coach"
                         android:padding="5dp"
 
                         app:layout_constraintTop_toBottomOf="@+id/imageView4">

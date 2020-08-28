@@ -47,14 +47,17 @@
                     android:maxHeight="215dp"
                     android:minHeight="60dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icn_profile_pic"
+                    android:src="@drawable/avatar_status_picture_my_blue"
                     android:textAlignment="center"
+
+
                     app:civ_background_color="@color/gray"
-                    app:civ_border_color="@color/gray"
-                    app:civ_border_width="0dp"
+                    app:civ_border_color="@color/myblue"
+                    app:civ_border_width="5dp"
                     app:civ_shadow="true"
                     app:civ_shadow_color="@color/gray"
                     app:civ_shadow_radius="10"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
