@@ -1,0 +1,1 @@
+{  "workouts": [    {"workout": {      "jsonId": "1",      "planJsonId": "1",      "name": "Day 1",      "description": "Push Day",      "picturePath": ["exercises/Bench-press-1.png"]    }},    {"workout": {      "jsonId": "2",      "planJsonId": "1",      "name": "Day 2",      "description": "Pull Day",      "picturePath": ["/exercises/Alternate-bicep-curl-1.png"]    }}  ]}

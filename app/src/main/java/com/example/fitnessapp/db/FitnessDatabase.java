@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 15)
+@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 16)
 @TypeConverters({Converters.class})
 abstract class FitnessDatabase extends RoomDatabase {
 
@@ -77,6 +77,7 @@ abstract class FitnessDatabase extends RoomDatabase {
 
                     List<Exercise> basicExercises = new Seed().getExercises();
                     List<Program> basicProgram = new Seed().getProgram();
+                    List<Workout> basicWorkouts = new Seed().getWorkouts();
 
                     for (Exercise exercise: basicExercises) {
 
@@ -142,6 +143,42 @@ abstract class FitnessDatabase extends RoomDatabase {
                         else{
                             programDAO.insertProgram(program);
                         }
+
+                    }
+
+                    for(Workout workout : basicWorkouts){
+                        Workout fromDB = workoutDAO.getWorkoutByJsonId(workout.getJsonId());
+
+                        if(fromDB != null){
+
+                                boolean update = false;
+
+                                if(fromDB.getName() != workout.getName()){
+                                    fromDB.setName(workout.getName());
+                                    update = true;
+                                }
+                                if(fromDB.getDescription() != workout.getDescription()){
+                                    fromDB.setDescription(workout.getDescription());
+                                    update = true;
+                                }
+                                if(fromDB.getPicturePath() != workout.getPicturePath()){
+                                    fromDB.setPicturePath(workout.getPicturePath());
+                                    update = true;
+                                }
+
+                                if(update){
+                                    workoutDAO.updateWorkout(fromDB);
+                                }
+
+                        }else {
+                            Program existingProgram = programDAO.getProgramByJsonId(workout.getPlanId());
+
+                            if(existingProgram != null){
+                                workout.setPlanId(existingProgram.getId());
+                                workoutDAO.insertWorkout(workout);
+                            }
+                        }
+
 
                     }
 

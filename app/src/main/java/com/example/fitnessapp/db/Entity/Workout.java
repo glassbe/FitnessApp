@@ -5,6 +5,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = Program.class,
@@ -19,13 +21,15 @@ public class Workout {
 
     private int planId;
 
+    private int jsonId = 0;
+
     private String name;
 
     private String description;
 
-    private String picturePath;
+    private List<String> picturePath;
 
-    public Workout(int planId, String name, String description, String picturePath){
+    public Workout(int planId, String name, String description, List<String> picturePath){
         this.planId = planId;
         this.name = name;
         this.description = description;
@@ -50,9 +54,11 @@ public class Workout {
         return description;
     }
 
-    public String getPicturePath() {
+    public List<String> getPicturePath() {
         return picturePath;
     }
+
+    public int getJsonId() { return jsonId; }
 
     //SETTER
 
@@ -71,9 +77,10 @@ public class Workout {
         this.description = description;
     }
 
-    public void setPicturePath(String picturePath) {
+    public void setPicturePath(List<String> picturePath) {
         this.picturePath = picturePath;
     }
 
+    public void setJsonId(int jsonId) { this.jsonId = jsonId; }
 }
 

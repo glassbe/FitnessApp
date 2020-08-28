@@ -26,4 +26,10 @@ public interface WorkoutDAO {
 
     @Query("SELECT * FROM Workout")
     public List<Workout> getAll();
+
+    @Query("SELECT * FROM Workout WHERE jsonId = :jsonId")
+    public Workout getWorkoutByJsonId(int jsonId);
+
+    @Query("SELECT * FROM Workout WHERE planId = :planId")
+    public List<Workout> getWorkoutsForProgram(int planId);
 }

@@ -2,6 +2,7 @@ package com.example.fitnessapp.db;
 
 import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.Program;
+import com.example.fitnessapp.db.Entity.Workout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,7 @@ public class Seed {
 
     private String jsonFileProgram = "{  \"programs\": [{    \"program\":{      \"jsonId\": \"1\",      \"name\": \"Starter\",      \"description\": \"First Program\",      \"picturePath\": [\"/exercises/Arnold-press-2.png\"],      \"fitnessLevel\":\"1\"    }  }  ]}";
 
-    private String jsonFileWorkouts = "";
+    private String jsonFileWorkouts = "{  \"workouts\": [    {\"workout\": {      \"jsonId\": \"1\",      \"planJsonId\": \"1\",      \"name\": \"Day 1\",      \"description\": \"Push Day\",      \"picturePath\": [\"exercises/Bench-press-1.png\"]    }},    {\"workout\": {      \"jsonId\": \"2\",      \"planJsonId\": \"1\",      \"name\": \"Day 2\",      \"description\": \"Pull Day\",      \"picturePath\": [\"/exercises/Alternate-bicep-curl-1.png\"]    }}  ]}";
 
     private String jsonFileWorkExercise = "";
 
@@ -110,6 +111,46 @@ public class Seed {
         }
 
         return prg;
+    }
+
+    public List<Workout> getWorkouts() {
+
+        List<Workout> work = new ArrayList<>();
+//        try (FileReader reader = new FileReader(new File("app/src/main/assets/JSON/BasicExercises.json")))
+
+//        try (FileReader reader = new FileReader("file:///android_assets/JSON/BasicExercises.json"))
+
+        try {
+
+            //Read JSON file
+//        JSONObject obj = new JSONObject(reader.toString());
+            JSONObject obj = new JSONObject(jsonFileWorkouts);
+
+            JSONArray workoutList = obj.getJSONArray("workouts");
+
+            for (int i = 0; i < workoutList.length(); i++) {
+                List<String> pictures = new ArrayList<>();
+
+                JSONObject c = workoutList.getJSONObject(i);
+                JSONObject workout = c.getJSONObject("workout");
+                JSONArray pics = workout.getJSONArray("picturePath");
+
+                for (int j = 0; j < pics.length(); j++) {
+                    pictures.add(pics.getString(j));
+                }
+
+
+                Workout newWorkout = new Workout(workout.getInt("planJsonId"), workout.getString("name"), workout.getString("description"), pictures);
+                newWorkout.setJsonId(workout.getInt("jsonId"));
+
+                work.add(newWorkout);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return work;
     }
 
 }
