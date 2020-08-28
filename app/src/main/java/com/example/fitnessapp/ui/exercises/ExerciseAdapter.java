@@ -35,10 +35,9 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
 
         @Override
         public boolean areContentsTheSame(@NonNull Exercise oldItem, @NonNull Exercise newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle())                        //Compare String
+            return oldItem.getName().equals(newItem.getName())                        //Compare String
                     && oldItem.getDescription().equals(newItem.getDescription())        //Compare String
-                    && oldItem.getPictures().equals(newItem.getPictures())              //Compare List
-                    && oldItem.getMuscleGroups().equals(newItem.getMuscleGroups());     //Compare List
+                    && oldItem.getPicturePath().equals(newItem.getPicturePath());              //Compare List
         }
     };
 
@@ -56,22 +55,23 @@ public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseAdapter.Exerc
         String muscleString = "";
 
         Exercise currentExercise = getItem(position);
-        holder.textViewTitle.setText(currentExercise.getTitle());
+        holder.textViewTitle.setText(currentExercise.getName());
         holder.textViewDescription.setText(currentExercise.getDescription());
-        boolean firstTime = true;
-        for(String muscle : currentExercise.getMuscleGroups()){
-            if(firstTime){
-                muscleString = muscle;
-                firstTime = false;
-            }
-            else
-                muscleString += "| " + muscle;
-        }
-//        muscleString = muscleString.substring(2);
-        holder.textViewPriority.setText(muscleString);
+
+//        boolean firstTime = true;
+//        for(String muscle : currentExercise.getMuscleGroups()){
+//            if(firstTime){
+//                muscleString = muscle;
+//                firstTime = false;
+//            }
+//            else
+//                muscleString += "| " + muscle;
+//        }
+////        muscleString = muscleString.substring(2);
+//        holder.textViewPriority.setText(muscleString);
 
         Glide.with(holder.itemView.getContext())
-                .load(currentExercise.getPictures().get(0))
+                .load(currentExercise.getPicturePath().get(0))
                 .centerCrop()
                 .placeholder(R.drawable.placeholder_exercise)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

@@ -72,14 +72,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/item_trainingday">
+                    tools:listitem="@layout/item_trainingday"
+                    tools:itemCount="3">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
                 <Space
                     android:id="@+id/space2"
                     android:layout_width="200dp"
-                    android:layout_height="10dp"
+                    android:layout_height="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
@@ -88,8 +89,10 @@
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="?android:attr/listDivider"
-                    android:layout_margin="15dp"
+                    android:background="@drawable/shape_devider_background"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="15dp"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +101,7 @@
                 <Space
                     android:id="@+id/space3"
                     android:layout_width="200dp"
-                    android:layout_height="10dp"
+                    android:layout_height="48dp"
                     android:layout_marginEnd="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:background="@drawable/energy_level_text_background"
+                            android:background="@drawable/background_energy_level_text_background"
                             android:gravity="center"
                             android:paddingBottom="7dp"
                             android:text="100"
