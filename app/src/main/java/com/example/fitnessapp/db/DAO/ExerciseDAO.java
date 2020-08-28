@@ -51,4 +51,7 @@ public interface ExerciseDAO {
     @Query("SELECT * FROM Exercise")
     public List<Exercise> getAllExercise();
 
+    @Query("SELECT * FROM Exercise WHERE jsonId = :jsonId")
+    public Exercise getExerciseByJsonId(int jsonId);
+
 }
