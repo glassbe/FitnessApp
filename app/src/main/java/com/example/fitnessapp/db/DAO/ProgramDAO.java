@@ -25,4 +25,7 @@ public interface ProgramDAO {
     @Query("SELECT * FROM Program")
     public List<Program> getAll();
 
+    @Query("SELECT * FROM Program WHERE jsonId = :jsonId")
+    public Program getProgramByJsonId(int jsonId);
+
 }
