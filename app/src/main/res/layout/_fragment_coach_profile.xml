@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_fragment_profile_background_img"
+        android:src="@drawable/floating_background_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

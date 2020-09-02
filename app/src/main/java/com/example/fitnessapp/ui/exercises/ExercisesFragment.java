@@ -3,6 +3,7 @@ package com.example.fitnessapp.ui.exercises;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,9 +68,14 @@ public class ExercisesFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+
                 mRecyclerView.setAdapter(mExerciseAdapter);
+
             }
         }.execute();
+
+
+
 
 
 
@@ -82,6 +88,13 @@ public class ExercisesFragment extends Fragment {
                 mExerciseList = _exercise.mExerciseRepo.getAllExercises();
                 mExerciseAdapter.submitList(mExerciseList);
 
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
                 //Set OnclickListener
                 mExerciseAdapter.setOnItemClickListener(new ExerciseAdapter.OnItemClickListener() {
                     @Override
@@ -91,9 +104,6 @@ public class ExercisesFragment extends Fragment {
 
                         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-
-                        // Try Block
-                        try {
 
 
                         // New Fragment Block
@@ -108,40 +118,11 @@ public class ExercisesFragment extends Fragment {
                         }
 
                         mFragmentTransaction.commit();
-
-                        } catch (Exception e){
-                            Log.getStackTraceString(e);
-                        }
-
-//                Intent intent = new Intent(this, AddEditNoteActivity.class);
-//                intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
-//                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
-//                intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
-//                intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
-////                startActivityForResult(intent, EDIT_NOTE_REQUEST);
-//                startActivity(intent);
                     }
                 });
 
-                return null;
             }
         }.execute();
-
-
-//        //Set TouchHelper
-//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-//
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-////                _.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
-//                Toast.makeText(getContext(), "Note deleted", Toast.LENGTH_SHORT).show();
-//            }
-//        }).attachToRecyclerView(mRecyclerView);
 
 
 

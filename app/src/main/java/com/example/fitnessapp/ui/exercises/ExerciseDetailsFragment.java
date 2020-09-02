@@ -65,6 +65,11 @@ public class ExerciseDetailsFragment extends Fragment {
         binding.exerciseDetailedName.setText(mExercise.getName());
         binding.exerciseDetailedDescription.setText(mExercise.getDescription());
 
+        //Do nothing on Click
+        binding.exerciseDetailedBackground.setOnClickListener(v -> {});
+
+
+        //Set Pictures
         Glide.with(getContext())
                 .load(Uri.parse("file:///android_asset/"+mExercise.getPicturePath().get(0)))
 //                .centerCrop()

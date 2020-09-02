@@ -1,5 +1,7 @@
 package com.example.fitnessapp;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -85,11 +89,14 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
         binding.createWorkoutTextview.setText("Benutzer wird angelegt");
         mTextLength = binding.createWorkoutTextview.getText().toString().length();
 
+        int mCounter = 0;
+
         mTextUpdate = new Thread(new Runnable() {
             @Override
             public void run() {
                 Handler handler = new Handler(Looper.getMainLooper());
 
+                //Create User wait Animation
                 while (!UserIsCreated) {
                     handler.post(new Runnable() {
                         @Override
@@ -100,6 +107,7 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                                 if (binding.createWorkoutTextview.getText().toString().length() >= mTextLength + 4) {
                                     newString = binding.createWorkoutTextview.getText().toString().substring(0, binding.createWorkoutTextview.getText().toString().length() - 4);
                                     binding.createWorkoutTextview.setText(newString);
+
                                 }
                                 Log.d(TAG, "run: " + binding.createWorkoutTextview.getText().toString().length() + "!");
                             } catch (Exception e) {
@@ -111,11 +119,18 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                     Log.d(TAG, "Thread sleep");
                     SystemClock.sleep(500);
                 }
+
+                //Change text on TextView
                 handler.post(() -> {
                     binding.createWorkoutTextview.setText("Trainingsplan wird erstellt");
                     mTextLength = binding.createWorkoutTextview.getText().toString().length();
                 });
+
+                int counter = 0;
+
+                //Create Workoutplan wait Animation
                 while (!WorkoutIsCreated) {
+                    counter++;
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -135,11 +150,21 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
                     });
                     Log.d(TAG, "Thread sleep");
                     SystemClock.sleep(500);
+                    if(counter >= 6)
+                        WorkoutIsCreated = true;
                 }
+
+                //Run Intent to Coach Activity
+                handler.post(() -> {
+                    Intent intent = new Intent(getActivity().getApplicationContext(),_ActivityCoach.class);
+                    intent.putExtra("ARG_USER_MAIL", mViewModel.getUser().getEmail());
+                    getActivity().startActivity(intent);
+                });
             }
         });
         mTextUpdate.start();
 
+        //Create User
         new Thread(() -> {
             Handler handler = new Handler(Looper.getMainLooper());
             User user = mViewModel.getUser();
@@ -152,7 +177,30 @@ public class _FragmentStartCreateWorkoutPlan extends Fragment {
         }).start();
 
 
-        binding.createWorkoutLogoSquare.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_try));
+
+        // Try Block
+        try {
+
+            binding.createWorkoutLogoSquare.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.anim_try));
+
+            ImageView imageView = binding.createWorkoutLogoSquare;
+
+            binding.createWorkoutTextview.setOnClickListener(v -> {
+
+                Intent intent = new Intent(getActivity().getApplicationContext(),_ActivityCoach.class);
+                intent.putExtra("ARG_USER_MAIL", mViewModel.getUser().getEmail());
+                getActivity().startActivity(intent);
+            });
+
+        } catch (Exception e){
+            Log.getStackTraceString(e);
+        }
+
+
+
+
+
+
 
 
     }

@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/background_fragment_coach_backgound_img"
+        android:src="@drawable/floating_background_middle"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Mein Coach"
-            android:textColor="@color/myblack"
+            android:textColor="@color/mywhite"
             android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +44,7 @@
             android:textSize="18dp"
             android:textStyle="bold"
             android:paddingLeft="10dp"
+            android:textColor="@color/mywhite"
 
             app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
             app:layout_constraintStart_toStartOf="@+id/nestedScrollView" />
@@ -70,10 +71,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/item_trainingday"
-                    tools:itemCount="3">
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_trainingday">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -118,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/my_current_status"
-                        android:textColor="@color/myblack"
+                        android:textColor="@color/mywhite"
                         android:textSize="24sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"

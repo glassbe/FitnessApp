@@ -25,10 +25,12 @@ import com.example.fitnessapp.databinding.FragmentCoachHomeBinding;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.ui.exercises.ExerciseDetailsFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import es.dmoral.toasty.Toasty;
 
 public class CoachFragment extends Fragment {
@@ -59,6 +61,10 @@ public class CoachFragment extends Fragment {
         //SetOnClickListeners
         binding.btnCoachStatusMyStats.setOnClickListener(v -> OnClickMyStatus());
         binding.btnCoachStatusUpdateStatus.setOnClickListener(v -> OnClickStatusUpdate());
+
+        binding.coachHomeAvatarImg.setOnClickListener(v -> dialogStartTodaysUpdate());
+        binding.coachHomeTextInputWeight.setOnClickListener(v -> dialogStartTodaysUpdate());
+        binding.coachHomeTextInputEnergyLevel.setOnClickListener(v -> dialogStartTodaysUpdate());
 
         //Set Data
         int energieLevel = mStatus.getEnergieLevel();
@@ -94,6 +100,18 @@ public class CoachFragment extends Fragment {
         return view;
     }
 
+    private void dialogStartTodaysUpdate() {
+        new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+//                     Add customization options here
+                .setTitle("Update deinen täglichen Status?")
+                .setIcon(R.drawable.ic_baseline_help_outline_24px)
+                .setPositiveButton(R.string.dialog_ok, (dialog, which) -> {
+                    OnClickStatusUpdate();
+                })
+                .setNegativeButton("Nein", (dialog, which) -> {})
+                .show();
+    }
+
     private StatusUpdate getStatusOfToday() {
         StatusUpdate statusOfToday;
         Date today = Calendar.getInstance().getTime();
@@ -123,13 +141,11 @@ public class CoachFragment extends Fragment {
     }
 
     private void dialogForTodaysUpdate() {
-        Noty.init(getContext(), "Update your Status daily!", binding.getRoot(), Noty.WarningStyle.ACTION)
+        Noty.init(getActivity().getWindow().getContext(), "Update your Status daily!", binding.getRoot(), Noty.WarningStyle.ACTION)
                 .setActionText("Update Now!")
-                .setWarningBoxBgColor("#159BD1")
+                .setWarningBoxBgColor("#D43A3A")
                 .setWarningTappedColor("#FFFFFF")
                 .setWarningBoxPosition(Noty.WarningPos.TOP)
-
-                .setWarningBoxMargins(5,5,5,5)
                 .setWarningInset(0, 0, 0, 0)
                 .setWarningBoxRadius(0, 0, 0, 0)
                 .setAnimation(Noty.RevealAnim.SLIDE_DOWN, Noty.DismissAnim.BACK_TO_TOP, 400, 400)

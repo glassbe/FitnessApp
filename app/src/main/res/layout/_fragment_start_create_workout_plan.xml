@@ -46,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:transitionName="@string/draggable_logo"
                 android:src="@drawable/img_true_fitness_logo_square" />
         </LinearLayout>
 
