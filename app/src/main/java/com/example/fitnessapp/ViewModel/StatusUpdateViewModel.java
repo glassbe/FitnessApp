@@ -47,6 +47,10 @@ public class StatusUpdateViewModel extends AndroidViewModel {
         return mSelectedStatus.getValue();
     }
 
+    public LiveData<StatusUpdate> getLiveStatusOfSelectedStatus() {
+        return mSelectedStatus;
+    }
+
     public void setSelectedStatus(StatusUpdate statusOfToday) {
         mSelectedStatus.setValue(statusOfToday);
     }

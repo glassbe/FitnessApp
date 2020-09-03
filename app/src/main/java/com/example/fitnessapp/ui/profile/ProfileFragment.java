@@ -175,7 +175,7 @@ public class ProfileFragment extends Fragment {
                 Log.d("hilength", "Height: " + mFinalHeight + " Width: " + mFinalWidth);
 
 
-                ImageUtil.setPic(binding.photoRoundProfile, mCurrentPhotoPath);
+                ImageUtil.setPic(binding.photoRoundProfile, _user.getUser().getProfilePicPath());
                 return true;
             }
         });

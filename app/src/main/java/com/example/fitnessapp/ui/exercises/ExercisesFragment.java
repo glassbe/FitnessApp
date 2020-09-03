@@ -47,41 +47,14 @@ public class ExercisesFragment extends Fragment {
         _exercise = new ViewModelProvider(getActivity()).get(ExercisesViewModel.class);
 
 
-        // Set Recycler
-        mRecyclerView = binding.exerciseRecyclerView;
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setHasFixedSize(true);
-
-        //Set Adapter async
-        new AsyncTask<Void,Void,Void>(){
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                //Set Adapter async
-                mExerciseAdapter = new ExerciseAdapter();
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-                mRecyclerView.setAdapter(mExerciseAdapter);
-
-            }
-        }.execute();
-
-
-
-
-
 
         //Fill List with Data from Database
         new AsyncTask<Void,Void,Void>(){
             @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
+
+                mExerciseAdapter = new ExerciseAdapter();
 
                 mExerciseList = _exercise.mExerciseRepo.getAllExercises();
                 mExerciseAdapter.submitList(mExerciseList);
@@ -92,6 +65,13 @@ public class ExercisesFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+
+                // Set Recycler
+                mRecyclerView = binding.exerciseRecyclerView;
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                mRecyclerView.setHasFixedSize(true);
+
+                mRecyclerView.setAdapter(mExerciseAdapter);
 
 //                Set OnclickListener
                 mExerciseAdapter.setOnItemClickListener(new ExerciseAdapter.OnItemClickListener() {

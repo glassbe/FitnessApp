@@ -51,6 +51,20 @@ public class CoachFragment extends Fragment {
         _status = new ViewModelProvider(getActivity()).get(StatusUpdateViewModel.class);
         _user = new ViewModelProvider(getActivity()).get(UserViewModel.class);
 
+        //Set Observer
+        _status.getLiveStatusOfToday().observe(getActivity(),statusUpdate -> {
+
+        });
+
+        _status.getLiveStatusOfSelectedStatus().observe(getActivity(),statusUpdate -> {
+            if(statusUpdate != null)
+                if(statusUpdate.getId() == _status.getStatusOfToday().getId()){
+                    _status.setStatusOfToday(statusUpdate);
+                    mStatus = statusUpdate;
+                    setMainCoachInformation();
+                }
+        });
+
 
         //Get Current User and Status and ...
         mUser = _user.getUser();
@@ -93,12 +107,12 @@ public class CoachFragment extends Fragment {
         //Set Data
         int energieLevel = mStatus.getEnergieLevel();
         float weight = mStatus.getWeight();
-        String photoPath = "file:///android_asset/"+ mStatus.getPicturePath();
+        String photoPath = mStatus.getPicturePath();
 
         binding.coachHomeTextInputEnergyLevel.setText(String.valueOf(energieLevel));
         binding.coachHomeTextInputWeight.setText(String.valueOf(weight));
         Glide.with(getContext())
-                .load(Uri.parse(photoPath))
+                .load(photoPath)
                 .centerCrop()
                 .placeholder(R.drawable.avatar_status_picture_my_blue)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -175,7 +189,8 @@ public class CoachFragment extends Fragment {
         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
 
-        mFragmentManager.findFragmentByTag(mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
+//        mFragmentManager.findFragmentByTag(mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
+        mFragmentManager.popBackStack();
 
         mFragmentTransaction.replace(R.id.coach_fullview_frame, new StatusUpdateFragment(), mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");
         mFragmentTransaction.addToBackStack(mStatus.getTimestamp() + mStatus.getUserMail() + "StatusUpdateofToday");

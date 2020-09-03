@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.StatusUpdateViewModel;
 import com.example.fitnessapp.ViewModel.UserViewModel;
@@ -23,6 +25,7 @@ import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -161,6 +164,14 @@ public class CoachStatusFragment extends Fragment {
         binding.statusDaysBackbuttonbottom.setOnClickListener(v -> getActivity().onBackPressed());
 
         binding.coachStatusBackground.setOnClickListener(v -> {});
+
+
+        Glide.with(getContext())
+                .load(_status.mStatusRepo.getUpdateForUserForOneDay(_user.getUser().getEmail(), new Date()).getPicturePath())
+                .fitCenter()
+                .placeholder(R.drawable.avatar_status_picture_my_blue)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.statusDaysPictureToday);
 
 
 

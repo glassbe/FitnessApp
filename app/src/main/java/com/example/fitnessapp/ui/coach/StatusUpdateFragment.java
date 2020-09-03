@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -46,6 +49,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -66,8 +70,9 @@ public class StatusUpdateFragment extends Fragment {
     private InputFilter filter = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            boolean maxOneDot = false;
             for (int i = start; i < end; ++i) {
-                if (!Pattern.compile("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890]*").matcher(String.valueOf(source.charAt(i))).matches()) {
+                if (!Pattern.compile("[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890.,]").matcher(String.valueOf(source.charAt(i))).matches()) {
                     return "";
                 }
             }
@@ -83,6 +88,7 @@ public class StatusUpdateFragment extends Fragment {
 
     private EditText mEditTextNumber;
     private LinearLayout mLinearLayoutNumber;
+    private StatusUpdate mOldStatus;
 
 
     public static StatusUpdateFragment newInstance(String param1, String param2) {
@@ -108,21 +114,25 @@ public class StatusUpdateFragment extends Fragment {
         _status = new ViewModelProvider(getActivity()).get(StatusUpdateViewModel.class);
         _user = new ViewModelProvider(getActivity()).get(UserViewModel.class);
 
+
+
         //Get Current User and Status and ...
         mUser = _user.getUser();
         mStatus = _status.getSelectedStatus();
+
+        mOldStatus = mStatus;
 
 
         //Set Data
         updateUiWithData();
 
         //Init Dialog Elements
-        initDialogElements();
+        initAndUpdateDialogElements();
 
 
 
         //SetOnClickListeners
-        binding.updateStatusUpdatePhotoImageview.setOnClickListener(v -> OnClickPhoto());
+        binding.updateStatusUpdatePhotoImageview.setOnClickListener(v -> {});
         binding.updateStatusUpdateTakePhotoBtn.setOnClickListener(v -> OnClickPhoto());
 
         binding.updateStatusUpdateBottomBackbutton.setOnClickListener(v -> OnClickBackButton());
@@ -158,8 +168,11 @@ public class StatusUpdateFragment extends Fragment {
 
 
     private void OnClickWeight() {
-        initDialogElements();
-        mEditTextNumber.setText(String.valueOf(mStatus.getSleepQuantity()));
+
+        initAndUpdateDialogElements();
+        String m = String.valueOf(mStatus.getWeight());
+
+        mEditTextNumber.setText(m);
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getContext().getString(R.string.edit_value) + " in kg")
@@ -169,6 +182,8 @@ public class StatusUpdateFragment extends Fragment {
                     if (imm != null) {
                         imm.hideSoftInputFromWindow(mEditTextNumber.getWindowToken(), 0);
                     }
+
+                    if(mEditTextNumber.getText().length() == 0) return;
 
                     binding.updateStatusUpdateWeightInput.setText(String.valueOf(mEditTextNumber.getText()) + " kg");
 
@@ -181,8 +196,8 @@ public class StatusUpdateFragment extends Fragment {
     }
 
     private void OnClickSteps() {
-        initDialogElements();
-        mEditTextNumber.setText(String.valueOf(mStatus.getSleepQuantity()));
+        initAndUpdateDialogElements();
+        mEditTextNumber.setText(String.valueOf(mStatus.getSteps()));
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getContext().getString(R.string.edit_value))
@@ -197,6 +212,8 @@ public class StatusUpdateFragment extends Fragment {
                         if (imm != null) {
                             imm.hideSoftInputFromWindow(mEditTextNumber.getWindowToken(), 0);
                         }
+
+                        if(mEditTextNumber.getText().length() == 0) return;
 
                         binding.updateStatusUpdateStepsInput.setText(String.valueOf(mEditTextNumber.getText()));
 
@@ -218,41 +235,64 @@ public class StatusUpdateFragment extends Fragment {
     }
 
     private void OnClickSleepQuantity() {
-        initDialogElements();
-        mEditTextNumber.setText(String.valueOf(mStatus.getSleepQuantity()));
+//        initAndUpdateDialogElements();
+//        mEditTextNumber.setText(String.valueOf(mStatus.getSleepQuantity()));
+//
+//        final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+//                .setTitleText(getContext().getString(R.string.edit_value) + " in Std.")
+//                .setConfirmClickListener(sDialog -> {
+//
+//                    // Try Block
+//                    try {
+//
+//
+//                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                        if (imm != null) {
+//                            imm.hideSoftInputFromWindow(mEditTextNumber.getWindowToken(), 0);
+//                        }
+//
+//                        if(mEditTextNumber.getText().length() == 0) return;
+//
+//                        binding.updateStatusUpdateSleepQuantityInput.setText(String.valueOf(mEditTextNumber.getText()) + " Std.");
+//
+//                        mStatus.setSleepQuantity(Float.parseFloat(String.valueOf(mEditTextNumber.getText())));
+//
+//                        sDialog.dismissWithAnimation();
+//
+//
+//                    } catch (Exception e){
+//                        Log.getStackTraceString(e);
+//                    }
+//
+//
+//                });
+//        dialog.setCustomView(mLinearLayoutNumber);
+//        dialog.show();
+
+
+        initAndUpdateDialogElements();
+        mSlider.setValue(mStatus.getSleepQuantity(),true);
+        mTextView.setText(String.valueOf(mStatus.getSleepQuantity()));
+        mSlider.setValueRange(0,24,true);
+        mSlider.setOnPositionChangeListener((view, fromUser, oldPos, newPos, oldValue, newValue) -> {
+            mTextView.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue())));
+        });
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getContext().getString(R.string.edit_value) + " in Std.")
+                .setTitleText(getContext().getString(R.string.edit_value))
                 .setConfirmClickListener(sDialog -> {
+                    binding.updateStatusUpdateSleepQuantityInput.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue())) + " Std.");
 
-                    // Try Block
-                    try {
+                    mStatus.setSleepQuantity(Float.parseFloat(new DecimalFormat("##.#").format(mSlider.getExactValue())));
 
-
-                        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(mEditTextNumber.getWindowToken(), 0);
-                        }
-
-                        binding.updateStatusUpdateSleepQuantityInput.setText(String.valueOf(mEditTextNumber.getText()) + " Std.");
-
-                        mStatus.setSleepQuantity(Float.parseFloat(String.valueOf(mEditTextNumber.getText())));
-
-                        sDialog.dismissWithAnimation();
-
-
-                    } catch (Exception e){
-                        Log.getStackTraceString(e);
-                    }
-
-
+                    sDialog.dismissWithAnimation();
                 });
-        dialog.setCustomView(mLinearLayoutNumber);
+        dialog.setCustomView(mLinearLayoutSlider);
         dialog.show();
     }
 
     private void OnClickSleepQuality() {
-        initDialogElements();
+        initAndUpdateDialogElements();
         mSlider.setValue(mStatus.getSleepQuality(),true);
         mTextView.setText(String.valueOf(mStatus.getSleepQuality()));
 
@@ -270,7 +310,7 @@ public class StatusUpdateFragment extends Fragment {
     }
 
     private void OnClickStressLevel() {
-        initDialogElements();
+        initAndUpdateDialogElements();
         mSlider.setValue(mStatus.getStressLevel(),true);
         mTextView.setText(String.valueOf(mStatus.getStressLevel()));
 
@@ -292,7 +332,7 @@ public class StatusUpdateFragment extends Fragment {
     }
 
     private void OnClickEnergyLevel() {
-        initDialogElements();
+        initAndUpdateDialogElements();
         mSlider.setValue(mStatus.getEnergieLevel(),true);
         mTextView.setText(String.valueOf(mStatus.getEnergieLevel()));
 
@@ -310,7 +350,7 @@ public class StatusUpdateFragment extends Fragment {
     }
 
     private void OnClickDesireToTrain() {
-        initDialogElements();
+        initAndUpdateDialogElements();
         mSlider.setValue(mStatus.getMotivationToTrain(),true);
         mTextView.setText(String.valueOf(mStatus.getMotivationToTrain()));
 
@@ -329,20 +369,37 @@ public class StatusUpdateFragment extends Fragment {
 
 
     private void OnClickSave() {
+        // Try Block
+        try {
 
-        _status.mStatusRepo.updateAnExistingUpdate(mStatus);
+
+            _status.mStatusRepo.updateAnExistingUpdate(mStatus);
+            _status.setSelectedStatus(mStatus);
+            _status.setSelectedStatus(_status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(),new Date()));
 
 
-        Toasty.success(getContext(),"Status gesichert", Toasty.LENGTH_SHORT, true).show();
+            Toasty.success(getContext(),"Status gesichert", Toasty.LENGTH_SHORT, true).show();
 
-        OnClickBackButton();
+            OnClickBackButton();
+
+
+
+        } catch (Exception e){
+            Log.getStackTraceString(e);
+        }
+
     }
 
     private void OnClickBackButton() {
+        _status.setSelectedStatus(_status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(),new Date()));
         getActivity().onBackPressed();
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        _status.setSelectedStatus(_status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(),new Date()));
+    }
 
     private void updateUiWithData() {
         //Get Status to write into Form
@@ -370,7 +427,7 @@ public class StatusUpdateFragment extends Fragment {
 
 
 
-    private void initDialogElements() {
+    private void initAndUpdateDialogElements() {
         Context context = getContext();
 
         mTextView = new TextView(context);
@@ -385,7 +442,8 @@ public class StatusUpdateFragment extends Fragment {
             mTextView.setText(String.valueOf(newValue));
         });
 
-        mLinearLayoutSlider = new LinearLayout(context.getApplicationContext());
+
+        mLinearLayoutSlider = new LinearLayout(context);
         mLinearLayoutSlider.setOrientation(LinearLayout.VERTICAL);
         mLinearLayoutSlider.addView(mTextView);
         mLinearLayoutSlider.addView(mSlider);
@@ -395,8 +453,9 @@ public class StatusUpdateFragment extends Fragment {
         mEditTextNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         mEditTextNumber.setFilters(new InputFilter[]{filter, new InputFilter.LengthFilter(6)});
         mEditTextNumber.requestFocus();
+        mEditTextNumber.setKeyListener(DigitsKeyListener.getInstance(false, true));
 
-        mLinearLayoutNumber = new LinearLayout(context.getApplicationContext());
+        mLinearLayoutNumber = new LinearLayout(context);
         mLinearLayoutNumber.setOrientation(LinearLayout.VERTICAL);
         mLinearLayoutNumber.addView(mEditTextNumber);
 
@@ -410,10 +469,10 @@ public class StatusUpdateFragment extends Fragment {
         try {
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(getContext(), this);
+                    .start(getActivity().getApplicationContext().getApplicationContext().getApplicationContext(), this);
         } catch (Exception e) {
             Log.getStackTraceString(e);
-            Toasty.error(getActivity(), "Need Camera Permissions", Toasty.LENGTH_SHORT, true).show();
+            Toasty.error(getActivity().getApplicationContext(), "Need Camera Permissions", Toasty.LENGTH_SHORT, true).show();
         }
     }
 

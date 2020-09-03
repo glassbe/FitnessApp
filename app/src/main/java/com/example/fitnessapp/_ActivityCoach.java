@@ -118,8 +118,8 @@ public class _ActivityCoach extends AppCompatActivity {
     public void onBackPressed() {
         int count = mFragmentManager.getBackStackEntryCount();
         if (count == 0) {
-            moveTaskToBack(true);
 //            super.onBackPressed();
+            moveTaskToBack(true);
         } else {
             getSupportFragmentManager().popBackStack();
             //mFragmentTransaction.replace(R.id.start_frame,);

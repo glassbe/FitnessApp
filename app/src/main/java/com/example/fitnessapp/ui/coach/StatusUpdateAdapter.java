@@ -69,7 +69,7 @@ public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateA
         holder.textViewEnergyLevel.setText("Energy: " + String.valueOf(selectedStatus.getEnergieLevel()) + " / 100");
 
         Glide.with(holder.itemView.getContext())
-                .load(Uri.parse("file:///android_asset/"+ selectedStatus.getPicturePath()))
+                .load(selectedStatus.getPicturePath())
 //                .centerCrop()
 //                .apply(new RequestOptions().override(50, 50))
                 .fitCenter()
