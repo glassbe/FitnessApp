@@ -275,17 +275,28 @@ public class StatusUpdateFragment extends Fragment {
         mTextView.setText(String.valueOf(mStatus.getSleepQuantity()));
         mSlider.setValueRange(0,24,true);
         mSlider.setOnPositionChangeListener((view, fromUser, oldPos, newPos, oldValue, newValue) -> {
-            mTextView.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue())));
+            mTextView.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue())) + " Std.");
         });
 
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText(getContext().getString(R.string.edit_value))
                 .setConfirmClickListener(sDialog -> {
-                    binding.updateStatusUpdateSleepQuantityInput.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue())) + " Std.");
 
-                    mStatus.setSleepQuantity(Float.parseFloat(new DecimalFormat("##.#").format(mSlider.getExactValue())));
 
-                    sDialog.dismissWithAnimation();
+                    // Try Block
+                    try {
+
+                        binding.updateStatusUpdateSleepQuantityInput.setText(String.valueOf(new DecimalFormat("##.#").format(mSlider.getExactValue()).replace(",", ".")) + " Std.");
+
+                        mStatus.setSleepQuantity(Float.parseFloat(binding.updateStatusUpdateSleepQuantityInput.getText().toString().replace(" Std.", "")));
+
+                        sDialog.dismissWithAnimation();
+
+
+                    } catch (Exception e){
+                        Log.getStackTraceString(e);
+                    }
+
                 });
         dialog.setCustomView(mLinearLayoutSlider);
         dialog.show();
