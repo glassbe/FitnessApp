@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,7 +23,6 @@ import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.databinding.FragmentCoachHomeBinding;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.ui.exercises.ExerciseDetailsFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Calendar;
@@ -66,19 +64,9 @@ public class CoachFragment extends Fragment {
         binding.coachHomeTextInputWeight.setOnClickListener(v -> dialogStartTodaysUpdate());
         binding.coachHomeTextInputEnergyLevel.setOnClickListener(v -> dialogStartTodaysUpdate());
 
-        //Set Data
-        int energieLevel = mStatus.getEnergieLevel();
-        float weight = mStatus.getWeight();
 
-        binding.coachHomeTextInputEnergyLevel.setText(String.valueOf(energieLevel));
-        binding.coachHomeTextInputWeight.setText(String.valueOf(weight));
-        Glide.with(getContext())
-                .load(Uri.parse("file:///android_asset/"+ mStatus.getPicturePath()))
-                .centerCrop()
-                .placeholder(R.drawable.avatar_status_picture_my_blue)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.avatar_status_picture_my_blue)
-                .into(binding.coachHomeAvatarImg);
+        //Insert Information into Main Page
+        setMainCoachInformation();
 
 
 
@@ -100,6 +88,25 @@ public class CoachFragment extends Fragment {
         return view;
     }
 
+    private void setMainCoachInformation() {
+
+        //Set Data
+        int energieLevel = mStatus.getEnergieLevel();
+        float weight = mStatus.getWeight();
+        String photoPath = "file:///android_asset/"+ mStatus.getPicturePath();
+
+        binding.coachHomeTextInputEnergyLevel.setText(String.valueOf(energieLevel));
+        binding.coachHomeTextInputWeight.setText(String.valueOf(weight));
+        Glide.with(getContext())
+                .load(Uri.parse(photoPath))
+                .centerCrop()
+                .placeholder(R.drawable.avatar_status_picture_my_blue)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.avatar_status_picture_my_blue)
+                .into(binding.coachHomeAvatarImg);
+    }
+
+
     private void dialogStartTodaysUpdate() {
         new MaterialAlertDialogBuilder(getContext(), SweetAlertDialog.SUCCESS_TYPE)
 //                     Add customization options here
@@ -120,7 +127,7 @@ public class CoachFragment extends Fragment {
         statusOfToday = _status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(), today);
         if (statusOfToday != null) {
 
-            Toasty.success(getContext(), "Status is loaded for today");
+            Toasty.success(getContext(), "Status is loaded for today").show();
 
             _status.setStatusOfToday(statusOfToday);
 
@@ -132,6 +139,8 @@ public class CoachFragment extends Fragment {
 
         //shows Dialog to Update for Today
         dialogForTodaysUpdate();
+
+        Toasty.success(getContext(), "Created status of today").show();
 
         statusOfToday = _status.mStatusRepo.getUpdateForUserForOneDay(mUser.getEmail(), today);
 
@@ -205,4 +214,7 @@ public class CoachFragment extends Fragment {
         }
 
     }
+
+
+
 }

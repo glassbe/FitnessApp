@@ -3,6 +3,10 @@ package com.example.fitnessapp.ui.coach;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,12 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.fitnessapp.ui.exercises.ExerciseDetailsFragment;
 import com.example.fitnessapp.R;
 import com.example.fitnessapp.ViewModel.StatusUpdateViewModel;
 import com.example.fitnessapp.ViewModel.UserViewModel;
@@ -162,8 +160,7 @@ public class CoachStatusFragment extends Fragment {
         binding.btnStatusUpdateGraphAnalysis.setOnClickListener(v -> ClickGraphAnalysis());
         binding.statusDaysBackbuttonbottom.setOnClickListener(v -> getActivity().onBackPressed());
 
-
-
+        binding.coachStatusBackground.setOnClickListener(v -> {});
 
 
 

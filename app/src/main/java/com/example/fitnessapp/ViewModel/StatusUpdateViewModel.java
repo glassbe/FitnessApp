@@ -3,6 +3,7 @@ package com.example.fitnessapp.ViewModel;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.fitnessapp.Interface.IStatusUpdate;
@@ -28,6 +29,11 @@ public class StatusUpdateViewModel extends AndroidViewModel {
     public StatusUpdate getStatusOfToday() {
         return mStatusOfToday.getValue();
     }
+
+    public LiveData<StatusUpdate> getLiveStatusOfToday() {
+        return mStatusOfToday;
+    }
+
 
     public void setStatusOfToday(StatusUpdate statusOfToday) {
         mStatusOfToday.setValue(statusOfToday);

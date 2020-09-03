@@ -8,23 +8,18 @@
     android:background="@color/mygray"
     >
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/coach_update_status_background"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="30dp"
             android:background="@drawable/shape_recycler_view_background"
-            app:layout_constraintBottom_toTopOf="@+id/status_days_backbuttonbottom"
+            app:layout_constraintBottom_toTopOf="@+id/update_status_update_bottom_backbutton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
 
@@ -57,7 +52,7 @@
                         app:cardCornerRadius="25dp">
 
                         <ImageView
-                            android:id="@+id/status_days_picture_today"
+                            android:id="@+id/update_status_update_photo_imageview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/shape_constraint_background_coach"
@@ -65,12 +60,13 @@
                             android:src="@drawable/avatar_status_picture_my_blue" />
 
                         <ImageView
+                            android:id="@+id/update_status_update_photo_layer"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="#A622292C" />
 
                         <TextView
-                            android:id="@+id/textView8"
+                            android:id="@+id/update_status_update_headline_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
@@ -90,6 +86,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
+                    android:id="@+id/update_status_update_take_photo_btn"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center"
@@ -104,7 +101,9 @@
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
+                    >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout3"
@@ -125,18 +124,18 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/firstname_input"
-                            app:layout_constraintEnd_toStartOf="@+id/firstname_input"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_weight_input"
+                            app:layout_constraintEnd_toStartOf="@+id/update_status_update_weight_input"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/firstname_input"
+                            app:layout_constraintTop_toTopOf="@+id/update_status_update_weight_input"
                             app:layout_constraintVertical_bias="0.30"
 
                             />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/firstname_input"
+                            android:id="@+id/update_status_update_weight_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="90dp"
@@ -167,17 +166,17 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/lastname_input"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_energy_level_input"
                             app:layout_constraintEnd_toEndOf="@+id/textView4"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_weight_input"
                             app:layout_constraintVertical_bias="0.3"
                             app:layout_constraintVertical_weight="1" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/lastname_input"
+                            android:id="@+id/update_status_update_energy_level_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -191,10 +190,10 @@
 
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/firstname_input"
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_weight_input"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="@+id/firstname_input"
-                            app:layout_constraintTop_toBottomOf="@+id/firstname_input"
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_weight_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_weight_input"
 
                             />
 
@@ -208,16 +207,16 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/birthdate_input"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_steps_input"
                             app:layout_constraintEnd_toEndOf="@+id/textView4"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/lastname_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_energy_level_input"
                             app:layout_constraintVertical_bias="0.3" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/birthdate_input"
+                            android:id="@+id/update_status_update_steps_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -230,9 +229,9 @@
                             android:text="-- "
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/lastname_input"
-                            app:layout_constraintStart_toStartOf="@+id/lastname_input"
-                            app:layout_constraintTop_toBottomOf="@+id/lastname_input" />
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_energy_level_input"
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_energy_level_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_energy_level_input" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/textView43"
@@ -244,16 +243,16 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/gender_input"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_stress_level_input"
                             app:layout_constraintEnd_toEndOf="@+id/textView4"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/birthdate_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_steps_input"
                             app:layout_constraintVertical_bias="0.3" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/gender_input"
+                            android:id="@+id/update_status_update_stress_level_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -266,10 +265,10 @@
 
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/birthdate_input"
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_steps_input"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="@+id/birthdate_input"
-                            app:layout_constraintTop_toBottomOf="@+id/birthdate_input" />
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_steps_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_steps_input" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/textView44"
@@ -281,16 +280,16 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/stress_level_input"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_sleep_quality_input"
                             app:layout_constraintEnd_toEndOf="@+id/textView4"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/gender_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_stress_level_input"
                             app:layout_constraintVertical_bias="0.3" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/stress_level_input"
+                            android:id="@+id/update_status_update_sleep_quality_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -303,10 +302,10 @@
 
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_stress_level_input"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="@+id/gender_input"
-                            app:layout_constraintTop_toBottomOf="@+id/gender_input" />
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_stress_level_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_stress_level_input" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/textView441"
@@ -318,16 +317,16 @@
                             android:textColor="@color/myblack"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/sleep_quantity"
+                            app:layout_constraintBottom_toBottomOf="@+id/update_status_update_sleep_quantity_input"
                             app:layout_constraintEnd_toEndOf="@+id/textView4"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/stress_level_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_sleep_quality_input"
                             app:layout_constraintVertical_bias="0.3" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/sleep_quantity"
+                            android:id="@+id/update_status_update_sleep_quantity_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -340,10 +339,10 @@
 
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_stress_level_input"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="@+id/gender_input"
-                            app:layout_constraintTop_toBottomOf="@+id/stress_level_input" />
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_stress_level_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_sleep_quality_input" />
 
                         <com.rey.material.widget.TextView
                             android:id="@+id/textView442"
@@ -360,11 +359,11 @@
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="@+id/textView4"
-                            app:layout_constraintTop_toBottomOf="@+id/sleep_quantity"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_sleep_quantity_input"
                             app:layout_constraintVertical_bias="0.294" />
 
                         <com.rey.material.widget.TextView
-                            android:id="@+id/height_input"
+                            android:id="@+id/update_status_update_desire_to_train_input"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -377,10 +376,10 @@
 
                             android:textSize="18dp"
                             android:textStyle="normal"
-                            app:layout_constraintEnd_toEndOf="@+id/gender_input"
+                            app:layout_constraintEnd_toEndOf="@+id/update_status_update_stress_level_input"
                             app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="@+id/gender_input"
-                            app:layout_constraintTop_toBottomOf="@+id/sleep_quantity" />
+                            app:layout_constraintStart_toStartOf="@+id/update_status_update_stress_level_input"
+                            app:layout_constraintTop_toBottomOf="@+id/update_status_update_sleep_quantity_input" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </ScrollView>
@@ -391,7 +390,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/status_days_backbuttonbottom"
+            android:id="@+id/update_status_update_bottom_backbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -408,12 +407,12 @@
             android:textSize="18dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/status_days_savebuttonbottom"
+            app:layout_constraintEnd_toStartOf="@+id/update_status_update_bottom_savebutton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/status_days_savebuttonbottom"
+            android:id="@+id/update_status_update_bottom_savebutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
@@ -432,7 +431,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/status_days_backbuttonbottom" />
+            app:layout_constraintStart_toEndOf="@+id/update_status_update_bottom_backbutton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

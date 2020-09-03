@@ -3,8 +3,6 @@ package com.example.fitnessapp.ui.exercises;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +93,7 @@ public class ExercisesFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
 
-                //Set OnclickListener
+//                Set OnclickListener
                 mExerciseAdapter.setOnItemClickListener(new ExerciseAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Exercise exercise) {

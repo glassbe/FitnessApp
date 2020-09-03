@@ -45,4 +45,7 @@ public interface StatusUpdateDAO {
 
     @Query("SELECT * FROM StatusUpdate WHERE userMail = :userMail AND timestamp > :from AND timestamp < :until LIMIT 1")
     public StatusUpdate getStatusUpdateForUserFromUntilFirst(String userMail, Date from, Date until);
+
+    @Query("SELECT * FROM StatusUpdate WHERE userMail = :userMail")
+    public List<StatusUpdate> getStatusUpdateForUserFromUntilFirstList(String userMail);
 }

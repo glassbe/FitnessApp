@@ -15,14 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.fitnessapp.R;
-import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
-import com.example.fitnessapp.ui.exercises.ExerciseAdapter;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateAdapter.StatusHolder> {
 
@@ -63,7 +59,7 @@ public class StatusUpdateAdapter extends ListAdapter<StatusUpdate, StatusUpdateA
 
     @Override
     public void onBindViewHolder(@NonNull StatusUpdateAdapter.StatusHolder holder, int position) {
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
         StatusUpdate selectedStatus = getItem(position);
 

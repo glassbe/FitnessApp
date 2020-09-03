@@ -154,6 +154,8 @@ public class StatusUpdateRepo implements IStatusUpdate {
         }
         dayAfter = DateHelper.addDays(dayBefore, 1);
 
+        List<StatusUpdate> list = mStatusUpdateDAO.getStatusUpdateForUserFromUntilFirstList(userMail);
+
         return mStatusUpdateDAO.getStatusUpdateForUserFromUntilFirst(userMail, dayBefore, dayAfter);
     }
 

@@ -14,8 +14,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
 import com.example.fitnessapp.db.Entity.User;
-import com.example.fitnessapp.ui.exercises.ExercisesFragment;
 import com.example.fitnessapp.ui.coach.CoachFragment;
+import com.example.fitnessapp.ui.exercises.ExercisesFragment;
 import com.example.fitnessapp.ui.profile.ProfileFragment;
 
 import java.util.ArrayList;
