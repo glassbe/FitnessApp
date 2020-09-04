@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp.ViewModel._ActivityStart_ViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -60,11 +60,9 @@ public class _FragmentStartRegister extends Fragment {
     private TextInputEditText mEt_eMail;
     private TextInputEditText mEt_password;
     private TextInputEditText mEt_password_repeat;
-    private CheckBox mCb_passwordReminder;
     private TextView mTv_login;
     private Button mBtn_register;
-    private Boolean mIsNewInstanceNotEmpty = false;
-    private boolean registerWithoutInput = false;
+    private boolean registerWithoutInput_forTestCase = false;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
@@ -184,23 +182,23 @@ public class _FragmentStartRegister extends Fragment {
         String password = getPassword();
         String passwordRepeat = getPasswordRepeat();
 
-        if (!validateEmail(mail) && registerWithoutInput) {
+        if (!validateEmail(mail) && registerWithoutInput_forTestCase) {
             myToast("E-Mail is not valid");
             return;
         }
 
-        if (!validatePassword(password) && registerWithoutInput) {
+        if (!validatePassword(password) && registerWithoutInput_forTestCase) {
             myToast("Password is invalid");
             return;
         }
 
-        if (!passwordMatches(password, passwordRepeat) && registerWithoutInput) {
+        if (!passwordMatches(password, passwordRepeat) && registerWithoutInput_forTestCase) {
             myToast("Passwords doesn't match");
             return;
         }
 
         User m = _user.mUserRepo.getUser(mail);
-        if (((m = _user.mUserRepo.getUser(mail)) != null) && registerWithoutInput) {
+        if (((m = _user.mUserRepo.getUser(mail)) != null) && registerWithoutInput_forTestCase) {
             myToast("E-Mail already exists in Database");
             return;
         }

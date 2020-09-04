@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp.ViewModel._ActivityStart_ViewModel;
 import com.example.fitnessapp.databinding.FragmentStartCreateWorkoutPlanBinding;
 import com.example.fitnessapp.db.Entity.User;
 

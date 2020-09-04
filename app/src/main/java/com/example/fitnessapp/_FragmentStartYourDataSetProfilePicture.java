@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnessapp.ViewModel.UserViewModel;
+import com.example.fitnessapp.ViewModel._ActivityStart_ViewModel;
 import com.example.fitnessapp.db.Entity.User;
 import com.example.fitnessapp.utils.ImageUtil;
 import com.example.fitnessapp.utils.RealPathUtil;
