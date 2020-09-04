@@ -62,7 +62,7 @@ public class _FragmentStartRegister extends Fragment {
     private TextInputEditText mEt_password_repeat;
     private TextView mTv_login;
     private Button mBtn_register;
-    private boolean registerWithoutInput_forTestCase = false;
+    private boolean registerWithoutInput_forTestCase = true;
     private _ActivityStart_ViewModel mViewModel;
     private View mImg_logo;
 
