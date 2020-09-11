@@ -14,6 +14,7 @@ import com.example.fitnessapp.db.DAO.ProgramDAO;
 import com.example.fitnessapp.db.DAO.StatusUpdateDAO;
 import com.example.fitnessapp.db.DAO.UserDAO;
 import com.example.fitnessapp.db.DAO.WorkoutDAO;
+import com.example.fitnessapp.db.DAO.WorkoutExerciseJoinDAO;
 import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.Program;
 import com.example.fitnessapp.db.Entity.StatusUpdate;
@@ -25,19 +26,17 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 16)
+@Database(entities = {User.class, StatusUpdate.class, Exercise.class, Workout.class, Program.class, WorkoutExerciseJoin.class}, version = 20)
 @TypeConverters({Converters.class})
 abstract class FitnessDatabase extends RoomDatabase {
 
     public abstract UserDAO userDAO();
-
     public abstract StatusUpdateDAO statusUpdateDAO();
-
     public abstract ExerciseDAO exerciseDAO();
-
     public abstract ProgramDAO programDAO();
-
     public abstract WorkoutDAO workoutDAO();
+    public abstract WorkoutExerciseJoinDAO workoutExerciseJoinDAO();
+
 
     private static volatile FitnessDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -73,10 +72,12 @@ abstract class FitnessDatabase extends RoomDatabase {
                     ExerciseDAO exerciseDAO = INSTANCE.exerciseDAO();
                     ProgramDAO programDAO = INSTANCE.programDAO();
                     WorkoutDAO workoutDAO = INSTANCE.workoutDAO();
+                    WorkoutExerciseJoinDAO joinDAO = INSTANCE.workoutExerciseJoinDAO();
 
                     List<Exercise> basicExercises = new Seed().getExercises();
                     List<Program> basicProgram = new Seed().getProgram();
                     List<Workout> basicWorkouts = new Seed().getWorkouts();
+                    List<WorkoutExerciseJoin> basicWorkoutJoins = new Seed().getWorkoutExerciseJoin();
 
                     for (Exercise exercise: basicExercises) {
 
@@ -181,9 +182,38 @@ abstract class FitnessDatabase extends RoomDatabase {
 
                     }
 
-                }
-            });
+                    for(WorkoutExerciseJoin join : basicWorkoutJoins){
+                        Workout workout = workoutDAO.getWorkoutByJsonId(join.getWorkoutId());
+                        Exercise exercise = exerciseDAO.getExerciseByJsonId(join.getExerciseId());
+                        WorkoutExerciseJoin fromDB = joinDAO.getJoinByWorkoutAndExercise(workout.getId(), exercise.getId());
+                        if(fromDB != null){
 
+                            boolean update = false;
+
+                            if(fromDB.getReps() != join.getReps()){
+                                fromDB.setReps(join.getReps());
+                                update = true;
+                            }
+                            if(fromDB.getSets() != join.getSets()){
+                                fromDB.setSets(join.getSets());
+                                update = true;
+                            }
+
+                            if(update){
+                                joinDAO.updateJoin(fromDB);
+                            }
+
+                        }else {
+
+                            join.setWorkoutId(workout.getId());
+                            join.setExerciseId(exercise.getId());
+
+                            joinDAO.insertJoin(join);
+                            }
+                        }
+
+                    }
+            });
         }
     };
 }

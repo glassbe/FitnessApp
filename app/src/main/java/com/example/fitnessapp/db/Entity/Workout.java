@@ -63,7 +63,7 @@ public class Workout {
     //SETTER
 
 
-    public void setId(int id) {}
+    public void setId(int id) { this.id = id;}
 
     public void setPlanId(int planId) {
         this.planId = planId;

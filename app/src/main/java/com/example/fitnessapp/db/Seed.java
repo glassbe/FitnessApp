@@ -3,6 +3,7 @@ package com.example.fitnessapp.db;
 import com.example.fitnessapp.db.Entity.Exercise;
 import com.example.fitnessapp.db.Entity.Program;
 import com.example.fitnessapp.db.Entity.Workout;
+import com.example.fitnessapp.db.Entity.WorkoutExerciseJoin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -150,9 +151,9 @@ public class Seed {
         return work;
     }
 
-    public List<Workout> getWorkoutExerciseJoin() {
+    public List<WorkoutExerciseJoin> getWorkoutExerciseJoin() {
 
-        List<Workout> work = new ArrayList<>();
+        List<WorkoutExerciseJoin> work = new ArrayList<>();
 //        try (FileReader reader = new FileReader(new File("/JSON/BasicExercises.json")))
 
 //        try (FileReader reader = new FileReader("file:///android_assets/JSON/BasicExercises.json"))
@@ -177,8 +178,8 @@ public class Seed {
                 }
 
 
-                Workout newWorkout = new Workout(workout.getInt("planJsonId"), workout.getString("name"), workout.getString("description"), pictures);
-                newWorkout.setJsonId(workout.getInt("jsonId"));
+                WorkoutExerciseJoin newWorkout = new WorkoutExerciseJoin(workout.getInt("workoutJsonId"), workout.getInt("exerciseJsonId"),workout.getInt("sets"),workout.getInt("reps"));
+
 
                 work.add(newWorkout);
             }

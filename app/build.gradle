@@ -198,7 +198,7 @@ dependencies {
 //    implementation 'androidx.cardview:cardview:1.0.0'
 
 
-    //Roo
+    //Room
     def room_version = "2.2.5"
 
     implementation "androidx.room:room-runtime:$room_version"

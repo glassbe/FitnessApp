@@ -110,11 +110,11 @@ public class StatusUpdate {
     }
 
     public void setId(int id) {
-
+        this.Id = id;
     }
 
     public void setTimestamp(Date timestamp) {
-
+        this.timestamp = timestamp;
     }
 
     public void setUserMail(String userMail) {
